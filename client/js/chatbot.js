@@ -9,9 +9,31 @@
   if (window.__shoplaneChatbotLoaded) return;
   window.__shoplaneChatbotLoaded = true;
 
-  const HISTORY_KEY = 'shoplane.chat.history';
-  const OPEN_KEY    = 'shoplane.chat.open';
+  const HISTORY_KEY  = 'shoplane.chat.history';
+  const FEEDBACK_KEY = 'shoplane.chat.feedback';
+  const OPEN_KEY     = 'shoplane.chat.open';
   const MAX_HISTORY_ITEMS = 20;
+
+  function newMsgId() {
+    return 'm_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+  }
+  function loadFeedback() {
+    try { return JSON.parse(localStorage.getItem(FEEDBACK_KEY)) || {}; }
+    catch { return {}; }
+  }
+  function saveFeedback(map) {
+    try { localStorage.setItem(FEEDBACK_KEY, JSON.stringify(map)); } catch { /* quota */ }
+  }
+  function getFb(id) {
+    const all = loadFeedback();
+    return all[id] || {};
+  }
+  function setFb(id, patch) {
+    const all = loadFeedback();
+    all[id] = Object.assign({}, all[id] || {}, patch);
+    saveFeedback(all);
+    return all[id];
+  }
 
   function resolveBase() {
     const meta = document.querySelector('meta[name="shoplane-api"]');
@@ -60,6 +82,33 @@
     .sl-typing span:nth-child(2){animation-delay:.2s}
     .sl-typing span:nth-child(3){animation-delay:.4s}
     @keyframes sl-blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+    .sl-msg-wrap{display:flex;flex-direction:column;gap:4px;align-self:flex-start;max-width:80%}
+    .sl-msg-wrap .sl-msg{max-width:100%;align-self:stretch}
+    .sl-msg-actions{display:flex;gap:2px;padding-left:4px}
+    .sl-act{background:transparent;border:0;padding:5px;border-radius:6px;cursor:pointer;
+      color:#6b7280;display:flex;align-items:center;transition:background .12s ease,color .12s ease}
+    .sl-act:hover{background:#eef2f6;color:#0d6efd}
+    .sl-act.active{color:#0d6efd}
+    .sl-act.active.down{color:#dc3545}
+    .sl-act.copied{color:#16a34a}
+    .sl-act svg{width:15px;height:15px}
+    .sl-comment-box{display:none;margin-top:4px;background:#fff;border:1px solid #d5d9df;
+      border-radius:10px;padding:8px}
+    .sl-comment-box.open{display:block;animation:sl-slide-up .15s ease}
+    .sl-comment-box textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:56px;
+      max-height:120px;border:1px solid #e6e8ec;border-radius:8px;padding:6px 8px;
+      font-family:inherit;font-size:13px;line-height:1.4;outline:none}
+    .sl-comment-box textarea:focus{border-color:#0d6efd;box-shadow:0 0 0 2px rgba(13,110,253,.12)}
+    .sl-comment-box-bar{display:flex;justify-content:flex-end;gap:6px;margin-top:6px}
+    .sl-comment-box-bar button{border:0;border-radius:6px;padding:5px 10px;font-size:12.5px;
+      cursor:pointer;font-family:inherit}
+    .sl-comment-box-bar .sl-cancel{background:#f1f3f5;color:#333}
+    .sl-comment-box-bar .sl-save{background:#0d6efd;color:#fff}
+    .sl-comment-saved{font-size:11.5px;color:#6b7280;margin-top:3px;padding-left:4px;font-style:italic}
+    .sl-toast{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);
+      background:#1a1a1a;color:#fff;font-size:12.5px;padding:6px 12px;border-radius:999px;
+      opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:2}
+    .sl-toast.show{opacity:.94}
     .sl-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px 0;
       align-self:flex-start;max-width:100%}
     .sl-suggestions.starter{align-self:stretch}
@@ -150,9 +199,161 @@
     const trimmed = h.slice(-MAX_HISTORY_ITEMS);
     try { localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed)); } catch { /* quota */ }
   }
-  function addBubble(role, text) {
+  const ICONS = {
+    like:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M7 22V11"/><path d="M15 5.88 14 12h5.5a2 2 0 0 1 1.94 2.5l-1.55 6A2 2 0 0 1 17.94 22H7a3 3 0 0 1-3-3v-6a3 3 0 0 1 3-3h2.76a2 2 0 0 0 1.79-1.11L14 3a3.5 3.5 0 0 1 1 2.88Z"/></svg>',
+    dislike:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2v11"/><path d="M9 18.12 10 12H4.5a2 2 0 0 1-1.94-2.5l1.55-6A2 2 0 0 1 6.06 2H17a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-2.76a2 2 0 0 0-1.79 1.11L10 21a3.5 3.5 0 0 1-1-2.88Z"/></svg>',
+    copy:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M15 3H5a2 2 0 0 0-2 2v10"/></svg>',
+    check:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    comment:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  };
+
+  function showToast(text) {
+    let t = panel.querySelector('.sl-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.className = 'sl-toast';
+      panel.appendChild(t);
+    }
+    t.textContent = text;
+    t.classList.add('show');
+    clearTimeout(showToast._h);
+    showToast._h = setTimeout(() => t.classList.remove('show'), 1400);
+  }
+
+  function attachActions(container, id, text) {
+    const bar = document.createElement('div');
+    bar.className = 'sl-msg-actions';
+    bar.setAttribute('data-testid', 'chatbot-actions');
+
+    const btn = (name, label, iconKey) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'sl-act';
+      b.setAttribute('data-action', name);
+      b.setAttribute('aria-label', label);
+      b.title = label;
+      b.innerHTML = ICONS[iconKey];
+      return b;
+    };
+
+    const likeBtn    = btn('like',    'Good response',   'like');
+    const dislikeBtn = btn('dislike', 'Bad response',    'dislike');
+    const copyBtn    = btn('copy',    'Copy reply',      'copy');
+    const commentBtn = btn('comment', 'Add a comment',   'comment');
+
+    const state = getFb(id);
+    if (state.vote === 'up')   likeBtn.classList.add('active');
+    if (state.vote === 'down') dislikeBtn.classList.add('active', 'down');
+
+    likeBtn.addEventListener('click', () => {
+      const cur = getFb(id).vote;
+      const next = cur === 'up' ? null : 'up';
+      setFb(id, { vote: next });
+      likeBtn.classList.toggle('active', next === 'up');
+      dislikeBtn.classList.remove('active', 'down');
+      if (next) showToast('Thanks for the feedback');
+    });
+    dislikeBtn.addEventListener('click', () => {
+      const cur = getFb(id).vote;
+      const next = cur === 'down' ? null : 'down';
+      setFb(id, { vote: next });
+      dislikeBtn.classList.toggle('active', next === 'down');
+      dislikeBtn.classList.toggle('down',   next === 'down');
+      likeBtn.classList.remove('active');
+      if (next) showToast('Thanks — we\u2019ll try to do better');
+    });
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+      }
+      copyBtn.innerHTML = ICONS.check;
+      copyBtn.classList.add('copied');
+      showToast('Copied to clipboard');
+      setTimeout(() => {
+        copyBtn.innerHTML = ICONS.copy;
+        copyBtn.classList.remove('copied');
+      }, 1200);
+    });
+
+    // Inline comment box wired to the comment button.
+    const commentBox = document.createElement('div');
+    commentBox.className = 'sl-comment-box';
+    commentBox.innerHTML = `
+      <textarea rows="2" maxlength="500" placeholder="Tell us what could be better..."></textarea>
+      <div class="sl-comment-box-bar">
+        <button type="button" class="sl-cancel">Cancel</button>
+        <button type="button" class="sl-save">Save</button>
+      </div>`;
+    const commentTa = commentBox.querySelector('textarea');
+    commentBox.querySelector('.sl-cancel').addEventListener('click', () => {
+      commentBox.classList.remove('open');
+      commentTa.value = getFb(id).comment || '';
+    });
+    commentBox.querySelector('.sl-save').addEventListener('click', () => {
+      const val = commentTa.value.trim();
+      setFb(id, { comment: val });
+      commentBox.classList.remove('open');
+      refreshCommentBadge();
+      showToast(val ? 'Comment saved' : 'Comment cleared');
+    });
+
+    const savedBadge = document.createElement('div');
+    savedBadge.className = 'sl-comment-saved';
+    function refreshCommentBadge() {
+      const c = getFb(id).comment;
+      if (c) {
+        savedBadge.textContent = '\u201C' + c + '\u201D';
+        savedBadge.style.display = '';
+      } else {
+        savedBadge.style.display = 'none';
+      }
+    }
+    refreshCommentBadge();
+
+    commentBtn.addEventListener('click', () => {
+      const isOpen = commentBox.classList.toggle('open');
+      if (isOpen) {
+        commentTa.value = getFb(id).comment || '';
+        setTimeout(() => commentTa.focus(), 40);
+      }
+    });
+
+    bar.appendChild(likeBtn);
+    bar.appendChild(dislikeBtn);
+    bar.appendChild(copyBtn);
+    bar.appendChild(commentBtn);
+    container.appendChild(bar);
+    container.appendChild(commentBox);
+    container.appendChild(savedBadge);
+  }
+
+  function addBubble(role, text, opts) {
+    opts = opts || {};
+    const isBot = role !== 'user' && role !== 'error';
+    const cls = role === 'user' ? 'user' : role === 'error' ? 'err' : 'bot';
+
+    // Bot messages that came from a real reply get a wrapper so we can attach
+    // the action toolbar directly under the bubble.
+    if (isBot && opts.actions && opts.id) {
+      const wrap = document.createElement('div');
+      wrap.className = 'sl-msg-wrap';
+      wrap.setAttribute('data-msg-id', opts.id);
+      const bub = document.createElement('div');
+      bub.className = 'sl-msg ' + cls;
+      bub.textContent = text;
+      wrap.appendChild(bub);
+      attachActions(wrap, opts.id, text);
+      body.appendChild(wrap);
+      body.scrollTop = body.scrollHeight;
+      return bub;
+    }
+
     const el = document.createElement('div');
-    el.className = 'sl-msg ' + (role === 'user' ? 'user' : role === 'error' ? 'err' : 'bot');
+    el.className = 'sl-msg ' + cls;
     el.textContent = text;
     body.appendChild(el);
     body.scrollTop = body.scrollHeight;
@@ -212,15 +413,30 @@
     } catch { return STARTER_FALLBACK; }
   }
 
+  function ensureIds(history) {
+    let mutated = false;
+    for (const m of history) {
+      if (m.role === 'assistant' && !m.id) { m.id = newMsgId(); mutated = true; }
+    }
+    if (mutated) saveHistory(history);
+    return history;
+  }
+
   async function rehydrate() {
     body.innerHTML = '';
-    const h = loadHistory();
+    const h = ensureIds(loadHistory());
     if (h.length === 0) {
       addBubble('bot', "Hi! I'm the ShopLane assistant. Ask me about products, orders, shipping, or returns.");
       renderSuggestions(await fetchStarterSuggestions(), { starter: true });
       return;
     }
-    for (const m of h) addBubble(m.role, m.content);
+    for (const m of h) {
+      if (m.role === 'assistant') {
+        addBubble('bot', m.content, { id: m.id, actions: true });
+      } else {
+        addBubble(m.role, m.content);
+      }
+    }
   }
 
   async function ask(text) {
@@ -277,9 +493,10 @@
       const reply = json && json.data && json.data.reply;
       if (!reply) { addBubble('error', 'Chat returned an empty reply.'); return; }
 
-      history.push({ role: 'assistant', content: reply });
+      const msgId = newMsgId();
+      history.push({ role: 'assistant', content: reply, id: msgId });
       saveHistory(history);
-      addBubble('bot', reply);
+      addBubble('bot', reply, { id: msgId, actions: true });
       const suggs = json && json.data && json.data.suggestions;
       if (Array.isArray(suggs)) renderSuggestions(suggs);
     } catch (e) {
@@ -304,6 +521,7 @@
   clearB.addEventListener('click', () => {
     if (!confirm('Clear this conversation?')) return;
     localStorage.removeItem(HISTORY_KEY);
+    localStorage.removeItem(FEEDBACK_KEY);
     rehydrate();
   });
 
