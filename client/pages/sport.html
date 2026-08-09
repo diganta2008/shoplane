@@ -77,6 +77,106 @@
     .sp-cta-band .btn { background: white; color: #b91c1c; border: 0; }
     .sp-cta-band .btn:hover { background: #fff7ed; }
 
+    /* CWG 2026 medalists — gold-accented card grid */
+    .cwg-section { background:
+      radial-gradient(1200px 300px at 10% 0%, #fef3c7 0%, transparent 60%),
+      radial-gradient(1200px 300px at 90% 100%, #fee2e2 0%, transparent 60%),
+      #fffdf5; }
+    .cwg-eyebrow { display: inline-flex; align-items: center; gap: 8px;
+                   background: linear-gradient(135deg, #f59e0b, #b45309);
+                   color: #fff; padding: 4px 12px; border-radius: 999px;
+                   font-size: 11.5px; font-weight: 800; letter-spacing: 0.6px;
+                   text-transform: uppercase; }
+    .cwg-eyebrow::before { content: '🥇'; font-size: 14px; }
+    .cwg-filter { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 22px; }
+    .cwg-filter button { background: #fff; border: 1px solid var(--border);
+                         padding: 7px 13px; border-radius: 999px;
+                         font-size: 13px; color: var(--slate-700);
+                         cursor: pointer; font-family: inherit;
+                         transition: all .15s ease; }
+    .cwg-filter button:hover { border-color: #b45309; color: #b45309; }
+    .cwg-filter button.active {
+      background: linear-gradient(135deg, #f59e0b, #b45309);
+      color: #fff; border-color: transparent;
+      box-shadow: 0 6px 14px -6px rgba(180,83,9,0.5);
+    }
+    .cwg-grid { display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 20px; }
+    .cwg-card { position: relative; background: #fff;
+                border: 1px solid var(--border); border-radius: 16px;
+                overflow: hidden; text-decoration: none; color: inherit;
+                transition: transform .18s ease, box-shadow .18s ease;
+                display: flex; flex-direction: column; }
+    .cwg-card:hover { transform: translateY(-3px);
+                       box-shadow: 0 22px 40px -18px rgba(180,83,9,0.30);
+                       text-decoration: none; }
+    .cwg-card::before {
+      content: ''; position: absolute; inset: 0 0 auto 0; height: 4px;
+      background: linear-gradient(90deg, #fde68a 0%, #f59e0b 50%, #b45309 100%);
+      z-index: 1;
+    }
+    .cwg-medal {
+      position: absolute; top: 12px; right: 12px; z-index: 2;
+      width: 34px; height: 34px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #fef3c7, #f59e0b 55%, #92400e 100%);
+      display: grid; place-items: center; color: #fff; font-weight: 900;
+      font-size: 16px; box-shadow: 0 6px 12px -4px rgba(146,64,14,0.5);
+      border: 2px solid #fff;
+    }
+    .cwg-medal::after { content: 'G'; }
+    .cwg-card__media {
+      aspect-ratio: 1 / 1; background: linear-gradient(135deg, #fef3c7, #fde68a);
+      display: block; position: relative; overflow: hidden;
+    }
+    .cwg-card__media img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .cwg-avatar {
+      width: 100%; height: 100%; display: grid; place-items: center;
+      background: radial-gradient(circle at 30% 25%, #fde68a 0%, #f59e0b 60%, #92400e 100%);
+      color: #fff; font-family: 'Inter', sans-serif; font-weight: 900;
+      font-size: 44px; letter-spacing: -0.02em;
+      text-shadow: 0 4px 8px rgba(146,64,14,0.35);
+    }
+    .cwg-card__body { padding: 14px 16px 16px; display: flex;
+                       flex-direction: column; gap: 4px; }
+    .cwg-card__sport {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11.5px; font-weight: 800; letter-spacing: 0.5px;
+      color: #b45309; text-transform: uppercase;
+    }
+    .cwg-card__name { margin: 2px 0 0; font-size: 17px; font-weight: 800;
+                       color: var(--heading); line-height: 1.2; }
+    .cwg-card__event { margin: 0; color: var(--slate-700); font-size: 13.5px; }
+    .cwg-card__foot {
+      margin-top: 10px; padding-top: 10px; border-top: 1px solid #fef3c7;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 12px; color: var(--muted);
+    }
+    .cwg-flag {
+      display: inline-flex; align-items: center; gap: 5px; font-weight: 600;
+      color: var(--slate-700);
+    }
+    .cwg-flag__stripes {
+      width: 18px; height: 12px; border-radius: 2px; overflow: hidden;
+      background: linear-gradient(#ff9933 0 33%, #fff 33% 66%, #128807 66% 100%);
+      border: 1px solid rgba(15,23,42,0.10);
+      position: relative;
+    }
+    .cwg-flag__stripes::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 4px; height: 4px; border-radius: 50%;
+      border: 0.6px solid #01579b; background: transparent;
+    }
+    .cwg-tag {
+      display: inline-block; margin-top: 6px; align-self: flex-start;
+      background: #fef3c7; color: #92400e;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.2px;
+      padding: 3px 8px; border-radius: 6px;
+    }
+
     .sp-blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
     .sp-blog-card { background: #fff; border: 1px solid var(--border); border-radius: 12px;
                     overflow: hidden; transition: transform .18s ease, box-shadow .18s ease; }
@@ -165,6 +265,27 @@
   </div>
 </section>
 
+<!-- CWG 2026 GOLD MEDALISTS --------------------------------------- -->
+<section class="sp-section cwg-section" id="cwg-2026" data-testid="cwg-medalists">
+  <div class="container">
+    <div class="sp-section__head">
+      <span class="cwg-eyebrow">Glasgow 2026 &middot; 13 golds for India</span>
+      <h2 style="margin-top:10px;">Commonwealth Games 2026 &mdash; India&rsquo;s gold medalists</h2>
+      <p class="sp-muted">
+        Every athlete who stood atop the podium for India at the Glasgow
+        Commonwealth Games (23 July &ndash; 2 August 2026). Tap any card to
+        open the athlete&rsquo;s Wikipedia page for full profile and photos.
+      </p>
+    </div>
+
+    <div class="cwg-filter" id="cwg-filter"
+         data-testid="cwg-filter"><!-- filled by JS --></div>
+
+    <div class="cwg-grid" id="cwg-grid"
+         data-testid="cwg-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
 <!-- FEATURED GEAR ------------------------------------------------- -->
 <section id="featured-gear" class="sp-section" data-testid="sp-gear">
   <div class="container">
@@ -213,6 +334,7 @@
 
 <script src="../js/data.js"></script>
 <script src="../js/sport-data.js"></script>
+<script src="../js/cwg-medalists-data.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/app.js"></script>
 <script src="../js/auth.js"></script>
@@ -329,9 +451,83 @@
     }
   });
 
+  /* ---- CWG 2026 medalists -------------------------------------- */
+  const cwgFilter = document.getElementById('cwg-filter');
+  const cwgGrid   = document.getElementById('cwg-grid');
+  let cwgActive   = null;
+
+  const cwgInitials = (name) => name.split(/\s+/)
+    .filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+
+  function cwgMediaHtml(m) {
+    if (m.photo) {
+      // Wikipedia thumbs sometimes 404 (deleted files); fall back to initials
+      // avatar by swapping the img for an .cwg-avatar div on error.
+      return `
+        <img src="${m.photo}" alt="${m.name}" loading="lazy"
+             referrerpolicy="no-referrer"
+             onerror="this.parentNode.innerHTML='<div class=&quot;cwg-avatar&quot;>${cwgInitials(m.name)}</div>';">`;
+    }
+    return `<div class="cwg-avatar">${cwgInitials(m.name)}</div>`;
+  }
+
+  function renderCwg() {
+    const list = (window.CWG_MEDALISTS || []).filter((m) =>
+      !cwgActive || m.sport === cwgActive);
+
+    cwgGrid.innerHTML = list.map((m) => `
+      <a class="cwg-card" href="${m.wiki}" target="_blank" rel="noopener noreferrer"
+         data-testid="cwg-card" data-athlete="${m.id}">
+        <span class="cwg-medal" aria-label="Gold medal"></span>
+        <div class="cwg-card__media">${cwgMediaHtml(m)}</div>
+        <div class="cwg-card__body">
+          <span class="cwg-card__sport">${m.sport}</span>
+          <h3 class="cwg-card__name">${m.name}</h3>
+          <p class="cwg-card__event">${m.event}</p>
+          ${m.tag ? `<span class="cwg-tag">${m.tag}</span>` : ''}
+          <div class="cwg-card__foot">
+            <span class="cwg-flag" title="India">
+              <span class="cwg-flag__stripes" aria-hidden="true"></span>
+              ${m.country}
+            </span>
+            <span>${new Date(m.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function renderCwgFilter() {
+    const total = (window.CWG_MEDALISTS || []).length;
+    const chips = [
+      `<button class="${cwgActive ? '' : 'active'}"
+               data-sport="__all__" data-testid="cwg-chip-all">
+         All &middot; ${total}
+       </button>`
+    ].concat((window.CWG_SPORTS || []).map((s) => {
+      const n = (window.CWG_MEDALISTS || []).filter((m) => m.sport === s).length;
+      const on = cwgActive === s ? 'active' : '';
+      return `<button class="${on}" data-sport="${s}"
+                      data-testid="cwg-chip-${s.toLowerCase().replace(/\s+/g,'-')}">
+                ${s} &middot; ${n}
+              </button>`;
+    })).join('');
+    cwgFilter.innerHTML = chips;
+  }
+
+  cwgFilter.addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    cwgActive = btn.dataset.sport === '__all__' ? null : btn.dataset.sport;
+    renderCwgFilter();
+    renderCwg();
+  });
+
   /* ---- Initial render ------------------------------------------ */
   renderDisciplines();
   renderGear();
+  renderCwgFilter();
+  renderCwg();
 </script>
 
 </body>

@@ -222,19 +222,29 @@ h3 { font-size: 1.25rem; }
 }
 .cat-rail::-webkit-scrollbar { display: none; }
 .cat-rail a {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 14px; color: var(--slate-700);
-  font-size: 13.5px; font-weight: 500; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 14px; color: var(--slate-700);
+  font-family: inherit;
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.005em;
+  text-decoration: none;
   white-space: nowrap; position: relative;
   border-bottom: 3px solid transparent;
-  transition: color 150ms;
+  transition: color 150ms, border-color 150ms, background 150ms;
 }
-.cat-rail a:hover { color: var(--primary); }
+.cat-rail a:hover {
+  color: var(--primary);
+  border-bottom-color: rgba(124, 58, 237, 0.35);
+}
 .cat-rail a.active {
   color: var(--primary); font-weight: 700;
   border-bottom-color: var(--primary);
 }
-.cat-rail a .cat-emoji { font-size: 15px; line-height: 1; }
+.cat-rail a .cat-emoji {
+  font-size: 17px; line-height: 1;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  filter: saturate(1.05);
+}
 
 .mobile-toggle { display: none; }
 @media (max-width: 900px) {
@@ -244,7 +254,8 @@ h3 { font-size: 1.25rem; }
 }
 @media (max-width: 640px) {
   .brand span:not(.brand-mark) { display: none; }
-  .cat-rail a { padding: 10px 10px; font-size: 13px; }
+  .cat-rail a { padding: 10px 10px; font-size: 13.5px; font-weight: 600; }
+  .cat-rail a .cat-emoji { font-size: 15px; }
 }
 
 /* ---------- Buttons ------------------------------------------------------ */
