@@ -10,101 +10,244 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Independence-Day announcement strip (top of page) */
-    .in-day-strip { background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
-                    color: #0f172a; font-size: 13.5px; }
-    .in-day-strip__inner { max-width: 1200px; margin: 0 auto; padding: 10px 16px;
-                           display: flex; align-items: center; gap: 14px; }
-    .in-day-strip__msg { flex: 1; text-align: center; }
-    .in-day-strip__msg code { background: rgba(0,0,0,0.08); padding: 1px 6px;
-                              border-radius: 4px; font-weight: 700; }
-    .in-day-strip__cta { font-weight: 700; color: #0f172a; text-decoration: none; white-space: nowrap; }
-    .in-day-strip__cta:hover { text-decoration: underline; }
-    .in-day-strip__close { background: transparent; border: 0; font-size: 22px;
-                           line-height: 1; cursor: pointer; color: #0f172a;
-                           padding: 0 4px; opacity: 0.7; }
+    /* --------------------------------------------------------------
+       Independence Day promo — palette
+       ------------------------------------------------------------ */
+    :root {
+      --saffron: #FF9933;
+      --india-green: #138808;
+      --india-blue: #000080;
+      --cream: #FFF8E1;
+    }
+
+    /* --------------------------------------------------------------
+       Top announcement strip (compact, festive)
+       ------------------------------------------------------------ */
+    .in-day-strip {
+      background: #0b1220;
+      color: #fff; font-size: 13.5px; position: relative; overflow: hidden;
+      border-bottom: 2px solid transparent;
+      background-image:
+        linear-gradient(#0b1220, #0b1220),
+        linear-gradient(90deg, var(--saffron) 0 33%, #ffffff 33% 66%, var(--india-green) 66% 100%);
+      background-origin: padding-box, border-box;
+      background-clip: padding-box, border-box;
+      border-image: linear-gradient(90deg, var(--saffron) 0 33%, #ffffff 33% 66%, var(--india-green) 66% 100%) 1;
+      border-bottom-width: 3px; border-bottom-style: solid;
+    }
+    .in-day-strip__inner {
+      max-width: 1200px; margin: 0 auto; padding: 11px 16px;
+      display: flex; align-items: center; gap: 14px; position: relative; z-index: 1;
+    }
+    .in-day-strip__msg { flex: 1; text-align: center; letter-spacing: 0.2px; }
+    .in-day-strip__msg strong { color: #ffd580; }
+    .in-day-strip__msg code {
+      background: rgba(255,255,255,0.14); color: #fff;
+      padding: 2px 8px; border-radius: 5px; font-weight: 700;
+      border: 1px dashed rgba(255,255,255,0.25);
+    }
+    .in-day-strip__cta {
+      font-weight: 700; color: #0b1220; background: #fff; padding: 6px 14px;
+      border-radius: 999px; text-decoration: none; white-space: nowrap;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .in-day-strip__cta:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(255,255,255,0.25); }
+    .in-day-strip__close {
+      background: transparent; border: 0; font-size: 22px; line-height: 1;
+      cursor: pointer; color: #fff; padding: 0 4px; opacity: 0.7;
+    }
     .in-day-strip__close:hover { opacity: 1; }
-    .in-day-strip__flag { display: inline-flex; flex-direction: column;
-                          width: 22px; height: 15px; border-radius: 2px;
-                          overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+    /* Mini flag (proper CSS — never renders as "IN" text) */
+    .in-day-strip__flag {
+      display: inline-flex; flex-direction: column; width: 24px; height: 16px;
+      border-radius: 2px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    }
     .in-day-strip__flag .stripe { flex: 1; display: block; }
     @media (max-width: 640px) {
-      .in-day-strip__msg { text-align: left; }
+      .in-day-strip__msg { text-align: left; font-size: 12.5px; }
       .in-day-strip__cta { display: none; }
     }
 
-    /* Independence-Day hero banner */
+    /* --------------------------------------------------------------
+       Big Azadi hero banner — dark background, tricolor accents,
+       centrepiece Ashoka Chakra, animated sparkles, ribbon.
+       ------------------------------------------------------------ */
     .in-day-banner {
       position: relative; overflow: hidden;
-      background: linear-gradient(135deg, #fff8f1 0%, #ffffff 55%, #eaf7ea 100%);
-      border: 1px solid #f7e7d1; border-radius: 20px;
-      padding: 32px 34px; display: grid;
-      grid-template-columns: 12px 1fr 260px; gap: 28px; align-items: center;
+      color: #fff; border-radius: 22px;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(255,153,51,0.28) 0, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(19,136,8,0.35) 0, transparent 45%),
+        linear-gradient(135deg, #0b1220 0%, #1a1030 55%, #0b2018 100%);
+      padding: 40px 48px;
+      display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: center;
+      box-shadow: 0 20px 60px -20px rgba(11,18,32,0.55);
+      isolation: isolate;
     }
     @media (max-width: 900px) {
-      .in-day-banner { grid-template-columns: 12px 1fr; }
-      .in-day-banner__timer { grid-column: 2 / -1; }
+      .in-day-banner { grid-template-columns: 1fr; padding: 32px 24px; gap: 24px; }
     }
-    .in-day-banner__accent { display: flex; flex-direction: column;
-                             align-self: stretch; border-radius: 6px; overflow: hidden;
-                             min-height: 200px; box-shadow: 0 4px 20px rgba(255,153,51,0.2); }
-    .stripe { flex: 1; display: block; }
-    .stripe--saffron { background: #FF9933; }
-    .stripe--white   { background: #FFFFFF; display: grid; place-items: center; }
-    .stripe--green   { background: #138808; }
-    /* Ashoka Chakra on the white stripe of the big banner */
-    .chakra {
-      display: block; width: 26px; height: 26px; border-radius: 50%;
-      border: 2px solid #000080;
+
+    /* Background chakra watermark — subtle, huge, off to the right */
+    .in-day-banner::before {
+      content: ""; position: absolute; right: -80px; top: 50%;
+      width: 380px; height: 380px; transform: translateY(-50%);
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.08);
       background:
-        conic-gradient(from 0deg, #000080 0 2deg, transparent 2deg 15deg,
-                       #000080 15deg 17deg, transparent 17deg 30deg,
-                       #000080 30deg 32deg, transparent 32deg 45deg,
-                       #000080 45deg 47deg, transparent 47deg 60deg,
-                       #000080 60deg 62deg, transparent 62deg 75deg,
-                       #000080 75deg 77deg, transparent 77deg 90deg,
-                       #000080 90deg 92deg, transparent 92deg 105deg,
-                       #000080 105deg 107deg, transparent 107deg 120deg,
-                       #000080 120deg 122deg, transparent 122deg 135deg,
-                       #000080 135deg 137deg, transparent 137deg 150deg,
-                       #000080 150deg 152deg, transparent 152deg 165deg,
-                       #000080 165deg 167deg, transparent 167deg 180deg,
-                       #000080 180deg 182deg, transparent 182deg 195deg,
-                       #000080 195deg 197deg, transparent 197deg 210deg,
-                       #000080 210deg 212deg, transparent 212deg 225deg,
-                       #000080 225deg 227deg, transparent 227deg 240deg,
-                       #000080 240deg 242deg, transparent 242deg 255deg,
-                       #000080 255deg 257deg, transparent 257deg 270deg,
-                       #000080 270deg 272deg, transparent 272deg 285deg,
-                       #000080 285deg 287deg, transparent 287deg 300deg,
-                       #000080 300deg 302deg, transparent 302deg 315deg,
-                       #000080 315deg 317deg, transparent 317deg 330deg,
-                       #000080 330deg 332deg, transparent 332deg 345deg,
-                       #000080 345deg 347deg, transparent 347deg 360deg);
+        conic-gradient(from 0deg,
+          rgba(255,255,255,0.08) 0 1.5deg, transparent 1.5deg 15deg,
+          rgba(255,255,255,0.08) 15deg 16.5deg, transparent 16.5deg 30deg,
+          rgba(255,255,255,0.08) 30deg 31.5deg, transparent 31.5deg 45deg,
+          rgba(255,255,255,0.08) 45deg 46.5deg, transparent 46.5deg 60deg,
+          rgba(255,255,255,0.08) 60deg 61.5deg, transparent 61.5deg 75deg,
+          rgba(255,255,255,0.08) 75deg 76.5deg, transparent 76.5deg 90deg,
+          rgba(255,255,255,0.08) 90deg 91.5deg, transparent 91.5deg 105deg,
+          rgba(255,255,255,0.08) 105deg 106.5deg, transparent 106.5deg 120deg,
+          rgba(255,255,255,0.08) 120deg 121.5deg, transparent 121.5deg 135deg,
+          rgba(255,255,255,0.08) 135deg 136.5deg, transparent 136.5deg 150deg,
+          rgba(255,255,255,0.08) 150deg 151.5deg, transparent 151.5deg 165deg,
+          rgba(255,255,255,0.08) 165deg 166.5deg, transparent 166.5deg 180deg,
+          rgba(255,255,255,0.08) 180deg 181.5deg, transparent 181.5deg 195deg,
+          rgba(255,255,255,0.08) 195deg 196.5deg, transparent 196.5deg 210deg,
+          rgba(255,255,255,0.08) 210deg 211.5deg, transparent 211.5deg 225deg,
+          rgba(255,255,255,0.08) 225deg 226.5deg, transparent 226.5deg 240deg,
+          rgba(255,255,255,0.08) 240deg 241.5deg, transparent 241.5deg 255deg,
+          rgba(255,255,255,0.08) 255deg 256.5deg, transparent 256.5deg 270deg,
+          rgba(255,255,255,0.08) 270deg 271.5deg, transparent 271.5deg 285deg,
+          rgba(255,255,255,0.08) 285deg 286.5deg, transparent 286.5deg 300deg,
+          rgba(255,255,255,0.08) 300deg 301.5deg, transparent 301.5deg 315deg,
+          rgba(255,255,255,0.08) 315deg 316.5deg, transparent 316.5deg 330deg,
+          rgba(255,255,255,0.08) 330deg 331.5deg, transparent 331.5deg 345deg,
+          rgba(255,255,255,0.08) 345deg 346.5deg, transparent 346.5deg 360deg);
+      animation: chakraSpin 60s linear infinite;
+      z-index: 0; pointer-events: none;
     }
-    .in-day-banner__body h2 { margin: 8px 0 10px; font-size: 32px; color: var(--heading); }
-    .in-day-banner__eyebrow { display: inline-block; background: rgba(255,153,51,0.14);
-                               color: #b45309; font-weight: 700; padding: 4px 12px;
-                               border-radius: 999px; font-size: 12px; letter-spacing: 0.3px; }
-    .in-day-banner__body p { max-width: 60ch; color: var(--slate-700); line-height: 1.6;
-                              margin: 0 0 18px; font-size: 15.5px; }
-    .in-day-banner__body code { background: #f1f5f9; padding: 1px 8px; border-radius: 5px;
-                                 font-weight: 700; color: #b45309; letter-spacing: 0.5px; }
+    @keyframes chakraSpin { to { transform: translateY(-50%) rotate(360deg); } }
+
+    /* Top saffron and bottom green ribbon strips */
+    .in-day-banner::after {
+      content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        linear-gradient(180deg, var(--saffron) 0 4px, transparent 4px 100%),
+        linear-gradient(0deg, var(--india-green) 0 4px, transparent 4px 100%);
+    }
+
+    /* Ribbon in the top-right corner with discount */
+    .in-day-banner__ribbon {
+      position: absolute; top: 22px; right: -46px;
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: #fff; font-weight: 900; font-size: 13px; letter-spacing: 1px;
+      padding: 6px 60px; transform: rotate(38deg);
+      box-shadow: 0 6px 14px rgba(185,28,28,0.4);
+      z-index: 2;
+    }
+    .in-day-banner__ribbon::before,
+    .in-day-banner__ribbon::after {
+      content: ""; position: absolute; width: 0; height: 0;
+      border-top: 6px solid #7f1d1d; top: 100%;
+    }
+    .in-day-banner__ribbon::before { left: 0;  border-left: 6px solid transparent; }
+    .in-day-banner__ribbon::after  { right: 0; border-right: 6px solid transparent; }
+
+    /* Body area */
+    .in-day-banner__body { position: relative; z-index: 1; }
+    .in-day-banner__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,153,51,0.18); backdrop-filter: blur(4px);
+      color: #fed7aa; font-weight: 700; padding: 6px 14px 6px 8px;
+      border-radius: 999px; font-size: 12px; letter-spacing: 0.5px;
+      border: 1px solid rgba(255,153,51,0.35); text-transform: uppercase;
+    }
+    .in-day-banner__eyebrow .in-day-strip__flag { width: 20px; height: 14px; }
+    .in-day-banner__body h2 {
+      margin: 14px 0 12px; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.1;
+      font-weight: 900; letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #FF9933 0%, #ffffff 45%, #86efac 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      text-shadow: 0 8px 24px rgba(255,153,51,0.18);
+    }
+    .in-day-banner__body p {
+      max-width: 60ch; color: rgba(255,255,255,0.85); line-height: 1.6;
+      margin: 0 0 22px; font-size: 15.5px;
+    }
+    .in-day-banner__body p strong { color: #fff; }
+    .in-day-banner__body code {
+      background: linear-gradient(135deg, #7c2d12, #431407); color: #fed7aa;
+      padding: 3px 10px; border-radius: 6px; font-weight: 800;
+      letter-spacing: 0.8px; font-size: 13px;
+      border: 1px solid rgba(254,215,170,0.25);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 6px rgba(0,0,0,0.3);
+    }
     .in-day-banner__cta { display: flex; flex-wrap: wrap; gap: 10px; }
-    .in-day-banner__timer { text-align: center; }
-    .in-day-banner__timer-title { color: var(--muted); font-size: 12px; text-transform: uppercase;
-                                   letter-spacing: 1.2px; font-weight: 700; margin-bottom: 8px; }
-    .in-day-banner__timer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-    .in-day-banner__timer-row > div {
-      background: #ffffff; border: 1px solid #e6e8ec; border-radius: 10px; padding: 10px 4px;
-      display: flex; flex-direction: column; align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    .in-day-banner__cta .btn-primary {
+      background: linear-gradient(135deg, var(--saffron), #ea580c);
+      color: #fff; border: 0; box-shadow: 0 8px 24px rgba(234,88,12,0.35);
+      transition: transform .15s ease, box-shadow .15s ease;
     }
-    .in-day-banner__timer-row span { font-size: 22px; font-weight: 800; color: var(--heading);
-                                      line-height: 1; font-variant-numeric: tabular-nums; }
-    .in-day-banner__timer-row small { color: var(--muted); font-size: 10.5px;
-                                       text-transform: uppercase; letter-spacing: 0.6px;
-                                       margin-top: 4px; }
+    .in-day-banner__cta .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(234,88,12,0.45);
+    }
+    .in-day-banner__cta .btn-outline {
+      background: transparent; color: #fff; border-color: rgba(255,255,255,0.35);
+    }
+    .in-day-banner__cta .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: #fff; }
+
+    /* Countdown */
+    .in-day-banner__timer {
+      position: relative; z-index: 1; text-align: center;
+      padding: 22px 20px; border-radius: 16px;
+      background: rgba(255,255,255,0.08); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+    .in-day-banner__timer-title {
+      color: rgba(255,255,255,0.8); font-size: 11.5px; text-transform: uppercase;
+      letter-spacing: 1.6px; font-weight: 700; margin-bottom: 12px;
+    }
+    .in-day-banner__timer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .in-day-banner__timer-row > div {
+      background: linear-gradient(180deg, #ffffff, #fef3c7);
+      color: #0b1220; border-radius: 12px; padding: 10px 4px;
+      display: flex; flex-direction: column; align-items: center;
+      box-shadow: 0 6px 18px -6px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .in-day-banner__timer-row > div::before {
+      content: ""; position: absolute; left: 8px; right: 8px; top: 50%;
+      height: 1px; background: rgba(0,0,0,0.08); pointer-events: none;
+    }
+    .in-day-banner__timer-row span {
+      font-size: 26px; font-weight: 900; color: #0b1220;
+      line-height: 1; font-variant-numeric: tabular-nums;
+    }
+    .in-day-banner__timer-row small {
+      color: #64748b; font-size: 10.5px; text-transform: uppercase;
+      letter-spacing: 0.8px; margin-top: 6px; font-weight: 700;
+    }
+    /* Pulsing seconds — signals liveness */
+    .in-day-banner__timer-row > div[data-slot="s"] span {
+      color: #b91c1c; animation: secPulse 1s infinite;
+    }
+    @keyframes secPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    /* Sparkles decorating the dark canvas */
+    .in-day-banner__sparkle {
+      position: absolute; width: 6px; height: 6px; z-index: 0; pointer-events: none;
+      background: #ffd580; border-radius: 50%;
+      box-shadow: 0 0 8px 2px rgba(255,213,128,0.7);
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    .in-day-banner__sparkle:nth-child(1) { top: 22%; left: 8%;  animation-delay: 0.0s; }
+    .in-day-banner__sparkle:nth-child(2) { top: 68%; left: 18%; animation-delay: 0.7s; background: #86efac; box-shadow: 0 0 8px 2px rgba(134,239,172,0.7); }
+    .in-day-banner__sparkle:nth-child(3) { top: 30%; left: 52%; animation-delay: 1.3s; background: #ffffff; }
+    .in-day-banner__sparkle:nth-child(4) { top: 82%; left: 45%; animation-delay: 1.9s; }
+    .in-day-banner__sparkle:nth-child(5) { top: 14%; left: 62%; animation-delay: 2.4s; background: #86efac; box-shadow: 0 0 8px 2px rgba(134,239,172,0.7); }
+    @keyframes twinkle {
+      0%,100% { transform: scale(1);   opacity: 0.9; }
+      50%    { transform: scale(1.6); opacity: 0.35; }
+    }
   </style>
 </head>
 <body data-page="home">
@@ -173,15 +316,26 @@
 <section class="section" style="padding-top:0;padding-bottom:20px;">
   <div class="container">
     <div class="in-day-banner" data-testid="indep-banner">
-      <div class="in-day-banner__accent" aria-hidden="true">
-        <span class="stripe stripe--saffron"></span>
-        <span class="stripe stripe--white">
-          <span class="chakra"></span>
-        </span>
-        <span class="stripe stripe--green"></span>
-      </div>
+
+      <!-- Decorative sparkles -->
+      <span class="in-day-banner__sparkle" aria-hidden="true"></span>
+      <span class="in-day-banner__sparkle" aria-hidden="true"></span>
+      <span class="in-day-banner__sparkle" aria-hidden="true"></span>
+      <span class="in-day-banner__sparkle" aria-hidden="true"></span>
+      <span class="in-day-banner__sparkle" aria-hidden="true"></span>
+
+      <!-- Corner discount ribbon -->
+      <div class="in-day-banner__ribbon" aria-hidden="true">78% OFF</div>
+
       <div class="in-day-banner__body">
-        <span class="in-day-banner__eyebrow">🇮🇳 Independence Day Sale · 9–15 Aug</span>
+        <span class="in-day-banner__eyebrow">
+          <span class="in-day-strip__flag" aria-hidden="true">
+            <span class="stripe stripe--saffron"></span>
+            <span class="stripe stripe--white"></span>
+            <span class="stripe stripe--green"></span>
+          </span>
+          Independence Day Sale · 9–15 Aug
+        </span>
         <h2>Azadi ka Amrit Sale</h2>
         <p>Up to <strong>78% off</strong> across every category — plus an extra
           <strong>15% off</strong> with code <code>AZADI15</code>, or
@@ -189,20 +343,21 @@
           Free shipping on everything.</p>
         <div class="in-day-banner__cta">
           <a href="shop.html?sort=discount" class="btn btn-primary btn-lg" data-testid="indep-shop-now">
-            Shop the sale
+            Shop the sale →
           </a>
           <a href="#featured" class="btn btn-outline btn-lg" data-testid="indep-view-featured">
             Explore featured
           </a>
         </div>
       </div>
+
       <div class="in-day-banner__timer" data-testid="indep-timer">
-        <div class="in-day-banner__timer-title">Sale ends in</div>
+        <div class="in-day-banner__timer-title">⏳ Sale ends in</div>
         <div class="in-day-banner__timer-row">
-          <div><span data-timer="d">0</span><small>days</small></div>
-          <div><span data-timer="h">0</span><small>hrs</small></div>
-          <div><span data-timer="m">0</span><small>min</small></div>
-          <div><span data-timer="s">0</span><small>sec</small></div>
+          <div data-slot="d"><span data-timer="d">0</span><small>days</small></div>
+          <div data-slot="h"><span data-timer="h">0</span><small>hrs</small></div>
+          <div data-slot="m"><span data-timer="m">0</span><small>min</small></div>
+          <div data-slot="s"><span data-timer="s">0</span><small>sec</small></div>
         </div>
       </div>
     </div>
