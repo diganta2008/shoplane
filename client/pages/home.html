@@ -142,12 +142,12 @@
 <script>
   // Categories
   const catIcons = {
-    Electronics: '💻', Fashion: '👕', Home: '🏠', Books: '📚',
+    Electronics: '💻', Fashion: '👕', Home: '🏠', Books: '📚', Medical: '🩺',
   };
   document.getElementById('category-grid').innerHTML = window.CATEGORIES.map((c) => `
     <a href="shop.html?category=${encodeURIComponent(c.id)}" class="category-tile"
        data-testid="category-tile" data-category="${c.id}">
-      <div class="category-icon">${catIcons[c.id]}</div>
+      <div class="category-icon">${catIcons[c.id] || '🛍️'}</div>
       <h3>${c.name}</h3>
       <p>${c.desc}</p>
     </a>`).join('');
