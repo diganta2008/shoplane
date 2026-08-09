@@ -32,6 +32,7 @@ public class SecurityConfig {
             "/api/v1/categories",
             "/api/v1/coupons/validate",
             "/api/v1/chat",
+            "/api/v1/chat/**",
             "/actuator/health",
             "/v3/api-docs/**",
             "/swagger-ui/**",

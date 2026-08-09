@@ -60,6 +60,14 @@
     .sl-typing span:nth-child(2){animation-delay:.2s}
     .sl-typing span:nth-child(3){animation-delay:.4s}
     @keyframes sl-blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+    .sl-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 4px 0;
+      align-self:flex-start;max-width:100%}
+    .sl-suggestions.starter{align-self:stretch}
+    .sl-chip{background:#fff;border:1px solid #cfd6de;color:#0d6efd;font-family:inherit;
+      font-size:12.5px;line-height:1.2;padding:6px 10px;border-radius:999px;
+      cursor:pointer;transition:background .15s ease,border-color .15s ease}
+    .sl-chip:hover{background:#eef4ff;border-color:#0d6efd}
+    .sl-chip:disabled{opacity:.55;cursor:not-allowed}
     .sl-chat-foot{padding:10px 12px;border-top:1px solid #e6e8ec;background:#fff;
       display:flex;gap:8px;align-items:flex-end}
     .sl-chat-foot textarea{flex:1;resize:none;border:1px solid #d5d9df;border-radius:10px;
@@ -158,11 +166,56 @@
     return el;
   }
 
-  function rehydrate() {
+  function clearSuggestions() {
+    body.querySelectorAll('.sl-suggestions').forEach(el => el.remove());
+  }
+
+  function renderSuggestions(items, opts) {
+    if (!items || items.length === 0) return;
+    clearSuggestions();
+    const wrap = document.createElement('div');
+    wrap.className = 'sl-suggestions' + (opts && opts.starter ? ' starter' : '');
+    wrap.setAttribute('data-testid', 'chatbot-suggestions');
+    for (const q of items.slice(0, 6)) {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'sl-chip';
+      chip.textContent = q;
+      chip.addEventListener('click', () => {
+        clearSuggestions();
+        ask(q);
+      });
+      wrap.appendChild(chip);
+    }
+    body.appendChild(wrap);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  const STARTER_FALLBACK = [
+    "How long does shipping take?",
+    "What's your return policy?",
+    "Any coupon codes?",
+    "Best-selling headphones",
+    "Recommend a laptop",
+    "How do I track my order?"
+  ];
+
+  async function fetchStarterSuggestions() {
+    try {
+      const res = await fetch(API_BASE + '/chat/suggestions', { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) return STARTER_FALLBACK;
+      const json = await res.json();
+      const items = json && json.data;
+      return (Array.isArray(items) && items.length) ? items : STARTER_FALLBACK;
+    } catch { return STARTER_FALLBACK; }
+  }
+
+  async function rehydrate() {
     body.innerHTML = '';
     const h = loadHistory();
     if (h.length === 0) {
       addBubble('bot', "Hi! I'm the ShopLane assistant. Ask me about products, orders, shipping, or returns.");
+      renderSuggestions(await fetchStarterSuggestions(), { starter: true });
       return;
     }
     for (const m of h) addBubble(m.role, m.content);
@@ -172,6 +225,7 @@
     const history = loadHistory();
     history.push({ role: 'user', content: text });
     saveHistory(history);
+    clearSuggestions();
     addBubble('user', text);
 
     send.disabled = true;
@@ -212,6 +266,8 @@
       history.push({ role: 'assistant', content: reply });
       saveHistory(history);
       addBubble('bot', reply);
+      const suggs = json && json.data && json.data.suggestions;
+      if (Array.isArray(suggs)) renderSuggestions(suggs);
     } catch (e) {
       typing.remove();
       addBubble('error', 'Cannot reach the chat backend. Is the API running?');

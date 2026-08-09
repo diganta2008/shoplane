@@ -5,10 +5,13 @@ import com.shoplane.chat.dto.ChatResponse;
 import com.shoplane.common.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * REST endpoint that proxies chat completions to the configured OpenAI-compatible
@@ -22,11 +25,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
 
     private final ChatService svc;
+    private final MockChatResponder mock;
 
-    public ChatController(ChatService svc) { this.svc = svc; }
+    public ChatController(ChatService svc, MockChatResponder mock) {
+        this.svc = svc;
+        this.mock = mock;
+    }
 
     @PostMapping
     public ApiResponse<ChatResponse> chat(@Valid @RequestBody ChatRequest req) {
         return ApiResponse.of(svc.chat(req));
+    }
+
+    /** Starter chips the widget shows before the first message. */
+    @GetMapping("/suggestions")
+    public ApiResponse<List<String>> suggestions() {
+        return ApiResponse.of(mock.starterSuggestions());
     }
 }
