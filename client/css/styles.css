@@ -108,14 +108,18 @@ h3 { font-size: 1.25rem; }
   backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid var(--border);
 }
-.nav {
-  height: var(--header-h);
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+/* Row 1 — brand, search, right actions */
+.header-top {
+  height: 64px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 16px;
 }
 .brand {
   display: flex; align-items: center; gap: 10px;
   font-weight: 800; color: var(--heading); font-size: 1.35rem;
   letter-spacing: -0.02em;
+  text-decoration: none;
 }
 .brand-mark {
   width: 34px; height: 34px; border-radius: 8px;
@@ -123,17 +127,27 @@ h3 { font-size: 1.25rem; }
   display: grid; place-items: center; color: white; font-weight: 900;
   box-shadow: var(--shadow);
 }
-.nav-links {
-  display: flex; align-items: center; gap: 8px; list-style: none; margin: 0; padding: 0;
+.nav-actions { display: flex; align-items: center; gap: 4px; }
+
+/* Larger, more prominent search — expands to fill row */
+.search-wrap { position: relative; width: 100%; max-width: 640px; justify-self: center; }
+.search-wrap input {
+  width: 100%; padding: 11px 14px 11px 42px;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--slate-50);
+  font-size: 14.5px; color: var(--text);
+  transition: border-color 120ms, background 120ms, box-shadow 120ms;
 }
-.nav-links a {
-  color: var(--slate-700); font-weight: 500;
-  padding: 8px 14px; border-radius: var(--radius-sm);
-  text-decoration: none;
+.search-wrap input:focus {
+  outline: none; border-color: var(--primary-light); background: white;
+  box-shadow: 0 0 0 4px var(--primary-50);
 }
-.nav-links a:hover { background: var(--slate-100); color: var(--heading); }
-.nav-links a.active { color: var(--primary); background: var(--primary-50); }
-.nav-actions { display: flex; align-items: center; gap: 8px; }
+.search-wrap .search-icon {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--muted);
+}
+
+/* Circular icon buttons (wishlist, cart) */
 .icon-btn {
   width: 40px; height: 40px; border-radius: 999px;
   display: grid; place-items: center; color: var(--slate-700);
@@ -147,29 +161,90 @@ h3 { font-size: 1.25rem; }
   background: var(--accent); color: white; font-size: 11px; font-weight: 700;
   display: grid; place-items: center; line-height: 1;
 }
-.search-wrap {
-  position: relative; flex: 1; max-width: 380px;
+
+/* Pill-shaped user/more triggers (Flipkart-style) */
+.nav-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 12px; border-radius: 10px;
+  color: var(--slate-700); font-size: 14px; font-weight: 600;
+  background: transparent; border: 0;
+  cursor: pointer; text-decoration: none;
+  transition: background 120ms;
+  font-family: inherit;
 }
-.search-wrap input {
-  width: 100%; padding: 10px 12px 10px 38px;
-  border: 1px solid var(--border); border-radius: 999px;
-  background: var(--slate-50);
-  font-size: 14px; color: var(--text);
-  transition: border-color 120ms, background 120ms;
+.nav-pill:hover { background: var(--slate-100); color: var(--heading); }
+.nav-pill .chevron {
+  width: 12px; height: 12px; color: var(--muted);
+  transition: transform 150ms;
 }
-.search-wrap input:focus {
-  outline: none; border-color: var(--primary-light); background: white;
-  box-shadow: 0 0 0 4px var(--primary-50);
+.dropdown { position: relative; }
+.dropdown:hover > .nav-pill .chevron,
+.dropdown:focus-within > .nav-pill .chevron { transform: rotate(180deg); }
+.dropdown__menu {
+  position: absolute; top: calc(100% + 6px); right: 0;
+  min-width: 220px; background: #fff;
+  border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.20);
+  padding: 6px; z-index: 20;
+  opacity: 0; visibility: hidden; transform: translateY(-4px);
+  transition: opacity 150ms ease, transform 150ms ease, visibility 150ms;
 }
-.search-wrap .search-icon {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  color: var(--muted);
+.dropdown:hover > .dropdown__menu,
+.dropdown:focus-within > .dropdown__menu {
+  opacity: 1; visibility: visible; transform: translateY(0);
 }
+.dropdown__menu a,
+.dropdown__menu button {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 8px;
+  color: var(--slate-700); font-size: 13.5px; font-weight: 500;
+  text-decoration: none; width: 100%;
+  background: transparent; border: 0; cursor: pointer; text-align: left;
+  font-family: inherit;
+}
+.dropdown__menu a:hover,
+.dropdown__menu button:hover { background: var(--slate-100); color: var(--primary); }
+.dropdown__menu .sep {
+  height: 1px; background: var(--border); margin: 6px 4px;
+}
+.dropdown__menu svg { flex: 0 0 auto; color: var(--muted); }
+
+/* Row 2 — horizontal category rail */
+.header-rail {
+  border-top: 1px solid var(--border);
+  background: #fff;
+}
+.cat-rail {
+  display: flex; align-items: stretch; gap: 4px;
+  overflow-x: auto; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
+}
+.cat-rail::-webkit-scrollbar { display: none; }
+.cat-rail a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 14px; color: var(--slate-700);
+  font-size: 13.5px; font-weight: 500; text-decoration: none;
+  white-space: nowrap; position: relative;
+  border-bottom: 3px solid transparent;
+  transition: color 150ms;
+}
+.cat-rail a:hover { color: var(--primary); }
+.cat-rail a.active {
+  color: var(--primary); font-weight: 700;
+  border-bottom-color: var(--primary);
+}
+.cat-rail a .cat-emoji { font-size: 15px; line-height: 1; }
+
 .mobile-toggle { display: none; }
 @media (max-width: 900px) {
-  .search-wrap { display: none; }
-  .nav-links { display: none; }
-  .mobile-toggle { display: grid; }
+  .header-top { grid-template-columns: auto 1fr auto; gap: 8px; }
+  .search-wrap { max-width: none; }
+  .nav-pill span:not(.chevron) { display: none; }
+}
+@media (max-width: 640px) {
+  .brand span:not(.brand-mark) { display: none; }
+  .cat-rail a { padding: 10px 10px; font-size: 13px; }
 }
 
 /* ---------- Buttons ------------------------------------------------------ */

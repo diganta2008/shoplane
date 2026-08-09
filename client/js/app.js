@@ -423,16 +423,6 @@
     window.dispatchEvent(new CustomEvent(name, { detail }));
   }
 
-  const NAV_LINKS = [
-    { href: 'home.html',       label: 'Home' },
-    { href: 'shop.html',       label: 'Shop' },
-    { href: 'healthcare.html', label: 'Healthcare' },
-    { href: 'sport.html',      label: 'Sport' },
-    { href: 'yoga.html',       label: 'Yoga' },
-    { href: 'education.html',  label: 'Education' },
-    { href: 'contact.html',    label: 'Contact' },
-  ];
-
   /**
    * Injects the Independence Day announcement strip at the very top of the
    * page (before the site header). Called on every page so the promo stays
@@ -473,51 +463,133 @@
     window.addEventListener('resize', updateStripHeight);
   }
 
+  /**
+   * Horizontal category rail shown under the top row. Each entry links either
+   * to a dedicated landing page or to shop.html?category=. The `match`
+   * predicate decides which chip renders as active for the current URL.
+   */
+  const CAT_RAIL = [
+    { label: 'For You',     href: 'home.html',                  icon: '✨', match: (p) => p === 'home.html' },
+    { label: 'Fashion',     href: 'shop.html?category=Fashion', icon: '👕', match: (_, c) => c === 'Fashion' },
+    { label: 'Electronics', href: 'shop.html?category=Electronics', icon: '💻', match: (_, c) => c === 'Electronics' },
+    { label: 'Home',        href: 'shop.html?category=Home',    icon: '🏠', match: (_, c) => c === 'Home' },
+    { label: 'Books',       href: 'shop.html?category=Books',   icon: '📚', match: (_, c) => c === 'Books' },
+    { label: 'Medical',     href: 'shop.html?category=Medical', icon: '🩺', match: (_, c) => c === 'Medical' },
+    { label: 'Sports',      href: 'sport.html',                 icon: '⚽', match: (p, c) => p === 'sport.html' || c === 'Sports' },
+    { label: 'Yoga',        href: 'yoga.html',                  icon: '🧘', match: (p, c) => p === 'yoga.html' || c === 'Yoga' },
+    { label: 'Healthcare',  href: 'healthcare.html',            icon: '💊', match: (p) => p === 'healthcare.html' },
+    { label: 'Education',   href: 'education.html',             icon: '🎓', match: (p, c) => p === 'education.html' || c === 'Education' },
+  ];
+
+  /** SVG icons reused inside dropdowns / pills. */
+  const ICONS = {
+    user:    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    chevron: '<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>',
+    orders:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+    heart:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+    signout: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+    mail:    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+    faq:     '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    truck:   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>',
+    return_: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>',
+  };
+
+  function getUserFirstName() {
+    try {
+      const u = JSON.parse(localStorage.getItem(STORAGE.user));
+      if (!u) return null;
+      const raw = (u.firstName || u.name || u.email || '').toString();
+      return raw.split(/[\s@]/)[0] || 'Account';
+    } catch { return null; }
+  }
+
   function renderHeader() {
     const el = document.getElementById('site-header');
     if (!el) return;
+
     const currentPage = location.pathname.split('/').pop() || 'home.html';
-    const linksHtml = NAV_LINKS.map((l) => `
-      <li><a href="${l.href}" data-testid="nav-${l.label.toLowerCase()}"
-             class="${currentPage === l.href ? 'active' : ''}">${l.label}</a></li>`).join('');
+    const currentCat  = new URLSearchParams(location.search).get('category');
+
+    const railHtml = CAT_RAIL.map((c) => {
+      const active = c.match(currentPage, currentCat);
+      return `<a href="${c.href}" class="${active ? 'active' : ''}"
+                 data-testid="rail-${c.label.toLowerCase().replace(/\s+/g, '-')}">
+        <span class="cat-emoji">${c.icon}</span> ${c.label}
+      </a>`;
+    }).join('');
+
+    const firstName = getUserFirstName();
+    const accountPillHtml = firstName
+      ? `<div class="dropdown" data-testid="account-menu">
+          <button type="button" class="nav-pill" data-testid="account-trigger">
+            ${ICONS.user}
+            <span>${firstName}</span>
+            ${ICONS.chevron}
+          </button>
+          <div class="dropdown__menu">
+            <a href="account.html" data-testid="menu-account">${ICONS.user}<span>My profile</span></a>
+            <a href="account.html#orders" data-testid="menu-orders">${ICONS.orders}<span>My orders</span></a>
+            <a href="wishlist.html" data-testid="menu-wishlist">${ICONS.heart}<span>Wishlist</span></a>
+            <div class="sep"></div>
+            <button type="button" id="header-signout" data-testid="menu-signout">${ICONS.signout}<span>Sign out</span></button>
+          </div>
+        </div>`
+      : `<a href="login.html" class="nav-pill" data-testid="account-signin">
+          ${ICONS.user}<span>Sign in</span>
+        </a>`;
 
     el.innerHTML = `
-      <div class="container nav">
-        <a href="home.html" class="brand" data-testid="brand-logo">
-          <span class="brand-mark">S</span>ShopLane
-        </a>
+      <div class="header-row header-row--top">
+        <div class="container header-top">
+          <a href="home.html" class="brand" data-testid="brand-logo">
+            <span class="brand-mark">S</span><span>ShopLane</span>
+          </a>
 
-        <div class="search-wrap">
-          <span class="search-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-          </span>
-          <input type="search" id="global-search" placeholder="Search for products, brands…"
-                 data-testid="search-input" autocomplete="off"/>
+          <div class="search-wrap">
+            <span class="search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </span>
+            <input type="search" id="global-search" placeholder="Search for products, brands and more…"
+                   data-testid="search-input" autocomplete="off"/>
+          </div>
+
+          <div class="nav-actions">
+            <a href="wishlist.html" class="icon-btn" title="Wishlist" data-testid="wishlist-btn">
+              ${ICONS.heart}
+              <span class="badge hidden" id="wishlist-badge" data-testid="wishlist-count">0</span>
+            </a>
+
+            ${accountPillHtml}
+
+            <div class="dropdown" data-testid="more-menu">
+              <button type="button" class="nav-pill" data-testid="more-trigger">
+                <span>More</span>
+                ${ICONS.chevron}
+              </button>
+              <div class="dropdown__menu">
+                <a href="contact.html"  data-testid="menu-contact">${ICONS.mail}<span>Contact us</span></a>
+                <a href="faq.html"      data-testid="menu-faq">${ICONS.faq}<span>FAQ</span></a>
+                <a href="shipping.html" data-testid="menu-shipping">${ICONS.truck}<span>Shipping</span></a>
+                <a href="returns.html"  data-testid="menu-returns">${ICONS.return_}<span>Returns</span></a>
+              </div>
+            </div>
+
+            <a href="cart.html" class="icon-btn" title="Cart" data-testid="cart-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              <span class="badge hidden" id="cart-badge" data-testid="cart-count">0</span>
+            </a>
+          </div>
         </div>
+      </div>
 
-        <ul class="nav-links">${linksHtml}</ul>
-
-        <div class="nav-actions">
-          <a href="wishlist.html" class="icon-btn" title="Wishlist" data-testid="wishlist-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
-            </svg>
-            <span class="badge hidden" id="wishlist-badge" data-testid="wishlist-count">0</span>
-          </a>
-          <a href="cart.html" class="icon-btn" title="Cart" data-testid="cart-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            <span class="badge hidden" id="cart-badge" data-testid="cart-count">0</span>
-          </a>
-          <a href="account.html" class="icon-btn" title="Account" data-testid="account-btn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-          </a>
+      <div class="header-row header-row--rail">
+        <div class="container cat-rail" data-testid="cat-rail">
+          ${railHtml}
         </div>
       </div>`;
 
@@ -528,6 +600,14 @@
           const q = search.value.trim();
           location.href = 'shop.html' + (q ? '?q=' + encodeURIComponent(q) : '');
         }
+      });
+    }
+
+    const signout = document.getElementById('header-signout');
+    if (signout) {
+      signout.addEventListener('click', () => {
+        clearLocalUserData();
+        location.href = 'home.html';
       });
     }
   }
