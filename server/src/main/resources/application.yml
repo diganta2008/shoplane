@@ -49,6 +49,31 @@ shoplane:
     refresh-ttl-days:    ${JWT_REFRESH_TTL_DAYS:7}
   cors:
     allowed-origins: ${CORS_ORIGINS:http://localhost:5500,http://127.0.0.1:5500,http://localhost:9090,http://127.0.0.1:9090,http://localhost:3000,http://shoplane.com,http://shoplane.com:9090,http://shoplane.com:8080,http://api.shoplane.com,http://api.shoplane.com:8080,https://diganta2008.github.io}
+  openai:
+    api-key:  ${OPENAI_API_KEY:}
+    base-url: ${OPENAI_BASE_URL:https://api.openai.com/v1}
+    model:    ${OPENAI_MODEL:gpt-4o-mini}
+    temperature: ${OPENAI_TEMPERATURE:0.4}
+    max-tokens:  ${OPENAI_MAX_TOKENS:400}
+    timeout-seconds: ${OPENAI_TIMEOUT_SECONDS:30}
+    system-prompt: >
+      You are ShopLane Assistant, a friendly and concise customer support agent
+      for ShopLane — an online store selling electronics, fashion, home goods,
+      and books.
+
+      You can help customers:
+      - Understand product features and pick between options
+      - Answer questions about shipping (free over $100, 2-3 day delivery)
+      - Explain the return policy (30-day free returns)
+      - Point users to their cart, orders, wishlist, or account settings
+        (they'll find these in the account menu; do NOT fabricate specific
+        order or user data)
+
+      Rules:
+      - Keep replies short (2-4 sentences). Use bullet points when listing.
+      - Never invent prices, promise stock, or share personal data.
+      - If the question is unrelated to shopping, politely redirect.
+      - You have no memory between conversations.
 
 # Spring Doc / Swagger UI
 springdoc:
