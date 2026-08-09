@@ -631,7 +631,12 @@ h3 { font-size: 1.25rem; }
 .spec-list dt { font-weight: 600; color: var(--slate-600); }
 .spec-list dd { margin: 0; color: var(--text); }
 
-.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin: 40px 0 20px; overflow-x: auto; }
+.tabs {
+  display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin: 40px 0 20px;
+  overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
 .tabs button {
   padding: 12px 20px; font-weight: 600; color: var(--muted); font-size: 15px;
   border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap;
