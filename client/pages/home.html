@@ -469,10 +469,11 @@
   // Categories
   const catIcons = {
     Electronics: '💻', Fashion: '👕', Home: '🏠', Books: '📚',
-    Medical: '🩺', Sports: '⚽', Yoga: '🧘', Education: '🎓',
+    Medical: '🩺', Sports: '⚽', Yoga: '🧘', Education: '🎓', Travel: '🕌',
   };
   const catLinks = {
     Education: 'education.html',
+    Travel:    'travel.html',
   };
   document.getElementById('category-grid').innerHTML = window.CATEGORIES.map((c) => {
     const href = catLinks[c.id] || `shop.html?category=${encodeURIComponent(c.id)}`;

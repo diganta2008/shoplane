@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel &mdash; Discover heritage India | ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Travel vertical — ivory / gold / deep teal heritage palette */
+    :root {
+      --trv-cream:   #fdf7ec;
+      --trv-sand:    #f6e8c9;
+      --trv-gold:    #b98918;
+      --trv-gold-2:  #dba53c;
+      --trv-teal:    #134e4a;
+      --trv-teal-2:  #0f766e;
+      --trv-ink:     #1c1917;
+    }
+
+    .trv-hero {
+      background: linear-gradient(135deg, #fdf7ec 0%, #fbf1d9 50%, #f6e0b8 100%);
+      padding: 72px 0 56px; border-bottom: 1px solid #e7dcb8;
+      position: relative; overflow: hidden;
+    }
+    .trv-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(185,137,24,0.10) 0, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(19,78,74,0.08) 0, transparent 40%);
+      pointer-events: none;
+    }
+    .trv-hero__grid { position: relative; z-index: 1;
+                      display: grid; grid-template-columns: 1.05fr 0.95fr;
+                      gap: 40px; align-items: center; }
+    @media (max-width: 900px) { .trv-hero__grid { grid-template-columns: 1fr; } }
+    .trv-hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-transform: uppercase; letter-spacing: 2.4px;
+      font-size: 11.5px; font-weight: 800; color: var(--trv-gold);
+    }
+    .trv-hero__eyebrow::before {
+      content: ''; width: 24px; height: 1.5px; background: currentColor;
+    }
+    .trv-hero h1 {
+      font-size: clamp(2.1rem, 3.7vw, 3.4rem); line-height: 1.08;
+      margin: 14px 0 14px; color: var(--trv-ink);
+    }
+    .trv-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--trv-gold), var(--trv-gold-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .trv-hero p { font-size: 17px; color: #44403c; max-width: 55ch; }
+    .trv-hero__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .trv-hero__cta .btn-primary {
+      background: var(--trv-teal); color: #fff;
+    }
+    .trv-hero__cta .btn-primary:hover { background: var(--trv-teal-2); }
+    .trv-hero__cta .btn-ghost { color: var(--trv-teal); }
+    .trv-hero__stats { list-style: none; padding: 0; margin: 32px 0 0;
+                       display: flex; gap: 36px; flex-wrap: wrap; }
+    .trv-hero__stats li { display: flex; flex-direction: column; }
+    .trv-hero__stats strong { font-size: 26px; font-weight: 900; color: var(--trv-ink); }
+    .trv-hero__stats span   { font-size: 12.5px; color: #78716c; }
+    /* Hero art — SVG India + Taj silhouette */
+    .trv-hero__art { display: flex; justify-content: center; align-items: center; }
+    .trv-hero__art svg { max-width: 420px; width: 100%;
+                         filter: drop-shadow(0 22px 40px rgba(120,53,15,0.18)); }
+
+    /* Common section shell */
+    .trv-section { padding: 60px 0; }
+    .trv-section--cream { background: var(--trv-cream); }
+    .trv-section--teal  { background: var(--trv-teal); color: #fff; }
+    .trv-section__head { position: relative; margin-bottom: 24px; }
+    .trv-section__head h2 { margin: 0 0 6px; font-size: 1.9rem; color: var(--trv-ink); }
+    .trv-section--teal .trv-section__head h2 { color: #fff; }
+    .trv-section__link {
+      position: absolute; right: 0; top: 8px; font-weight: 700;
+      color: var(--trv-gold); font-size: 13.5px;
+    }
+    .trv-muted { color: #78716c; margin: 0; }
+    .trv-section--teal .trv-muted { color: #a7f3d0; }
+
+    /* City chips */
+    .trv-city-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+    .trv-city-chip {
+      background: #fff; border: 1px solid #e7dcb8;
+      padding: 7px 14px; border-radius: 999px;
+      font: inherit; font-size: 13px; color: #44403c;
+      cursor: pointer; transition: all .15s ease;
+    }
+    .trv-city-chip:hover { border-color: var(--trv-gold); color: var(--trv-gold); }
+    .trv-city-chip.active {
+      background: var(--trv-teal); color: #fff; border-color: transparent;
+      box-shadow: 0 6px 14px -6px rgba(19,78,74,0.5);
+    }
+
+    /* Monument grid */
+    .trv-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 22px;
+    }
+    .trv-card {
+      background: #fff; border: 1px solid #eee2c4; border-radius: 16px;
+      overflow: hidden; display: flex; flex-direction: column;
+      text-decoration: none; color: inherit;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .trv-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 44px -20px rgba(120,53,15,0.28);
+      border-color: var(--trv-gold-2);
+      text-decoration: none;
+    }
+    .trv-card__media {
+      position: relative; aspect-ratio: 16 / 10;
+      background: linear-gradient(135deg, #f6e8c9, #f0d18f);
+      overflow: hidden;
+    }
+    .trv-card__media img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .35s ease;
+    }
+    .trv-card:hover .trv-card__media img { transform: scale(1.05); }
+    .trv-card__tag {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(19,78,74,0.92); color: #fff;
+      font-size: 10.5px; font-weight: 800; letter-spacing: 0.7px;
+      text-transform: uppercase;
+      padding: 3px 10px; border-radius: 999px;
+    }
+    .trv-card__era {
+      position: absolute; bottom: 12px; right: 12px;
+      background: rgba(255,255,255,0.92); color: var(--trv-gold);
+      font-size: 11.5px; font-weight: 800; letter-spacing: 0.4px;
+      padding: 3px 9px; border-radius: 6px;
+    }
+    .trv-card__body { padding: 16px 18px 18px; display: flex;
+                       flex-direction: column; gap: 6px; flex: 1; }
+    .trv-card__city {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11.5px; color: var(--trv-gold); font-weight: 800;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .trv-card__name  { margin: 2px 0 0; font-size: 18px;
+                        font-weight: 800; line-height: 1.25;
+                        color: var(--trv-ink); }
+    .trv-card__desc  { margin: 0; color: #57534e; font-size: 13.5px;
+                        line-height: 1.5; }
+    .trv-card__foot  { margin-top: auto; padding-top: 12px;
+                        border-top: 1px dashed #eee2c4;
+                        display: flex; align-items: center;
+                        justify-content: space-between;
+                        font-size: 12px; color: #78716c; }
+    .trv-card__foot .style { font-weight: 700; color: var(--trv-teal); }
+
+    /* Hotel cards */
+    .trv-hotels { display: grid;
+                  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                  gap: 18px; }
+    .trv-hotel {
+      background: #fff; border: 1px solid #eee2c4; border-radius: 14px;
+      padding: 16px 18px; display: flex; flex-direction: column; gap: 6px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .trv-hotel:hover { transform: translateY(-2px);
+                       box-shadow: 0 18px 30px -18px rgba(120,53,15,0.24); }
+    .trv-hotel__city { font-size: 11px; font-weight: 800; letter-spacing: 0.6px;
+                        text-transform: uppercase; color: var(--trv-gold); }
+    .trv-hotel__name { margin: 0; font-size: 16px; font-weight: 800;
+                        color: var(--trv-ink); line-height: 1.3; }
+    .trv-hotel__stars { color: var(--trv-gold-2); font-size: 13.5px; letter-spacing: 1.5px; }
+    .trv-hotel__tag  { font-size: 12.5px; color: #57534e; }
+    .trv-hotel__foot { margin-top: auto; padding-top: 8px;
+                        display: flex; align-items: baseline; justify-content: space-between; }
+    .trv-hotel__price {
+      font-size: 20px; font-weight: 900; color: var(--trv-teal);
+    }
+    .trv-hotel__price small { font-size: 11.5px; color: #78716c; font-weight: 500; }
+
+    /* Transport tabs */
+    .trv-tabs { display: flex; gap: 4px; flex-wrap: wrap;
+                background: rgba(255,255,255,0.10); padding: 4px;
+                border-radius: 999px; margin-bottom: 22px;
+                border: 1px solid rgba(255,255,255,0.14);
+                width: fit-content; }
+    .trv-tab {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 18px; border-radius: 999px;
+      background: transparent; color: rgba(255,255,255,0.75);
+      font: inherit; font-weight: 700; font-size: 13.5px;
+      border: 0; cursor: pointer;
+      transition: background .15s ease, color .15s ease;
+    }
+    .trv-tab:hover { color: #fff; }
+    .trv-tab.active { background: var(--trv-gold-2); color: #1c1917; }
+    .trv-tab__icon { display: inline-grid; place-items: center; width: 18px; height: 18px; }
+    .trv-tab__icon svg { width: 100%; height: 100%; }
+
+    .trv-routes { display: grid; gap: 12px; }
+    .trv-route {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px; padding: 14px 18px;
+      display: grid; grid-template-columns: 1.2fr 1.5fr 1fr auto;
+      align-items: center; gap: 16px;
+    }
+    @media (max-width: 720px) {
+      .trv-route { grid-template-columns: 1fr; gap: 6px; }
+    }
+    .trv-route__op { color: #a7f3d0; font-weight: 700; font-size: 13.5px; }
+    .trv-route__op small { display: block; color: #d1fae5;
+                            font-size: 11.5px; font-weight: 500;
+                            letter-spacing: 0.4px; }
+    .trv-route__legs { color: #fff; font-weight: 600; }
+    .trv-route__legs span { color: #a7f3d0; margin: 0 8px; }
+    .trv-route__time { color: #d1fae5; font-size: 13px; }
+    .trv-route__price {
+      background: var(--trv-gold-2); color: #1c1917;
+      padding: 6px 12px; border-radius: 8px;
+      font-weight: 900; font-variant-numeric: tabular-nums;
+    }
+
+    /* CTA band */
+    .trv-cta-band {
+      background: linear-gradient(135deg, var(--trv-gold) 0%, var(--trv-gold-2) 100%);
+      color: #fff; padding: 40px 0;
+    }
+    .trv-cta-band__grid { display: flex; align-items: center; justify-content: space-between;
+                           gap: 16px; flex-wrap: wrap; }
+    .trv-cta-band h3 { margin: 0; font-size: 22px; }
+    .trv-cta-band p  { margin: 4px 0 0; color: rgba(255,255,255,0.90); font-size: 14.5px; }
+    .trv-cta-band .btn { background: #1c1917; color: #fff; border: 0; }
+    .trv-cta-band .btn:hover { background: #292524; }
+  </style>
+</head>
+<body data-page="travel">
+
+<header class="site-header" id="site-header"></header>
+
+<!-- HERO ---------------------------------------------------------- -->
+<section class="trv-hero" data-testid="trv-hero">
+  <div class="container trv-hero__grid">
+    <div>
+      <span class="trv-hero__eyebrow" data-testid="trv-hero-eyebrow">ShopLane Travel</span>
+      <h1 data-testid="trv-hero-title">Discover <em>heritage India</em> &mdash; one monument at a time.</h1>
+      <p data-testid="trv-hero-subtitle">
+        Curated itineraries across 14 UNESCO-scale sites, hand-picked heritage
+        hotels, and one-tap flights, trains, buses and taxis to get you there.
+      </p>
+      <div class="trv-hero__cta">
+        <a href="#trv-monuments" class="btn btn-primary btn-lg" data-testid="cta-monuments">
+          Explore monuments
+        </a>
+        <a href="#trv-transport" class="btn btn-ghost btn-lg" data-testid="cta-transport">
+          Plan a route
+        </a>
+      </div>
+      <ul class="trv-hero__stats" data-testid="trv-hero-stats">
+        <li><strong>14</strong><span>Monuments</span></li>
+        <li><strong>10</strong><span>Cities</span></li>
+        <li><strong>4</strong><span>Ways to travel</span></li>
+        <li><strong>20</strong><span>Curated stays</span></li>
+      </ul>
+    </div>
+    <div class="trv-hero__art" aria-hidden="true">
+      <svg viewBox="0 0 480 380">
+        <defs>
+          <linearGradient id="trv-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#fef3c7"/>
+            <stop offset="100%" stop-color="#fde68a"/>
+          </linearGradient>
+          <linearGradient id="trv-taj" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#f3d786"/>
+          </linearGradient>
+          <linearGradient id="trv-water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#0f766e" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#134e4a" stop-opacity="0.95"/>
+          </linearGradient>
+        </defs>
+        <!-- sky -->
+        <rect x="0" y="0" width="480" height="240" fill="url(#trv-sky)"/>
+        <circle cx="380" cy="80" r="30" fill="#f59e0b" opacity="0.85"/>
+        <!-- water -->
+        <rect x="0" y="240" width="480" height="140" fill="url(#trv-water)"/>
+        <!-- minarets left/right -->
+        <g fill="url(#trv-taj)" stroke="#d97706" stroke-width="1">
+          <rect x="60" y="140" width="18" height="100"/>
+          <circle cx="69" cy="140" r="14"/>
+          <rect x="402" y="140" width="18" height="100"/>
+          <circle cx="411" cy="140" r="14"/>
+        </g>
+        <!-- taj base -->
+        <rect x="120" y="200" width="240" height="40" fill="#fbbf24" opacity="0.7"/>
+        <!-- taj arches -->
+        <path d="M120 200 L120 130 Q120 70 240 70 Q360 70 360 130 L360 200 Z"
+              fill="url(#trv-taj)" stroke="#d97706" stroke-width="1.2"/>
+        <!-- side arches -->
+        <path d="M120 200 L120 160 Q120 130 160 130 L160 200 Z" fill="#fde68a"/>
+        <path d="M360 200 L360 160 Q360 130 320 130 L320 200 Z" fill="#fde68a"/>
+        <!-- dome -->
+        <ellipse cx="240" cy="75" rx="52" ry="60" fill="url(#trv-taj)" stroke="#d97706" stroke-width="1.4"/>
+        <path d="M240 15 L240 5 M232 22 L248 22" stroke="#d97706" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- central arch dark -->
+        <path d="M204 200 L204 170 Q204 140 240 140 Q276 140 276 170 L276 200 Z"
+              fill="#78350f" opacity="0.55"/>
+        <!-- water reflection lines -->
+        <g stroke="#a7f3d0" stroke-width="1" opacity="0.5" fill="none">
+          <path d="M100 280 Q140 285 180 280 Q220 275 260 280 Q300 285 340 280 Q380 275 400 280"/>
+          <path d="M60 310 Q100 315 140 310 Q180 305 220 310 Q260 315 300 310 Q340 305 380 310 Q420 315 460 310"/>
+          <path d="M40 340 Q80 345 120 340 Q160 335 200 340 Q240 345 280 340 Q320 335 360 340 Q400 345 440 340"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- MONUMENTS ----------------------------------------------------- -->
+<section id="trv-monuments" class="trv-section" data-testid="trv-monuments">
+  <div class="container">
+    <div class="trv-section__head">
+      <h2>Historical monuments by city</h2>
+      <p class="trv-muted">Tap a city to filter, or pick a monument to read more on Wikipedia.</p>
+      <a href="#trv-hotels" class="trv-section__link" data-testid="see-hotels">See stays &rsaquo;</a>
+    </div>
+
+    <div class="trv-city-strip" id="trv-city-strip"
+         data-testid="city-strip"><!-- filled by JS --></div>
+
+    <div class="trv-grid" id="trv-grid"
+         data-testid="monument-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- HOTELS -------------------------------------------------------- -->
+<section id="trv-hotels" class="trv-section trv-section--cream" data-testid="trv-hotels">
+  <div class="container">
+    <div class="trv-section__head">
+      <h2>Where to stay</h2>
+      <p class="trv-muted">
+        A curated mix of palace stays, boutique retreats and mid-range picks
+        &mdash; filtered by the city you selected above.
+      </p>
+    </div>
+    <div class="trv-hotels" id="trv-hotel-grid"
+         data-testid="hotel-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- TRANSPORT ---------------------------------------------------- -->
+<section id="trv-transport" class="trv-section trv-section--teal" data-testid="trv-transport">
+  <div class="container">
+    <div class="trv-section__head">
+      <h2>Get there &mdash; four ways</h2>
+      <p class="trv-muted">Compare flights, trains, buses and taxis on popular routes.</p>
+    </div>
+
+    <div class="trv-tabs" id="trv-tabs" role="tablist"
+         data-testid="transport-tabs"><!-- filled by JS --></div>
+    <div class="trv-routes" id="trv-routes"
+         data-testid="route-list"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- CTA BAND ----------------------------------------------------- -->
+<section class="trv-cta-band" data-testid="trv-cta-band">
+  <div class="container trv-cta-band__grid">
+    <div>
+      <h3>Ready to hit the road?</h3>
+      <p>Get a personalised 7-day heritage itinerary in your inbox \u2014 free.</p>
+    </div>
+    <a href="#" class="btn btn-lg" id="cta-itinerary"
+       data-testid="cta-itinerary">Plan my trip</a>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/travel-data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/chatbot.js" defer></script>
+<script>
+  const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  let activeCity = null;
+  let activeMode = 'flight';
+
+  const cityStrip  = document.getElementById('trv-city-strip');
+  const grid       = document.getElementById('trv-grid');
+  const hotelGrid  = document.getElementById('trv-hotel-grid');
+  const tabsWrap   = document.getElementById('trv-tabs');
+  const routesWrap = document.getElementById('trv-routes');
+
+  /* ---- Monument grid + city filter ------------------------------ */
+  function monumentsForCity(city) {
+    return (window.TRV_MONUMENTS || []).filter((m) => !city || m.city === city);
+  }
+
+  function renderCityStrip() {
+    const total = (window.TRV_MONUMENTS || []).length;
+    const chips = [
+      `<button class="trv-city-chip ${activeCity ? '' : 'active'}"
+               data-city="__all__" data-testid="city-chip-all">
+         All \u00b7 ${total}
+       </button>`
+    ].concat((window.TRV_CITIES || []).map((c) => {
+      const n = monumentsForCity(c).length;
+      const on = activeCity === c ? 'active' : '';
+      return `<button class="trv-city-chip ${on}" data-city="${c}"
+                       data-testid="city-chip-${slug(c)}">
+                 ${c} \u00b7 ${n}
+               </button>`;
+    })).join('');
+    cityStrip.innerHTML = chips;
+  }
+
+  function renderMonuments() {
+    const list = monumentsForCity(activeCity);
+    if (!list.length) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <h3>No monuments listed for this city yet.</h3>
+        </div>`;
+      return;
+    }
+    grid.innerHTML = list.map((m) => `
+      <a class="trv-card" href="${m.wiki}" target="_blank" rel="noopener noreferrer"
+         data-testid="monument-card" data-monument="${m.id}">
+        <div class="trv-card__media">
+          <img src="${m.photo}" alt="${m.name}" loading="lazy"
+               referrerpolicy="no-referrer"
+               onerror="this.style.opacity=0.35; this.style.filter='grayscale(1)';">
+          <span class="trv-card__tag">${m.tag}</span>
+          <span class="trv-card__era">${m.era}</span>
+        </div>
+        <div class="trv-card__body">
+          <span class="trv-card__city">\u25CF ${m.city}, ${m.state}</span>
+          <h3 class="trv-card__name">${m.name}</h3>
+          <p class="trv-card__desc">${m.desc}</p>
+          <div class="trv-card__foot">
+            <span class="style">${m.style}</span>
+            <span>Read on Wikipedia &rarr;</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  cityStrip.addEventListener('click', (e) => {
+    const btn = e.target.closest('.trv-city-chip');
+    if (!btn) return;
+    activeCity = btn.dataset.city === '__all__' ? null : btn.dataset.city;
+    renderCityStrip();
+    renderMonuments();
+    renderHotels();
+  });
+
+  /* ---- Hotels --------------------------------------------------- */
+  function starsHtml(n) { return '\u2605'.repeat(n) + '<span style="color:#e7dcb8;">' + '\u2605'.repeat(Math.max(0, 5 - n)) + '</span>'; }
+
+  function renderHotels() {
+    const list = (window.TRV_HOTELS || []).filter((h) => !activeCity || h.city === activeCity);
+    if (!list.length) {
+      hotelGrid.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <h3>No stays curated for this city yet.</h3>
+          <p>Change the city filter above or pick a nearby hub.</p>
+        </div>`;
+      return;
+    }
+    hotelGrid.innerHTML = list.map((h) => `
+      <article class="trv-hotel" data-testid="hotel-card" data-hotel="${h.id}">
+        <span class="trv-hotel__city">${h.city}</span>
+        <h3 class="trv-hotel__name">${h.name}</h3>
+        <div class="trv-hotel__stars" aria-label="${h.stars} star hotel">${starsHtml(h.stars)}</div>
+        <p class="trv-hotel__tag">${h.tag}</p>
+        <div class="trv-hotel__foot">
+          <span class="trv-hotel__price">${window.ShopLane ? window.ShopLane.money(h.price) : '$' + h.price}<small> / night</small></span>
+          <button class="btn btn-ghost" style="padding:6px 12px;font-size:13px;"
+                  data-testid="hotel-book">Book</button>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  /* ---- Transport tabs ------------------------------------------- */
+  const MODES = [
+    { id: 'flight', label: 'Flight',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>' },
+    { id: 'train',  label: 'Train',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16M8 3v16M16 3v16"/><circle cx="8.5" cy="16" r="1"/><circle cx="15.5" cy="16" r="1"/><path d="m6 22 2-3M18 22l-2-3"/></svg>' },
+    { id: 'bus',    label: 'Bus',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v6M15 6v6M2 12h19.6M18 18h.01M7 18h.01M4 3h13a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H4Z"/><circle cx="7" cy="18" r="1"/><circle cx="17" cy="18" r="1"/></svg>' },
+    { id: 'taxi',   label: 'Taxi',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/><path d="M10 3h4l1 3H9z"/></svg>' },
+  ];
+
+  function renderTabs() {
+    tabsWrap.innerHTML = MODES.map((m) => `
+      <button class="trv-tab ${m.id === activeMode ? 'active' : ''}"
+              data-mode="${m.id}" role="tab"
+              data-testid="tab-${m.id}">
+        <span class="trv-tab__icon">${m.icon}</span> ${m.label}
+      </button>`).join('');
+  }
+
+  function renderRoutes() {
+    const list = (window.TRV_TRANSPORT || {})[activeMode] || [];
+    routesWrap.innerHTML = list.map((r) => `
+      <article class="trv-route" data-testid="route-row" data-route="${r.id}">
+        <div class="trv-route__op">
+          ${r.operator}
+          <small>${r.type || r.coach || ''}</small>
+        </div>
+        <div class="trv-route__legs">
+          ${r.from} <span>&rarr;</span> ${r.to}
+        </div>
+        <div class="trv-route__time">
+          ${r.depart} \u00b7 ${r.duration}${r.arrive && r.arrive !== '\u2014' ? ' \u00b7 ' + r.arrive : ''}
+        </div>
+        <div class="trv-route__price">
+          ${window.ShopLane ? window.ShopLane.money(r.price) : '$' + r.price}
+        </div>
+      </article>
+    `).join('');
+  }
+
+  tabsWrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('.trv-tab');
+    if (!btn) return;
+    activeMode = btn.dataset.mode;
+    renderTabs();
+    renderRoutes();
+  });
+
+  /* ---- CTA ------------------------------------------------------ */
+  document.getElementById('cta-itinerary').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (window.ShopLane && window.ShopLane.toast) {
+      window.ShopLane.toast('On its way \u2014 check your inbox for a 7-day heritage itinerary.');
+    } else {
+      alert('A 7-day itinerary is on its way to your inbox.');
+    }
+  });
+
+  /* ---- Init ----------------------------------------------------- */
+  renderCityStrip();
+  renderMonuments();
+  renderHotels();
+  renderTabs();
+  renderRoutes();
+</script>
+
+</body>
+</html>

@@ -495,6 +495,7 @@
     { label: 'Yoga',        href: 'yoga.html',                  icon: '🧘', match: (p, c) => p === 'yoga.html' || c === 'Yoga' },
     { label: 'Healthcare',  href: 'healthcare.html',            icon: '💊', match: (p) => p === 'healthcare.html' },
     { label: 'Education',   href: 'education.html',             icon: '🎓', match: (p, c) => p === 'education.html' || c === 'Education' },
+    { label: 'Travel',      href: 'travel.html',                icon: '🕌', match: (p, c) => p === 'travel.html' || c === 'Travel' },
   ];
 
   /** SVG icons reused inside dropdowns / pills. */
@@ -692,6 +693,7 @@
               <li><a href="shop.html?category=Sports"      data-testid="footer-cat-sports">Sports</a></li>
               <li><a href="yoga.html"                      data-testid="footer-yoga">Yoga</a></li>
               <li><a href="education.html"                 data-testid="footer-education">Education</a></li>
+              <li><a href="travel.html"                    data-testid="footer-travel">Travel</a></li>
             </ul>
           </div>
           <div>

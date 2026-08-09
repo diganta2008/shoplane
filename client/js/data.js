@@ -1700,6 +1700,7 @@ window.CATEGORIES = [
   { id: 'Sports',      name: 'Sports',      icon: 'trophy',      desc: 'Train, ride, run, play' },
   { id: 'Yoga',        name: 'Yoga',        icon: 'lotus',       desc: 'Mats, blocks & mindful gear' },
   { id: 'Education',   name: 'Education',   icon: 'cap',         desc: 'Coaching, mentors & material' },
+  { id: 'Travel',      name: 'Travel',      icon: 'monument',    desc: 'Heritage India \u2014 monuments, stays & routes' },
 ];
 
 window.getProduct = function (id) {
