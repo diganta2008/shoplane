@@ -11,7 +11,7 @@
 
   const HISTORY_KEY = 'shoplane.chat.history';
   const OPEN_KEY    = 'shoplane.chat.open';
-  const MAX_TURNS_STORED = 20;
+  const MAX_HISTORY_ITEMS = 20;
 
   function resolveBase() {
     const meta = document.querySelector('meta[name="shoplane-api"]');
@@ -145,7 +145,9 @@
     catch { return []; }
   }
   function saveHistory(h) {
-    const trimmed = h.slice(-MAX_TURNS_STORED * 2);
+    // Trim to the same cap we're allowed to send so localStorage can't drift
+    // past what the server will accept.
+    const trimmed = h.slice(-MAX_HISTORY_ITEMS);
     try { localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed)); } catch { /* quota */ }
   }
   function addBubble(role, text) {
@@ -233,10 +235,13 @@
     const typing = addTyping();
 
     try {
+      // Send only prior turns (drop the just-pushed user msg — server takes it
+      // via `message`) and cap to MAX_HISTORY_ITEMS to stay under DTO limits.
+      const priorHistory = history.slice(0, -1).slice(-MAX_HISTORY_ITEMS);
       const res = await fetch(API_BASE + '/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ message: text, history }),
+        body: JSON.stringify({ message: text, history: priorHistory }),
       });
       typing.remove();
 
@@ -253,6 +258,15 @@
           msg = "I'm getting a lot of traffic right now — give me a moment and try again.";
         } else if (code === 'CHAT_UPSTREAM_ERROR') {
           msg = "The AI service is temporarily unavailable. Please try again in a bit.";
+        } else if (code === 'UNPROCESSABLE') {
+          // Show field-level details so the cause is obvious, and offer a one-click recovery.
+          const details = (json && json.error && json.error.details) || {};
+          const fieldMsgs = Object.entries(details).map(([k, v]) => `${k}: ${v}`).join('; ');
+          msg = fieldMsgs ? `Request rejected — ${fieldMsgs}` : 'Request rejected by the server.';
+          if (details.history) {
+            localStorage.removeItem(HISTORY_KEY);
+            msg += "  I've reset the chat history — please try again.";
+          }
         } else {
           msg = (json && json.error && json.error.message)
                 || ('Chat failed (HTTP ' + res.status + ')');

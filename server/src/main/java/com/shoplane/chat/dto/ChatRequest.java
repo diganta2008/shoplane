@@ -19,6 +19,6 @@ public record ChatRequest(
         String message,
 
         @Valid
-        @Size(max = 20, message = "history is capped at 20 prior turns")
+        @Size(max = 40, message = "history is capped at 40 messages")
         List<ChatMessage> history
 ) {}
