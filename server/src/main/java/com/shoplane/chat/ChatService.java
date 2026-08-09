@@ -5,6 +5,8 @@ import com.shoplane.chat.dto.ChatRequest;
 import com.shoplane.chat.dto.ChatResponse;
 import com.shoplane.common.ApiException;
 import com.shoplane.config.ShopLaneProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -12,24 +14,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Assembles the OpenAI chat/completions request from a caller's message and
- * history, then delegates to the low-level {@link OpenAiClient}.
+ * Handles chat requests. When {@code OPENAI_API_KEY} is set the request is
+ * forwarded to {@link OpenAiClient}; when blank it falls back to
+ * {@link MockChatResponder} which returns canned/random demo replies.
  */
 @Service
 public class ChatService {
+
+    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
 
     /** Cap on history turns retained across a session (each turn ≈ 1 user + 1 assistant msg). */
     private static final int MAX_HISTORY_TURNS = 10;
 
     private final OpenAiClient client;
+    private final MockChatResponder mock;
     private final ShopLaneProperties.OpenAi cfg;
 
-    public ChatService(OpenAiClient client, ShopLaneProperties props) {
+    public ChatService(OpenAiClient client, MockChatResponder mock, ShopLaneProperties props) {
         this.client = client;
+        this.mock = mock;
         this.cfg = props.openai();
+        if (!hasApiKey()) {
+            log.info("Chat: OPENAI_API_KEY is blank — /api/v1/chat will serve canned demo replies.");
+        }
     }
 
     public ChatResponse chat(ChatRequest req) {
+        if (!hasApiKey()) {
+            return mock.respond(req.message());
+        }
+
         List<ChatMessage> messages = new ArrayList<>();
         messages.add(new ChatMessage("system", systemPrompt()));
 
@@ -54,6 +68,10 @@ public class ChatService {
                     "Failed to generate chat reply.");
         }
         return new ChatResponse(c.reply(), c.model(), c.usage());
+    }
+
+    private boolean hasApiKey() {
+        return cfg.apiKey() != null && !cfg.apiKey().isBlank();
     }
 
     private String systemPrompt() {
