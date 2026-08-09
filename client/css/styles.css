@@ -213,24 +213,46 @@ h3 { font-size: 1.25rem; }
 .header-rail {
   border-top: 1px solid var(--border);
   background: #fff;
+  position: relative;
 }
+/* Fade indicators on both edges to hint horizontal scroll. Pointer-events
+   off so they never intercept clicks on the chips underneath. */
+.header-rail::before,
+.header-rail::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 32px;
+  pointer-events: none; z-index: 1;
+  opacity: 0; transition: opacity 200ms ease;
+}
+.header-rail::before {
+  left: 0;
+  background: linear-gradient(to right, #fff 30%, rgba(255,255,255,0));
+}
+.header-rail::after {
+  right: 0;
+  background: linear-gradient(to left, #fff 30%, rgba(255,255,255,0));
+}
+.header-rail[data-scroll-start="false"]::before { opacity: 1; }
+.header-rail[data-scroll-end="false"]::after   { opacity: 1; }
+
 .cat-rail {
-  display: flex; align-items: stretch; gap: 4px;
+  display: flex; align-items: stretch; gap: 2px;
   overflow-x: auto; scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  padding: 0;
+  padding: 0 4px;
+  scroll-snap-type: x proximity;
 }
 .cat-rail::-webkit-scrollbar { display: none; }
 .cat-rail a {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 12px 14px; color: var(--slate-700);
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 11px 11px; color: var(--slate-700);
   font-family: inherit;
-  font-size: 14px; font-weight: 600;
+  font-size: 13.5px; font-weight: 600;
   letter-spacing: 0.005em;
   text-decoration: none;
   white-space: nowrap; position: relative;
   border-bottom: 3px solid transparent;
   transition: color 150ms, border-color 150ms, background 150ms;
+  scroll-snap-align: start;
 }
 .cat-rail a:hover {
   color: var(--primary);
@@ -241,7 +263,7 @@ h3 { font-size: 1.25rem; }
   border-bottom-color: var(--primary);
 }
 .cat-rail a .cat-emoji {
-  font-size: 17px; line-height: 1;
+  font-size: 16px; line-height: 1;
   font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
   filter: saturate(1.05);
 }
@@ -254,8 +276,9 @@ h3 { font-size: 1.25rem; }
 }
 @media (max-width: 640px) {
   .brand span:not(.brand-mark) { display: none; }
-  .cat-rail a { padding: 10px 10px; font-size: 13.5px; font-weight: 600; }
+  .cat-rail a { padding: 9px 9px; font-size: 13px; font-weight: 600; gap: 6px; }
   .cat-rail a .cat-emoji { font-size: 15px; }
+  .header-rail::before, .header-rail::after { width: 24px; }
 }
 
 /* ---------- Buttons ------------------------------------------------------ */

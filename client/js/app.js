@@ -627,6 +627,33 @@
         location.href = 'home.html';
       });
     }
+
+    /* Toggle the left/right fade indicators on .header-rail based on the
+       scroll position of the category rail. Also scroll the active chip
+       into view on first render so users on narrow screens don't have to
+       hunt for their current section. */
+    const rail     = document.querySelector('.cat-rail');
+    const railWrap = document.querySelector('.header-rail');
+    if (rail && railWrap) {
+      const update = () => {
+        const atStart = rail.scrollLeft <= 1;
+        const atEnd   = Math.ceil(rail.scrollLeft + rail.clientWidth) >= rail.scrollWidth - 1;
+        railWrap.setAttribute('data-scroll-start', String(atStart));
+        railWrap.setAttribute('data-scroll-end',   String(atEnd));
+      };
+      update();
+      rail.addEventListener('scroll',   update, { passive: true });
+      window.addEventListener('resize', update);
+
+      const activeChip = rail.querySelector('a.active');
+      if (activeChip) {
+        try {
+          activeChip.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'auto' });
+        } catch (_) { /* older browsers */ }
+        // Re-check the fade indicators after the scroll-into-view.
+        setTimeout(update, 0);
+      }
+    }
   }
 
   function renderFooter() {
