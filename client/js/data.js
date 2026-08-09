@@ -1587,7 +1587,7 @@ window.CATALOG = [
   },
   {
     id: 104, sku: 'SPT-104', name: 'CoreZen Studio Yoga Mat 6mm',
-    category: 'Sports', tags: ['yoga', 'studio', 'mat'], subCategory: 'Yoga',
+    category: 'Yoga', tags: ['yoga', 'studio', 'mat'], subCategory: 'Yoga',
     price: 49.99, oldPrice: 69.99, rating: 4.7, reviewCount: 512, stock: 210,
     image: '../images/product-yoga-mat.svg', badge: 'hot',
     sizes: [], colors: ['Amethyst', 'Sage', 'Slate'],
@@ -1614,7 +1614,7 @@ window.CATALOG = [
   },
   {
     id: 107, sku: 'SPT-107', name: 'ZenBloc Cork Yoga Block (Pair)',
-    category: 'Sports', tags: ['yoga', 'accessory', 'cork'], subCategory: 'Yoga',
+    category: 'Yoga', tags: ['yoga', 'accessory', 'cork'], subCategory: 'Yoga',
     price: 24.99, oldPrice: 34.99, rating: 4.7, reviewCount: 312, stock: 240,
     image: '../images/product-yoga-mat.svg', badge: 'hot',
     sizes: [], colors: ['Natural cork'],
@@ -1623,7 +1623,7 @@ window.CATALOG = [
   },
   {
     id: 108, sku: 'SPT-108', name: 'FlowStrap Cotton Yoga Strap 8ft',
-    category: 'Sports', tags: ['yoga', 'accessory', 'strap'], subCategory: 'Yoga',
+    category: 'Yoga', tags: ['yoga', 'accessory', 'strap'], subCategory: 'Yoga',
     price: 14.99, oldPrice: 19.99, rating: 4.5, reviewCount: 158, stock: 420,
     image: '../images/product-yoga-mat.svg', badge: 'sale',
     sizes: [], colors: ['Amethyst', 'Sage', 'Sand'],
@@ -1632,7 +1632,7 @@ window.CATALOG = [
   },
   {
     id: 109, sku: 'SPT-109', name: 'RestNest Rectangular Yoga Bolster',
-    category: 'Sports', tags: ['yoga', 'restorative', 'bolster'], subCategory: 'Yoga',
+    category: 'Yoga', tags: ['yoga', 'restorative', 'bolster'], subCategory: 'Yoga',
     price: 54.99, oldPrice: 79.99, rating: 4.8, reviewCount: 189, stock: 68,
     image: '../images/product-yoga-mat.svg', badge: 'new',
     sizes: [], colors: ['Sage', 'Charcoal', 'Ivory'],
@@ -1698,6 +1698,7 @@ window.CATEGORIES = [
   { id: 'Books',       name: 'Books',       icon: 'book',        desc: 'Read, learn, escape' },
   { id: 'Medical',     name: 'Medical',     icon: 'stethoscope', desc: 'Instruments for home & clinic use' },
   { id: 'Sports',      name: 'Sports',      icon: 'trophy',      desc: 'Train, ride, run, play' },
+  { id: 'Yoga',        name: 'Yoga',        icon: 'lotus',       desc: 'Mats, blocks & mindful gear' },
 ];
 
 window.getProduct = function (id) {

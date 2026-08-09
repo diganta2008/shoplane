@@ -428,6 +428,7 @@
     { href: 'shop.html',       label: 'Shop' },
     { href: 'healthcare.html', label: 'Healthcare' },
     { href: 'sport.html',      label: 'Sport' },
+    { href: 'yoga.html',       label: 'Yoga' },
     { href: 'contact.html',    label: 'Contact' },
   ];
 
