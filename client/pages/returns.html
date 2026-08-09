@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Returns &amp; refunds — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .policy-grid { display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start; }
+    @media (max-width: 900px) { .policy-grid { grid-template-columns: 1fr; } }
+    .policy-card { background: #fff; border: 1px solid var(--border); border-radius: 14px;
+                   padding: 24px 28px; box-shadow: var(--shadow-sm); }
+    .policy-card h2 { margin: 24px 0 8px; color: var(--heading); font-size: 20px; }
+    .policy-card h2:first-child { margin-top: 0; }
+    .policy-card p { color: var(--slate-700); line-height: 1.65; margin: 0 0 12px; }
+    .policy-card ul { padding-left: 20px; color: var(--slate-700); line-height: 1.7; margin: 0 0 12px; }
+    .step-list { list-style: none; padding: 0; margin: 12px 0 20px; counter-reset: step;
+                 display: flex; flex-direction: column; gap: 12px; }
+    .step-list li { counter-increment: step; position: relative; padding: 14px 18px 14px 60px;
+                    background: #f7f8fa; border-radius: 12px; border: 1px solid var(--border);
+                    color: var(--slate-700); line-height: 1.5; }
+    .step-list li::before {
+      content: counter(step); position: absolute; left: 16px; top: 50%;
+      transform: translateY(-50%); width: 30px; height: 30px; border-radius: 50%;
+      background: var(--primary); color: #fff; display: flex; align-items: center;
+      justify-content: center; font-weight: 700; font-size: 14px;
+    }
+    .step-list li strong { color: var(--heading); }
+    .cases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0 16px; }
+    @media (max-width: 640px) { .cases { grid-template-columns: 1fr; } }
+    .case { padding: 14px 16px; border-radius: 12px; border: 1px solid var(--border);
+            background: #fff; }
+    .case.ok    { border-left: 4px solid var(--success); }
+    .case.no    { border-left: 4px solid #dc3545; }
+    .case h4 { margin: 0 0 6px; color: var(--heading); font-size: 14px; }
+    .case p  { margin: 0; color: var(--slate-700); font-size: 13.5px; line-height: 1.5; }
+    .policy-side { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 16px; }
+    .side-card { background: linear-gradient(135deg, #f0fdf4, #eef4ff);
+                 border-radius: 14px; padding: 20px 22px; }
+    .side-card h3 { margin: 0 0 8px; color: var(--heading); font-size: 16px; }
+    .side-card p { margin: 0; color: var(--slate-700); font-size: 13.5px; line-height: 1.55; }
+    .side-card .side-cta { margin-top: 12px; }
+    .highlight { background: #fff8e1; border-left: 3px solid #f5a623;
+                 padding: 10px 14px; border-radius: 6px; margin: 12px 0 16px;
+                 color: var(--slate-700); font-size: 14px; }
+  </style>
+</head>
+<body data-page="returns">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">Returns &amp; refunds</h1>
+    <p data-testid="page-subtitle">Not happy with something? Send it back — free, within 30 days, no questions asked.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <span class="current">Returns</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container" style="padding: 30px 20px 60px;" data-testid="returns-content">
+  <div class="policy-grid">
+
+    <article class="policy-card">
+
+      <h2>Our promise</h2>
+      <p>
+        We stand behind everything we sell. If a product doesn't fit your life
+        for any reason — the fit is off, the colour looks different in daylight,
+        or you simply changed your mind — return it within 30 days of delivery
+        for a full refund. Pickup is free and paperwork is minimal.
+      </p>
+
+      <h2>How to return an item</h2>
+      <ol class="step-list" data-testid="return-steps">
+        <li>
+          <strong>Open the order.</strong> Head to <a href="account.html">Account → Orders</a>,
+          find the order, and click <em>Return item</em>.
+        </li>
+        <li>
+          <strong>Pick a reason.</strong> Choose the item(s), tell us why you're
+          returning them, and select refund-to-original-payment or store credit
+          (store credit lands instantly).
+        </li>
+        <li>
+          <strong>Print &amp; stick the label.</strong> We'll email you a pre-paid
+          courier label within a few minutes. Print it, tape it on the outside of
+          the box, and hand the package to our courier or drop it at any partner
+          drop point.
+        </li>
+        <li>
+          <strong>Track the return.</strong> The order page shows live status —
+          <em>In transit → Received → Refunded</em>. You'll get an email at each step.
+        </li>
+        <li>
+          <strong>Money in your account.</strong> Once inspected, refunds are issued
+          within 24 hours to the original payment method (banks take 3 – 7 days to
+          reflect it) or instantly as store credit.
+        </li>
+      </ol>
+
+      <h2>What qualifies for a return?</h2>
+      <div class="cases">
+        <div class="case ok" data-testid="case-ok-1">
+          <h4>✓ Fashion &amp; apparel</h4>
+          <p>Unworn, tags intact, within 30 days.</p>
+        </div>
+        <div class="case ok" data-testid="case-ok-2">
+          <h4>✓ Electronics &amp; gadgets</h4>
+          <p>Working, all accessories present, box in good condition.</p>
+        </div>
+        <div class="case ok" data-testid="case-ok-3">
+          <h4>✓ Home &amp; kitchen</h4>
+          <p>Unused, original packaging, within 30 days.</p>
+        </div>
+        <div class="case ok" data-testid="case-ok-4">
+          <h4>✓ Books</h4>
+          <p>No writing, dog-ears or damage.</p>
+        </div>
+        <div class="case no" data-testid="case-no-1">
+          <h4>✗ Personal care &amp; cosmetics</h4>
+          <p>No returns once seals are broken (hygiene).</p>
+        </div>
+        <div class="case no" data-testid="case-no-2">
+          <h4>✗ Innerwear &amp; swimwear</h4>
+          <p>Non-returnable once worn or tags removed.</p>
+        </div>
+        <div class="case no" data-testid="case-no-3">
+          <h4>✗ Perishables &amp; food</h4>
+          <p>Not eligible for return.</p>
+        </div>
+        <div class="case no" data-testid="case-no-4">
+          <h4>✗ Custom / made-to-order</h4>
+          <p>Non-refundable unless defective on arrival.</p>
+        </div>
+      </div>
+      <p>
+        The exclusion, if any, is clearly called out under the buy-box on every
+        product page and re-confirmed at checkout.
+      </p>
+
+      <h2>Refunds &amp; timing</h2>
+      <p>
+        Refunds are processed within 24 hours of the returned item reaching our
+        warehouse. Where the money lands depends on the original payment method:
+      </p>
+      <ul>
+        <li><strong>UPI / net-banking:</strong> 1 – 3 business days.</li>
+        <li><strong>Credit / debit card:</strong> 3 – 7 business days (bank-dependent).</li>
+        <li><strong>Wallets:</strong> instant to 24 hours.</li>
+        <li><strong>Cash on delivery:</strong> paid out to a bank account you nominate
+          (we'll ask for the details during the return flow).</li>
+        <li><strong>Store credit:</strong> instant, never expires.</li>
+      </ul>
+
+      <h2>Exchanges</h2>
+      <p>
+        Want a different size, colour or variant instead of a refund? Choose
+        <strong>Exchange</strong> during the return flow. If the replacement costs
+        more we'll ask you to pay the difference; if it costs less we'll refund
+        the difference. The replacement ships as soon as we've received the
+        original back.
+      </p>
+
+      <h2>Damaged, defective, or wrong item</h2>
+      <p>
+        If your package arrives damaged, or contains the wrong or a defective
+        item, we cover it fully:
+      </p>
+      <ul>
+        <li><a href="contact.html">Contact us</a> within 48 hours of delivery.</li>
+        <li>We'll dispatch a replacement or issue a full refund — your choice.</li>
+        <li>Return pickup is free and immediate.</li>
+      </ul>
+      <div class="highlight">
+        Keep the original packaging and, if possible, a couple of photos of the
+        damage — it helps us route the claim to the courier faster.
+      </div>
+
+      <h2>Cancellations</h2>
+      <p>
+        Any order can be cancelled for a full refund up until it's marked
+        <em>Shipped</em>. Once shipped, use the returns flow above once it
+        arrives.
+      </p>
+
+    </article>
+
+    <aside class="policy-side">
+      <div class="side-card" data-testid="return-tip-1">
+        <h3>30 days, no questions</h3>
+        <p>You have a full 30 days from delivery to change your mind on almost
+          anything we sell.</p>
+      </div>
+      <div class="side-card" data-testid="return-tip-2">
+        <h3>Pickup is free</h3>
+        <p>We arrange a courier pickup at your door. No printer? Choose
+          <em>drop at store</em> during the return flow instead.</p>
+        <div class="side-cta">
+          <a href="account.html" class="btn btn-primary">Start a return</a>
+        </div>
+      </div>
+      <div class="side-card" data-testid="return-tip-3">
+        <h3>Refund your way</h3>
+        <p>Back to original payment, or instant store credit. Store credit
+          never expires and can be stacked with any coupon.</p>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/chatbot.js" defer></script>
+
+</body>
+</html>

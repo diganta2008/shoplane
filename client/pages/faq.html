@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .faq-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .faq-item { background: #fff; border: 1px solid var(--border); border-radius: 12px;
+                padding: 4px 18px; transition: box-shadow .18s ease; }
+    .faq-item[open] { box-shadow: 0 4px 20px rgba(13,110,253,.08); border-color: #c9d8ff; }
+    .faq-item summary { padding: 14px 0; font-weight: 600; color: var(--heading);
+                        cursor: pointer; list-style: none; position: relative;
+                        padding-right: 28px; user-select: none; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+'; position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+      font-size: 22px; color: var(--primary); line-height: 1; font-weight: 400;
+      transition: transform .2s ease;
+    }
+    .faq-item[open] summary::after { content: '−'; }
+    .faq-item .faq-answer { padding: 4px 0 16px; color: var(--slate-700); line-height: 1.6; }
+    .faq-item .faq-answer p:first-child { margin-top: 0; }
+    .faq-item .faq-answer p:last-child { margin-bottom: 0; }
+    .faq-groups { display: flex; flex-direction: column; gap: 34px; }
+    .faq-group h2 { margin: 0 0 4px; font-size: 20px; color: var(--heading); }
+    .faq-group p.faq-group-desc { margin: 0; color: var(--muted); font-size: 14px; }
+    .faq-cta { margin-top: 40px; padding: 24px; border-radius: 14px;
+               background: linear-gradient(135deg, #eef4ff, #f5f0ff);
+               display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .faq-cta h3 { margin: 0; color: var(--heading); }
+    .faq-cta p { margin: 4px 0 0; color: var(--slate-700); font-size: 14px; }
+    @media (max-width: 640px) { .faq-cta { flex-direction: column; align-items: flex-start; } }
+  </style>
+</head>
+<body data-page="faq">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">Frequently asked questions</h1>
+    <p data-testid="page-subtitle">Everything you might want to know — orders, delivery, returns, and your account.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <span class="current">FAQ</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container" style="padding: 30px 20px 60px;" data-testid="faq-content">
+  <div class="faq-groups">
+
+    <section class="faq-group" data-testid="faq-group-orders">
+      <h2>Orders &amp; payments</h2>
+      <p class="faq-group-desc">Placing an order, changing it, and paying for it.</p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>What payment methods do you accept?</summary>
+          <div class="faq-answer">
+            <p>We accept all major credit and debit cards (Visa, MasterCard, Amex, RuPay),
+              UPI, net-banking from 60+ Indian banks, wallets like Paytm and PhonePe, and
+              buy-now-pay-later options from Simpl and LazyPay. All payments are processed
+              over a PCI-DSS certified gateway.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I edit or cancel my order after placing it?</summary>
+          <div class="faq-answer">
+            <p>You can cancel any order for a full refund up until it's marked
+              <em>Shipped</em>. Head to <a href="account.html">Account → Orders</a>,
+              open the order, and click <strong>Cancel</strong>. Address edits are possible
+              only before the order enters processing (usually a 30-minute window).</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Is my payment information safe?</summary>
+          <div class="faq-answer">
+            <p>Yes. We never store raw card numbers on our servers — payments go directly
+              through our tokenised gateway. The site is served over HTTPS and passwords
+              are stored using bcrypt with per-user salts.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Do you charge tax?</summary>
+          <div class="faq-answer">
+            <p>Prices shown are inclusive of GST. The exact tax breakdown is visible on
+              your cart summary before you pay, and on the final invoice you receive
+              by email after checkout.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="faq-group" data-testid="faq-group-shipping">
+      <h2>Shipping &amp; delivery</h2>
+      <p class="faq-group-desc">
+        Quick answers — for the full breakdown see the
+        <a href="shipping.html">shipping policy</a>.
+      </p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>How long will my order take to arrive?</summary>
+          <div class="faq-answer">
+            <p>Standard delivery is 2 – 3 business days across metros and 4 – 6 days
+              elsewhere. Expedited (next-day) delivery is available at checkout for
+              serviceable pin codes.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Is shipping free?</summary>
+          <div class="faq-answer">
+            <p>Yes — on every order over ₹8,000 (approx. $100). Under that, a flat
+              ₹99 shipping fee applies. Coupon <code>FREESHIP</code> waives the fee
+              on eligible orders.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How do I track my order?</summary>
+          <div class="faq-answer">
+            <p>Once your order ships you'll get an email with a tracking link. You can
+              also view live status any time under
+              <a href="account.html">Account → Orders</a>.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Do you deliver internationally?</summary>
+          <div class="faq-answer">
+            <p>Not yet — we currently ship to Indian addresses only. International
+              expansion is on our 2026 roadmap.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="faq-group" data-testid="faq-group-returns">
+      <h2>Returns &amp; refunds</h2>
+      <p class="faq-group-desc">
+        Short version below — full policy is on the
+        <a href="returns.html">returns page</a>.
+      </p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>What's your return window?</summary>
+          <div class="faq-answer">
+            <p>30 days from delivery, no questions asked, on almost everything.
+              Some hygiene-sensitive categories (opened cosmetics, innerwear) are
+              excluded — the exclusion is called out on the product page.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How do I start a return?</summary>
+          <div class="faq-answer">
+            <p>Open the order in <a href="account.html">Account → Orders</a>, tap
+              <strong>Return item</strong>, pick a reason, and choose refund-to-original
+              or a store credit. We'll email a pre-paid label to print and stick on the
+              box; pickup is free.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>When will I get my refund?</summary>
+          <div class="faq-answer">
+            <p>Refunds are processed within 24 hours of the item arriving at our
+              warehouse. Depending on your bank, the money lands in 3 – 7 business days.
+              Store credit is instant.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I exchange for a different size or colour?</summary>
+          <div class="faq-answer">
+            <p>Yes — during the return flow, pick <strong>Exchange</strong> instead of
+              refund and choose the new variant. If the replacement costs more you'll
+              be prompted to pay the difference; if it costs less we'll refund it.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="faq-group" data-testid="faq-group-account">
+      <h2>Account &amp; support</h2>
+      <p class="faq-group-desc">Logging in, changing details, and getting help.</p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>I forgot my password — how do I reset it?</summary>
+          <div class="faq-answer">
+            <p>Click <strong>Forgot password?</strong> on the
+              <a href="login.html">login page</a>, enter the email attached to your
+              account, and follow the reset link we send. Links are valid for 30 minutes.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I change my registered email address?</summary>
+          <div class="faq-answer">
+            <p>Yes — under <a href="account.html">Account → Profile</a>. We'll send
+              a verification link to the new address before switching over.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How do I delete my account?</summary>
+          <div class="faq-answer">
+            <p>Write to us at <a href="mailto:privacy@shoplane.demo">privacy@shoplane.demo</a>
+              from the email on file. We'll confirm and permanently delete your data
+              within 30 days per the Privacy Policy.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>How do I contact support?</summary>
+          <div class="faq-answer">
+            <p>Fastest: use the chat bubble in the corner (that's me!). You can also
+              email <a href="mailto:hello@shoplane.demo">hello@shoplane.demo</a> or
+              call +91 11 4123 4567 (Mon – Sat, 10 AM – 8 PM). Or head to the
+              <a href="contact.html">contact page</a> for a form.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="faq-cta" data-testid="faq-cta">
+    <div>
+      <h3>Still can't find what you need?</h3>
+      <p>Reach out and we'll get back within one business day.</p>
+    </div>
+    <a href="contact.html" class="btn btn-primary" data-testid="faq-contact-btn">Contact us</a>
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/chatbot.js" defer></script>
+
+</body>
+</html>

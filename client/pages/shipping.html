@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .policy-grid { display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start; }
+    @media (max-width: 900px) { .policy-grid { grid-template-columns: 1fr; } }
+    .policy-card { background: #fff; border: 1px solid var(--border); border-radius: 14px;
+                   padding: 24px 28px; box-shadow: var(--shadow-sm); }
+    .policy-card h2 { margin: 24px 0 8px; color: var(--heading); font-size: 20px; }
+    .policy-card h2:first-child { margin-top: 0; }
+    .policy-card p { color: var(--slate-700); line-height: 1.65; margin: 0 0 12px; }
+    .policy-card ul { padding-left: 20px; color: var(--slate-700); line-height: 1.7; margin: 0 0 12px; }
+    .policy-card ul li + li { margin-top: 4px; }
+    .rate-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px;
+                  border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .rate-table th, .rate-table td { text-align: left; padding: 10px 14px;
+                                     border-bottom: 1px solid var(--border); font-size: 14px; }
+    .rate-table th { background: #f7f8fa; color: var(--heading); font-weight: 600; }
+    .rate-table tr:last-child td { border-bottom: 0; }
+    .rate-table .free { color: var(--success); font-weight: 600; }
+    .policy-side { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 16px; }
+    .side-card { background: linear-gradient(135deg, #eef4ff, #f5f0ff);
+                 border-radius: 14px; padding: 20px 22px; }
+    .side-card h3 { margin: 0 0 8px; color: var(--heading); font-size: 16px; }
+    .side-card p { margin: 0; color: var(--slate-700); font-size: 13.5px; line-height: 1.55; }
+    .side-card .side-cta { margin-top: 12px; }
+    .highlight { background: #fff8e1; border-left: 3px solid #f5a623;
+                 padding: 10px 14px; border-radius: 6px; margin: 12px 0 16px;
+                 color: var(--slate-700); font-size: 14px; }
+  </style>
+</head>
+<body data-page="shipping">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">Shipping &amp; delivery</h1>
+    <p data-testid="page-subtitle">How and when your order gets to you — and what it costs.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <span class="current">Shipping</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container" style="padding: 30px 20px 60px;" data-testid="shipping-content">
+  <div class="policy-grid">
+
+    <article class="policy-card">
+
+      <h2>Delivery options</h2>
+      <p>
+        We currently ship to all serviceable pin codes across India through our courier
+        partners (Blue Dart, Delhivery and Ecom Express). Every order is tracked
+        end-to-end and requires an OTP or signature on delivery.
+      </p>
+      <ul>
+        <li><strong>Standard</strong> — 2 – 3 business days to metros, 4 – 6 days elsewhere.</li>
+        <li><strong>Expedited</strong> — next business day to serviceable metro pin codes,
+          selectable at checkout.</li>
+        <li><strong>Scheduled</strong> — pick a delivery date up to 14 days out
+          (perfect for gifting).</li>
+      </ul>
+
+      <h2>Shipping charges</h2>
+      <p>
+        Standard shipping is <strong class="free">free on orders over ₹8,000</strong>
+        (approx. $100). Below that a flat fee applies, based on delivery type. Use
+        code <code>FREESHIP</code> at checkout to waive the fee on any eligible order.
+      </p>
+      <table class="rate-table" data-testid="rate-table">
+        <thead>
+          <tr>
+            <th>Option</th><th>Delivery time</th><th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Standard (under ₹8,000)</td><td>2 – 6 business days</td><td>₹99</td></tr>
+          <tr><td>Standard (over ₹8,000)</td><td>2 – 6 business days</td><td class="free">Free</td></tr>
+          <tr><td>Expedited</td><td>Next business day</td><td>₹199</td></tr>
+          <tr><td>Scheduled</td><td>Pick your date</td><td>₹149</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Order processing</h2>
+      <p>
+        Orders placed before 2 PM IST on a business day are picked, packed and handed
+        to the courier the same day. Orders placed after 2 PM, on weekends or on
+        public holidays are processed the next business day.
+      </p>
+      <div class="highlight">
+        Some categories (large appliances, made-to-order items) have a longer
+        processing time. This is called out on the product page and reflected
+        in the estimated delivery date at checkout.
+      </div>
+
+      <h2>Tracking your order</h2>
+      <p>
+        Once your order leaves our warehouse we'll email you a tracking link. You
+        can also view live status any time under
+        <a href="account.html">Account → Orders</a>. If tracking has been stuck
+        for more than 48 hours, <a href="contact.html">get in touch</a> and we'll chase
+        the courier for you.
+      </p>
+
+      <h2>Failed delivery attempts</h2>
+      <p>
+        Couriers make up to three attempts before returning a package to us.
+        If a return happens because the address is incorrect or nobody was
+        available to sign, re-shipping will incur the standard charge. If the
+        return happened due to a courier error, we'll re-ship free of charge.
+      </p>
+
+      <h2>Damaged or missing items</h2>
+      <p>
+        Please inspect your package on delivery. If anything looks damaged or
+        an item is missing, keep the packaging and
+        <a href="contact.html">contact us within 48 hours</a>. We'll dispatch a
+        replacement or issue a refund — see the
+        <a href="returns.html">returns policy</a> for details.
+      </p>
+
+      <h2>International shipping</h2>
+      <p>
+        We currently ship to Indian addresses only. International shipping is on
+        our 2026 roadmap — <a href="contact.html">let us know</a> where you'd
+        like us to expand to.
+      </p>
+
+    </article>
+
+    <aside class="policy-side">
+      <div class="side-card" data-testid="ship-tip-1">
+        <h3>Free shipping over ₹8,000</h3>
+        <p>Every order over ₹8,000 ships standard-free anywhere in India.
+          Coupon <code>FREESHIP</code> waives the fee below that threshold.</p>
+      </div>
+      <div class="side-card" data-testid="ship-tip-2">
+        <h3>Track anytime</h3>
+        <p>You'll get a tracking link by email the moment we hand your order to
+          the courier. Live status is also on the Orders tab of your account.</p>
+        <div class="side-cta">
+          <a href="account.html" class="btn btn-outline">Go to my orders</a>
+        </div>
+      </div>
+      <div class="side-card" data-testid="ship-tip-3">
+        <h3>Need it fast?</h3>
+        <p>Expedited (next-business-day) delivery is available at checkout for
+          serviceable metros. Look for the ⚡ badge on the shipping step.</p>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/chatbot.js" defer></script>
+
+</body>
+</html>

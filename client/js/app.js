@@ -538,10 +538,10 @@
           <div>
             <h4>Support</h4>
             <ul>
-              <li><a href="contact.html" data-testid="footer-contact">Contact us</a></li>
-              <li><a href="#" data-testid="footer-faq">FAQ</a></li>
-              <li><a href="#" data-testid="footer-shipping">Shipping</a></li>
-              <li><a href="#" data-testid="footer-returns">Returns</a></li>
+              <li><a href="contact.html"  data-testid="footer-contact">Contact us</a></li>
+              <li><a href="faq.html"      data-testid="footer-faq">FAQ</a></li>
+              <li><a href="shipping.html" data-testid="footer-shipping">Shipping</a></li>
+              <li><a href="returns.html"  data-testid="footer-returns">Returns</a></li>
             </ul>
           </div>
           <div>
