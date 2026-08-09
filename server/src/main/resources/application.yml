@@ -16,7 +16,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      # The schema is created by docker/compose/init/*.sql — never let JPA modify it.
+      # The schema is created by docker/init/*.sql — never let JPA modify it.
       ddl-auto: none
     properties:
       hibernate:

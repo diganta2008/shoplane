@@ -10,7 +10,7 @@ Local MySQL 8.4 for the ShopLane demo (and anything else you want to point at it
 ## Layout
 
 ```
-docker/compose/
+docker/
 ├── docker-compose.yml
 ├── .env.example              # copy to .env before first run
 ├── .gitignore
@@ -18,7 +18,7 @@ docker/compose/
 │   └── custom.cnf            # my.cnf overrides (mounted read-only)
 ├── init/
 │   ├── 01-schema.sql         # runs once on first boot
-│   └── 02-seed.sql           # sample catalog matching e-commerce/
+│   └── 02-seed.sql           # sample catalog matching client/ demo store
 └── README.md
 ```
 
@@ -30,7 +30,7 @@ docker/compose/
 ## First run
 
 ```powershell
-cd c:\ssp\docker\compose
+cd c:\shoplane\docker
 
 # 1. copy the env template
 Copy-Item .env.example .env
@@ -108,7 +108,7 @@ docker compose --profile tools stop phpmyadmin
 
 ## What the seed gives you
 
-- 4 categories, 12 products (matching the `e-commerce/` demo store's `data.js`)
+- 4 categories, 12 products (matching the `client/` demo store's `data.js`)
 - 3 coupons: `WELCOME10`, `SAVE20`, `FREESHIP`
 - 1 test user: `automation@example.com` (bcrypt-hashed placeholder password)
 
@@ -144,4 +144,4 @@ docker compose down -v
 - **Healthcheck stays `starting`**: normal for the first ~30 s while MySQL initialises. If it doesn't turn `healthy` in 2 minutes, check `docker compose logs mysql` for auth / permission errors.
 - **`Access denied for user 'shoplane'@'…'`**: the app credentials are ONLY created on the first ever boot. If you changed `.env` values after that first run, either update the user manually or wipe the volume (`docker compose down -v`).
 - **Init scripts didn't run again after re-editing them**: they only run on an empty data directory. Wipe & recreate: `docker compose down -v && docker compose up -d`.
-- **Windows path issues with bind mounts**: make sure `c:\ssp\docker\compose\init` is shared in Docker Desktop → Settings → Resources → File sharing.
+- **Windows path issues with bind mounts**: make sure `c:\shoplane\docker\init` is shared in Docker Desktop → Settings → Resources → File sharing.

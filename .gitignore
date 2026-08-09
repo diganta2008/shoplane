@@ -13,7 +13,7 @@ target/
 dependency-reduced-pom.xml
 
 ### Server runtime output
-e-commerce/server/logs/
+server/logs/
 *.log
 
 ### Node
@@ -37,5 +37,5 @@ Thumbs.db
 Desktop.ini
 
 ### Local Docker volumes
-docker/compose/data/
-docker/compose/mysql-data/
+docker/data/
+docker/mysql-data/

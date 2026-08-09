@@ -59,13 +59,13 @@ cd c:\ssp
 railway link          # pick your project when prompted
 
 # Concatenate all init files and pipe into Railway's MySQL:
-Get-Content docker\compose\init\*.sql -Raw | railway run "mysql `$MYSQL_URL"
+Get-Content docker\init\*.sql -Raw | railway run "mysql `$MYSQL_URL"
 ```
 
 **Alternative (web UI):**
 
 1. Click the MySQL service → **Data** tab → **Query** editor.
-2. Open each file in `docker/compose/init/` in order (01 → 08) and paste + run.
+2. Open each file in `docker/init/` in order (01 → 08) and paste + run.
 
 Verify:
 
@@ -78,7 +78,7 @@ SELECT COUNT(*) FROM categories;       -- should return 5
 
 Click the service Railway created from your repo, then:
 
-1. **Settings → Root Directory** → set to `e-commerce/server`.
+1. **Settings → Root Directory** → set to `server`.
    (Tells Railway "the Dockerfile is in this subfolder.")
 2. **Settings → Build → Builder** → **Dockerfile**.
 3. **Variables** tab → add the following (Railway auto-fills the `${{ MySQL... }}` values from the MySQL service):
@@ -130,7 +130,7 @@ Either push any change to `main`, or:
 
 - GitHub → **Actions** tab → **Deploy client to GitHub Pages** → **Run workflow**.
 
-The workflow file lives at `.github/workflows/pages.yml`. It copies `e-commerce/client/` into the Pages artifact, prepends the API_BASE override to `api.js`, and publishes.
+The workflow file lives at `.github/workflows/pages.yml`. It copies `client/` into the Pages artifact, prepends the API_BASE override to `api.js`, and publishes.
 
 After ~1 minute, your site is live at:
 

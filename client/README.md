@@ -6,7 +6,7 @@ A complete, self-contained e-commerce web site designed for writing UI-automatio
 
 ```powershell
 # from the workspace root
-npx http-server c:\ssp\e-commerce\client -p 9090
+npx http-server c:\shoplane\client -p 9090
 ```
 
 Then open <http://127.0.0.1:9090/> — the root `index.html` immediately

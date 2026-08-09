@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'e-commerce/client/**'
+      - 'client/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -27,7 +27,7 @@ jobs:
       - name: Stage client folder
         run: |
           mkdir -p _site
-          cp -r e-commerce/client/. _site/
+          cp -r client/. _site/
 
       # If the API_BASE repo variable is set (e.g. https://shoplane-api.up.railway.app/api/v1),
       # prepend a runtime override to api.js so the client hits that URL in production.

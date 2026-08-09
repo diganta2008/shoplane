@@ -8,7 +8,7 @@ of the ShopLane demo. Talks to MySQL 8 via Spring Data JPA; the static
 
 - Java 21, Spring Boot 3.4, Maven
 - Spring Web + Spring Validation
-- Spring Data JPA + Hibernate 6 (`ddl-auto=none`, schema owned by `docker/compose/init/*.sql`)
+- Spring Data JPA + Hibernate 6 (`ddl-auto=none`, schema owned by `docker/init/*.sql`)
 - Spring Security 6 with a custom stateless JWT filter (JJWT 0.12)
 - BCrypt password hashing (strength 10)
 - springdoc-openapi 2.7 → Swagger UI at `/swagger-ui.html`
@@ -43,12 +43,12 @@ server/
 
 - Java 21
 - Maven 3.9+
-- MySQL 8 running with the ShopLane schema (see `docker/compose/`).
+- MySQL 8 running with the ShopLane schema (see `docker/`).
 
 ## Run locally
 
 ```bash
-cd e-commerce/server
+cd server
 mvn spring-boot:run
 ```
 
