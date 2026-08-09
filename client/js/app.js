@@ -453,9 +453,72 @@
     strip.innerHTML = `
       <div class="in-day-strip__inner">
         <span class="in-day-strip__flag" aria-hidden="true">
-          <span class="stripe stripe--saffron"></span>
-          <span class="stripe stripe--white"></span>
-          <span class="stripe stripe--green"></span>
+          <svg viewBox="0 0 48 32" xmlns="http://www.w3.org/2000/svg"
+               preserveAspectRatio="xMinYMid meet">
+            <defs>
+              <linearGradient id="idFlagPole" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0"   stop-color="#f3f4f6"/>
+                <stop offset="0.5" stop-color="#9ca3af"/>
+                <stop offset="1"   stop-color="#4b5563"/>
+              </linearGradient>
+              <radialGradient id="idFlagFinial" cx="0.35" cy="0.35" r="0.65">
+                <stop offset="0"   stop-color="#fef3c7"/>
+                <stop offset="0.55" stop-color="#fbbf24"/>
+                <stop offset="1"   stop-color="#b45309"/>
+              </radialGradient>
+              <clipPath id="idFlagFabric">
+                <path d="M 4 3 C 15 1.5, 32 5, 44 3 L 44 22 C 32 19.5, 15 23.5, 4 22 Z"/>
+              </clipPath>
+              <filter id="idFlagShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0.6" dy="1" stdDeviation="0.5"
+                              flood-color="#000" flood-opacity="0.35"/>
+              </filter>
+            </defs>
+
+            <rect x="1.2" y="1" width="1.8" height="30" rx="0.7" fill="url(#idFlagPole)"/>
+            <circle cx="2.1" cy="1.1" r="1.9" fill="url(#idFlagFinial)"
+                    stroke="#78350f" stroke-width="0.15"/>
+
+            <g filter="url(#idFlagShadow)">
+              <path d="M 4 3 C 15 1.5, 32 5, 44 3 L 44 22 C 32 19.5, 15 23.5, 4 22 Z"
+                    fill="#ffffff"/>
+            </g>
+
+            <g clip-path="url(#idFlagFabric)">
+              <rect x="0" y="3"    width="48" height="6.34" fill="#FF9933"/>
+              <rect x="0" y="9.34" width="48" height="6.34" fill="#FFFFFF"/>
+              <rect x="0" y="15.68" width="48" height="6.34" fill="#138808"/>
+
+              <g transform="translate(24 12.5)" stroke="#000080" fill="none">
+                <circle r="2.55" stroke-width="0.35"/>
+                <g stroke-width="0.28" stroke-linecap="round">
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(15)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(30)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(45)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(60)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(75)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(90)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(105)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(120)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(135)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(150)"/>
+                  <line x1="-2.55" y1="0" x2="2.55" y2="0" transform="rotate(165)"/>
+                </g>
+                <circle r="0.45" fill="#000080" stroke="none"/>
+              </g>
+
+              <path d="M 4 6.5  C 15 5,   32 8.5,  44 6.5"  fill="none"
+                    stroke="rgba(0,0,0,0.05)" stroke-width="0.5"/>
+              <path d="M 4 12.5 C 15 10.5, 32 14.5, 44 12.5" fill="none"
+                    stroke="rgba(0,0,0,0.06)" stroke-width="0.6"/>
+              <path d="M 4 18.5 C 15 17,  32 20.5, 44 18.5" fill="none"
+                    stroke="rgba(0,0,0,0.05)" stroke-width="0.5"/>
+            </g>
+
+            <path d="M 4 3 C 15 1.5, 32 5, 44 3 L 44 22 C 32 19.5, 15 23.5, 4 22 Z"
+                  fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="0.3"/>
+          </svg>
         </span>
         <span class="in-day-strip__pill" data-testid="indep-strip-day">
           80<sup style="font-size:0.7em;">th</sup>&nbsp;Independence Day
