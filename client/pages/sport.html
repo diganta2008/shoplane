@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sport — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Sport vertical — orange/red accent, layered on top of the shared .hc-* skeleton */
+    .sp-hero { background: linear-gradient(135deg,#fff7ed 0%,#ffe4e6 55%,#fce7f3 100%);
+               padding: 72px 0 48px; border-bottom: 1px solid #f3e8ff; }
+    .sp-hero__grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
+    @media (max-width: 900px) { .sp-hero__grid { grid-template-columns: 1fr; } }
+    .sp-hero__eyebrow { display: inline-block; text-transform: uppercase;
+                        letter-spacing: 2px; font-size: 12px; font-weight: 700; color: #c2410c; }
+    .sp-hero h1 { font-size: clamp(2rem, 3.4vw, 3.2rem); line-height: 1.1; margin: 14px 0 12px; }
+    .sp-hero p  { font-size: 17px; color: #334155; max-width: 55ch; }
+    .sp-hero__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .sp-hero__stats { list-style: none; padding: 0; margin: 32px 0 0; display: flex; gap: 32px; }
+    .sp-hero__stats li { display: flex; flex-direction: column; }
+    .sp-hero__stats strong { font-size: 24px; color: #0f172a; font-weight: 900; }
+    .sp-hero__stats span   { font-size: 13px; color: #64748b; }
+    .sp-hero__art { display: flex; justify-content: center; align-items: center; }
+    .sp-hero__art svg { max-width: 380px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.10)); }
+
+    .sp-section { padding: 56px 0; }
+    .sp-section--tinted { background: #fff7ed; }
+    .sp-section__head { position: relative; margin-bottom: 24px; }
+    .sp-section__head h2 { margin: 0 0 6px; font-size: 1.75rem; }
+    .sp-section__link { position: absolute; right: 0; top: 6px; font-weight: 600;
+                        color: #c2410c; font-size: 14px; }
+    .sp-section__link:hover { text-decoration: underline; }
+    .sp-muted { color: var(--muted); margin: 0; }
+
+    .sp-disc-strip { display: flex; gap: 10px; flex-wrap: wrap; }
+    .sp-disc-chip { display: inline-flex; align-items: center; gap: 6px;
+                    background: #fff; border: 1px solid var(--border);
+                    padding: 8px 14px; border-radius: 999px; font-size: 14px;
+                    color: var(--slate-700); cursor: pointer; font-family: inherit;
+                    transition: background .15s ease, border-color .15s ease, color .15s ease; }
+    .sp-disc-chip:hover { border-color: #ea580c; color: #ea580c; }
+    .sp-disc-chip.active { background: #ea580c; border-color: #ea580c; color: white; }
+    .sp-disc-chip__icon { font-size: 15px; }
+    .sp-disc-chip__count { background: #f1f5f9; padding: 2px 8px; border-radius: 999px;
+                           font-size: 12px; margin-left: 4px; color: var(--slate-700); }
+    .sp-disc-chip.active .sp-disc-chip__count { background: rgba(255,255,255,0.22); color: white; }
+
+    /* Live scores strip */
+    .sp-scores { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .sp-score { background: #fff; border: 1px solid var(--border); border-radius: 12px;
+                padding: 14px 16px; box-shadow: var(--shadow-sm);
+                display: flex; flex-direction: column; gap: 10px; }
+    .sp-score__head { display: flex; align-items: center; justify-content: space-between;
+                       font-size: 12px; color: var(--muted); text-transform: uppercase;
+                       letter-spacing: 0.6px; }
+    .sp-score__badge { padding: 2px 8px; border-radius: 999px; font-weight: 700;
+                       font-size: 11px; letter-spacing: 0.4px; }
+    .sp-score__badge.live { background: #fee2e2; color: #b91c1c; animation: sp-pulse 1.6s infinite; }
+    .sp-score__badge.upcoming { background: #dbeafe; color: #1e40af; }
+    @keyframes sp-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .sp-score__row { display: flex; align-items: center; justify-content: space-between; }
+    .sp-score__team { font-weight: 600; color: var(--heading); }
+    .sp-score__num  { font-variant-numeric: tabular-nums; font-weight: 700;
+                       color: var(--heading); font-size: 15px; }
+    .sp-score__foot { border-top: 1px solid var(--border); padding-top: 8px;
+                       color: var(--slate-700); font-size: 12.5px; }
+
+    /* CTA band */
+    .sp-cta-band { background: linear-gradient(135deg, #ea580c, #b91c1c); color: #fff;
+                    padding: 40px 0; }
+    .sp-cta-band__grid { display: flex; align-items: center; justify-content: space-between;
+                          gap: 16px; flex-wrap: wrap; }
+    .sp-cta-band h3 { margin: 0; font-size: 22px; }
+    .sp-cta-band p  { margin: 4px 0 0; color: rgba(255,255,255,0.85); font-size: 14.5px; }
+    .sp-cta-band .btn { background: white; color: #b91c1c; border: 0; }
+    .sp-cta-band .btn:hover { background: #fff7ed; }
+
+    .sp-blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .sp-blog-card { background: #fff; border: 1px solid var(--border); border-radius: 12px;
+                    overflow: hidden; transition: transform .18s ease, box-shadow .18s ease; }
+    .sp-blog-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -18px rgba(15,23,42,0.20); }
+    .sp-blog-card__media { position: relative; display: block; aspect-ratio: 16/10; background: #f1f5f9; }
+    .sp-blog-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .sp-blog-card__cat { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.72);
+                          color: #fff; font-size: 11.5px; font-weight: 700; padding: 3px 10px;
+                          border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .sp-blog-card__body { padding: 16px 18px; }
+    .sp-blog-card__body h3 { margin: 0 0 8px; font-size: 17px; color: var(--heading); line-height: 1.3; }
+    .sp-blog-card__excerpt { margin: 0 0 12px; color: var(--slate-700); font-size: 14px; line-height: 1.5; }
+    .sp-blog-card__meta { display: flex; gap: 6px; flex-wrap: wrap; color: var(--muted); font-size: 12.5px; }
+  </style>
+</head>
+<body data-page="sport">
+
+<header class="site-header" id="site-header"></header>
+
+<!-- HERO ---------------------------------------------------------- -->
+<section class="sp-hero" data-testid="sp-hero">
+  <div class="container sp-hero__grid">
+    <div class="sp-hero__copy">
+      <span class="sp-hero__eyebrow" data-testid="sp-hero-eyebrow">ShopLane Sport</span>
+      <h1 data-testid="sp-hero-title">Gear up. Show up. Repeat.</h1>
+      <p data-testid="sp-hero-subtitle">
+        Curated training gear, live scores, and evidence-backed training writing
+        from coaches and athletes &mdash; everything under one bubble.
+      </p>
+      <div class="sp-hero__cta">
+        <a href="#featured-gear" class="btn btn-primary btn-lg" data-testid="cta-shop-gear">
+          Shop gear
+        </a>
+        <a href="#sp-news" class="btn btn-ghost btn-lg" data-testid="cta-read-news">
+          Read the news
+        </a>
+      </div>
+      <ul class="sp-hero__stats" data-testid="sp-hero-stats">
+        <li><strong>10+</strong><span>Disciplines</span></li>
+        <li><strong>6</strong><span>Featured items</span></li>
+        <li><strong>Live</strong><span>Scoreboard</span></li>
+      </ul>
+    </div>
+    <div class="sp-hero__art" aria-hidden="true">
+      <svg viewBox="0 0 480 480" width="100%" height="100%">
+        <defs>
+          <linearGradient id="hero-ball" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#c2410c"/>
+          </linearGradient>
+        </defs>
+        <circle cx="240" cy="240" r="200" fill="white" opacity="0.4"/>
+        <circle cx="240" cy="240" r="160" fill="url(#hero-ball)"/>
+        <!-- pentagon-inspired soccer pattern -->
+        <polygon points="240,140 275,175 260,220 220,220 205,175" fill="#0f172a" opacity="0.55"/>
+        <polygon points="150,215 190,215 205,175 175,150 140,180" fill="#0f172a" opacity="0.45"/>
+        <polygon points="330,215 290,215 275,175 305,150 340,180" fill="#0f172a" opacity="0.45"/>
+        <polygon points="240,340 275,305 260,265 220,265 205,305" fill="#0f172a" opacity="0.45"/>
+        <path d="M120 260 Q140 260 155 235 L180 320 L210 200 L240 335 L270 220 L295 260 L360 260"
+              stroke="white" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- DISCIPLINES --------------------------------------------------- -->
+<section class="sp-section" data-testid="sp-disciplines">
+  <div class="container">
+    <div class="sp-section__head">
+      <h2>Pick your discipline</h2>
+      <p class="sp-muted">Tap a discipline to filter the featured gear below.</p>
+    </div>
+    <div class="sp-disc-strip" id="sp-disc-strip"
+         data-testid="discipline-strip"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- LIVE SCORES --------------------------------------------------- -->
+<section class="sp-section sp-section--tinted" data-testid="sp-scoreboard">
+  <div class="container">
+    <div class="sp-section__head">
+      <h2>Live &amp; upcoming</h2>
+      <p class="sp-muted">Snapshot from the day&rsquo;s sporting calendar. Refreshes every minute in production &mdash; static for this demo.</p>
+    </div>
+    <div class="sp-scores" id="sp-scores"
+         data-testid="scoreboard"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- FEATURED GEAR ------------------------------------------------- -->
+<section id="featured-gear" class="sp-section" data-testid="sp-gear">
+  <div class="container">
+    <div class="sp-section__head">
+      <h2>Featured gear</h2>
+      <p class="sp-muted">
+        Hand-picked training gear across running, fitness, yoga and strength.
+        Same cart and wishlist as the rest of the store.
+      </p>
+      <a href="shop.html?category=Sports" class="sp-section__link"
+         data-testid="see-all-gear">See all sport gear &rsaquo;</a>
+    </div>
+
+    <div class="grid grid-3" id="sp-gear-grid"
+         data-testid="gear-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- NEWS BLOG ----------------------------------------------------- -->
+<section id="sp-news" class="sp-section sp-section--tinted" data-testid="sp-news">
+  <div class="container">
+    <div class="sp-section__head">
+      <h2>Sport news &amp; training writing</h2>
+      <p class="sp-muted">
+        Long-form reads from coaches and journalists on the ShopLane roster.
+      </p>
+    </div>
+    <div class="sp-blog-grid" id="sp-blog-grid"
+         data-testid="news-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- CTA BAND ------------------------------------------------------ -->
+<section class="sp-cta-band" data-testid="sp-cta-band">
+  <div class="container sp-cta-band__grid">
+    <div>
+      <h3>Get race-day ready in 12 weeks.</h3>
+      <p>Free training plans for 5K, 10K, half marathon, and full marathon.</p>
+    </div>
+    <a href="#" class="btn btn-lg" data-testid="cta-training-plans"
+       id="cta-training-plans">Get a plan</a>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/sport-data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/chatbot.js" defer></script>
+<script>
+  const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+  /* ---- Discipline chips ---------------------------------------- */
+  const discStrip = document.getElementById('sp-disc-strip');
+  let activeDiscipline = null;
+
+  function productsForDiscipline(name) {
+    return (window.CATALOG || []).filter((p) =>
+      p.category === 'Sports' && (!name || p.subCategory === name));
+  }
+
+  function renderDisciplines() {
+    const total = productsForDiscipline(null).length;
+    const chips = [
+      `<button class="sp-disc-chip ${activeDiscipline ? '' : 'active'}"
+               data-disc="__all__" data-testid="disc-chip-all">
+         <span class="sp-disc-chip__icon">✨</span> All
+         <span class="sp-disc-chip__count">${total}</span>
+       </button>`
+    ].concat((window.SP_DISCIPLINES || []).map((d) => {
+      const count = productsForDiscipline(d.name).length;
+      const on = activeDiscipline === d.name ? 'active' : '';
+      return `
+        <button class="sp-disc-chip ${on}" data-disc="${d.name}"
+                data-testid="disc-chip-${slug(d.name)}">
+          <span class="sp-disc-chip__icon">${d.icon}</span> ${d.name}
+          <span class="sp-disc-chip__count">${count}</span>
+        </button>`;
+    })).join('');
+    discStrip.innerHTML = chips;
+  }
+
+  discStrip.addEventListener('click', (e) => {
+    const btn = e.target.closest('.sp-disc-chip');
+    if (!btn) return;
+    activeDiscipline = btn.dataset.disc === '__all__' ? null : btn.dataset.disc;
+    renderDisciplines();
+    renderGear();
+    document.getElementById('featured-gear').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ---- Gear grid ----------------------------------------------- */
+  const gearGrid = document.getElementById('sp-gear-grid');
+  function renderGear() {
+    const list = productsForDiscipline(activeDiscipline);
+    if (!list.length) {
+      gearGrid.innerHTML = `
+        <div class="empty-state" style="grid-column: 1 / -1;">
+          <h3>No gear for this discipline yet.</h3>
+          <p>Check back soon &mdash; the catalog is expanding.</p>
+        </div>`;
+      return;
+    }
+    gearGrid.innerHTML = list.map((p) =>
+      window.ShopLane && window.ShopLane.productCardHtml
+        ? window.ShopLane.productCardHtml(p)
+        : `<div>${p.name}</div>`).join('');
+  }
+
+  /* ---- Scoreboard ---------------------------------------------- */
+  const scores = document.getElementById('sp-scores');
+  scores.innerHTML = (window.SP_MATCHES || []).map((m) => `
+    <article class="sp-score" data-testid="score-card" data-match-id="${m.id}">
+      <div class="sp-score__head">
+        <span>${m.league}</span>
+        <span class="sp-score__badge ${m.status}">${m.status === 'live' ? 'LIVE' : 'UPCOMING'}</span>
+      </div>
+      <div class="sp-score__row">
+        <span class="sp-score__team">${m.home}</span>
+        <span class="sp-score__num">${m.homeScore}</span>
+      </div>
+      <div class="sp-score__row">
+        <span class="sp-score__team">${m.away}</span>
+        <span class="sp-score__num">${m.awayScore}</span>
+      </div>
+      <div class="sp-score__foot">${m.statusText}</div>
+    </article>
+  `).join('');
+
+  /* ---- News grid ----------------------------------------------- */
+  const blogGrid = document.getElementById('sp-blog-grid');
+  blogGrid.innerHTML = (window.SP_BLOG || []).map((b) => `
+    <article class="sp-blog-card" data-testid="news-card" data-blog-id="${b.id}">
+      <a class="sp-blog-card__media" href="#" data-testid="news-link">
+        <img src="${b.hero}" alt="${b.title}"/>
+        <span class="sp-blog-card__cat">${b.category}</span>
+      </a>
+      <div class="sp-blog-card__body">
+        <h3 data-testid="news-title">${b.title}</h3>
+        <p class="sp-blog-card__excerpt" data-testid="news-excerpt">${b.excerpt}</p>
+        <div class="sp-blog-card__meta">
+          <span data-testid="news-author">${b.author}</span>
+          <span>&bull;</span>
+          <span data-testid="news-date">${new Date(b.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+          <span>&bull;</span>
+          <span>${b.readMin} min read</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+
+  /* ---- Training-plan CTA --------------------------------------- */
+  document.getElementById('cta-training-plans').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (window.ShopLane && window.ShopLane.toast) {
+      window.ShopLane.toast('Nice — check your inbox for a personalised training plan.');
+    } else {
+      alert('A personalised training plan is on its way to your inbox.');
+    }
+  });
+
+  /* ---- Initial render ------------------------------------------ */
+  renderDisciplines();
+  renderGear();
+</script>
+
+</body>
+</html>

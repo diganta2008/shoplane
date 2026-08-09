@@ -130,6 +130,54 @@ public class MockChatResponder {
                         "New arrivals this week"
                 });
 
+        add("running shoe|marathon|trail run|jogger|sneaker",
+                new String[]{
+                        "For long training runs the GaitPro Marathon Runners are our pick — carbon plate, 218 g, and dependable comfort at pace.",
+                        "Trail? Have a look at the TrailBlaze XR — 5 mm lugs and a Gore-Tex upper for wet-weather grip.",
+                        "Every sport shoe ships with 30-day free returns, so it's easy to try the size before committing."
+                },
+                new String[]{
+                        "Compare road and trail shoes",
+                        "Best shoes for a first marathon?",
+                        "Do you have wide-fit options?"
+                });
+
+        add("gym|dumbbell|strength|barbell|kettlebell|weights|workout|lifting",
+                new String[]{
+                        "Home-gym starter kit: adjustable dumbbells + resistance bands + a decent mat covers 80% of most programs.",
+                        "The IronCore 24 kg adjustable dumbbells replace an entire rack — 2.5 – 24 kg per hand in 2.5 kg steps.",
+                        "For pure strength work, prioritise the dumbbells over machines — better transfer to real-world movement."
+                },
+                new String[]{
+                        "Show me adjustable dumbbells",
+                        "Any home-gym starter bundles?",
+                        "Warranty on strength gear?"
+                });
+
+        add("yoga|pilates|meditation|mobility|mat|studio",
+                new String[]{
+                        "The CoreZen 6 mm mat is our best-seller — non-slip, dense TPE that survives daily practice.",
+                        "For hot yoga, a towel-topped mat is worth the extra ₹500. Otherwise the CoreZen alone is plenty grippy.",
+                        "Every mat ships with a carrying strap — sling and go."
+                },
+                new String[]{
+                        "Best mat for hot yoga?",
+                        "Do you sell blocks and straps?",
+                        "How do I clean a TPE mat?"
+                });
+
+        add("cricket|football|basketball|tennis|badminton|match|score|league",
+                new String[]{
+                        "You can catch live scores and the day's schedule on our Sport landing page.",
+                        "We stock training gear across cricket, football, basketball, tennis, and more — check the Sports category.",
+                        "The scoreboard on the Sport page refreshes every minute during peak match hours."
+                },
+                new String[]{
+                        "Show me the Sport page",
+                        "Any tennis gear?",
+                        "Cricket practice equipment"
+                });
+
         add("coffee|blender|kitchen|home appliance|vacuum|lamp",
                 new String[]{
                         "Home goods and small appliances live in the Home category. Espresso and blenders are top-sellers.",

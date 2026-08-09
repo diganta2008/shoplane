@@ -425,6 +425,7 @@
     { href: 'home.html',       label: 'Home' },
     { href: 'shop.html',       label: 'Shop' },
     { href: 'healthcare.html', label: 'Healthcare' },
+    { href: 'sport.html',      label: 'Sport' },
     { href: 'contact.html',    label: 'Contact' },
   ];
 
@@ -533,6 +534,7 @@
               <li><a href="shop.html?category=Home"        data-testid="footer-cat-home">Home &amp; Kitchen</a></li>
               <li><a href="shop.html?category=Books"       data-testid="footer-cat-books">Books</a></li>
               <li><a href="shop.html?category=Medical"     data-testid="footer-cat-medical">Medical</a></li>
+              <li><a href="shop.html?category=Sports"      data-testid="footer-cat-sports">Sports</a></li>
             </ul>
           </div>
           <div>

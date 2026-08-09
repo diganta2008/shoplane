@@ -1553,6 +1553,65 @@ window.CATALOG = [
     description: 'Dual-channel TENS + EMS unit with 24 preset modes for pain relief, muscle recovery and physiotherapy. Rechargeable, comes with 8 electrode pads.',
     specs: { 'Channels': '2', 'Modes': '24 presets', 'Intensity': '20 levels', 'Battery': 'Rechargeable Li-ion', 'Warranty': '1 year' },
   },
+
+  /* ============================================================
+     SPORTS vertical (101-106) — training gear, apparel, equipment
+     Running (2) + Fitness (1) + Yoga (1) + Strength (1) + Tennis (1) = 6
+     ============================================================ */
+  {
+    id: 101, sku: 'SPT-101', name: 'GaitPro Marathon Runners',
+    category: 'Sports', tags: ['footwear', 'running'], subCategory: 'Running',
+    price: 89.99, oldPrice: 119.99, rating: 4.7, reviewCount: 812, stock: 148,
+    image: '../images/product-running-shoes.svg', badge: 'hot',
+    sizes: ['7', '8', '9', '10', '11', '12'], colors: ['Sunset', 'Slate', 'Neon'],
+    description: 'Lightweight (218g) racing shoe with a full-length carbon plate and PEBA midsole foam — engineered for pace runs, tempo work, and race day. Uppers use a breathable engineered mesh.',
+    specs: { 'Weight': '218 g (US 9)', 'Drop': '8 mm', 'Midsole': 'PEBA foam + carbon plate', 'Outsole': 'Continental rubber', 'Warranty': '6 months' },
+  },
+  {
+    id: 102, sku: 'SPT-102', name: 'TrailBlaze XR Trail Shoes',
+    category: 'Sports', tags: ['footwear', 'running', 'trail'], subCategory: 'Running',
+    price: 99.00, oldPrice: 129.00, rating: 4.6, reviewCount: 421, stock: 96,
+    image: '../images/product-boots.svg', badge: 'new',
+    sizes: ['7', '8', '9', '10', '11', '12'], colors: ['Forest', 'Charcoal'],
+    description: 'Aggressive 5 mm lug pattern for wet-weather grip, rock-plate protection under the forefoot, and a gaiter-compatible collar. Runs true to size.',
+    specs: { 'Weight': '298 g (US 9)', 'Drop': '6 mm', 'Lug depth': '5 mm', 'Waterproof': 'Yes (Gore-Tex)', 'Warranty': '1 year' },
+  },
+  {
+    id: 103, sku: 'SPT-103', name: 'PulseTrack Sports GPS Watch',
+    category: 'Sports', tags: ['wearable', 'fitness', 'gps'], subCategory: 'Fitness',
+    price: 199.00, oldPrice: 249.00, rating: 4.8, reviewCount: 621, stock: 84,
+    image: '../images/product-smartwatch.svg', badge: 'sale',
+    sizes: [], colors: ['Midnight', 'Sand'],
+    description: 'Multi-band GPS, wrist heart-rate + SpO2, 24-day standby / 48-hour continuous GPS. Structured workouts sync from Garmin, Strava, and TrainingPeaks.',
+    specs: { 'GPS': 'Multi-band (L1+L5)', 'Battery (GPS)': '48 hours', 'Battery (smart)': '24 days', 'Water rating': '10 ATM', 'Warranty': '1 year' },
+  },
+  {
+    id: 104, sku: 'SPT-104', name: 'CoreZen Studio Yoga Mat 6mm',
+    category: 'Sports', tags: ['yoga', 'studio', 'mat'], subCategory: 'Yoga',
+    price: 49.99, oldPrice: 69.99, rating: 4.7, reviewCount: 512, stock: 210,
+    image: '../images/product-yoga-mat.svg', badge: 'hot',
+    sizes: [], colors: ['Amethyst', 'Sage', 'Slate'],
+    description: '6 mm dense TPE mat with alignment lines on both faces. Grippy top layer holds sweaty vinyasa flows; closed-cell base keeps moisture out. Ships with a carrying strap.',
+    specs: { 'Thickness': '6 mm', 'Material': 'TPE (SGS-tested)', 'Size': '183 x 61 cm', 'Weight': '1.1 kg', 'Warranty': '1 year' },
+  },
+  {
+    id: 105, sku: 'SPT-105', name: 'IronCore 24kg Adjustable Dumbbell',
+    category: 'Sports', tags: ['strength', 'home-gym', 'dumbbell'], subCategory: 'Strength',
+    price: 189.00, oldPrice: 249.00, rating: 4.6, reviewCount: 289, stock: 42,
+    image: '../images/product-dumbbell.svg', badge: 'sale',
+    sizes: [], colors: ['Graphite'],
+    description: 'Dial-a-weight adjustable dumbbell — 2.5 kg to 24 kg in 2.5 kg steps. Chromed handle, powder-coated steel plates, and a moulded cradle. Sold as a pair.',
+    specs: { 'Weight range': '2.5 – 24 kg per hand', 'Increment': '2.5 kg', 'Handle': 'Diamond-knurled chrome', 'Set includes': 'Pair + 2 cradles', 'Warranty': '2 years' },
+  },
+  {
+    id: 106, sku: 'SPT-106', name: 'AeroFly Court Cap Snapback',
+    category: 'Sports', tags: ['accessories', 'headwear', 'tennis'], subCategory: 'Tennis',
+    price: 24.99, oldPrice: 34.99, rating: 4.4, reviewCount: 214, stock: 320,
+    image: '../images/product-cap.svg', badge: null,
+    sizes: ['One size'], colors: ['White', 'Navy', 'Sun'],
+    description: 'Six-panel performance cap with laser-perforated crown, sweat-wicking terry sweatband, and adjustable snapback closure. UPF 50+.',
+    specs: { 'Fabric': 'Recycled polyester', 'UPF': '50+', 'Closure': 'Snapback', 'Fit': 'One size (56 – 62 cm)', 'Care': 'Machine wash cold' },
+  },
 ];
 
 /* ------------------------------------------------------------------
@@ -1611,6 +1670,7 @@ window.CATEGORIES = [
   { id: 'Home',        name: 'Home',        icon: 'home',        desc: 'Beautiful spaces, thoughtful things' },
   { id: 'Books',       name: 'Books',       icon: 'book',        desc: 'Read, learn, escape' },
   { id: 'Medical',     name: 'Medical',     icon: 'stethoscope', desc: 'Instruments for home & clinic use' },
+  { id: 'Sports',      name: 'Sports',      icon: 'trophy',      desc: 'Train, ride, run, play' },
 ];
 
 window.getProduct = function (id) {
