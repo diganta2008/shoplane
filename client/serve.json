@@ -4,6 +4,27 @@
   "trailingSlash": false,
   "directoryListing": false,
   "rewrites": [
-    { "source": "/", "destination": "/pages/home.html" }
+    { "source": "/",                        "destination": "/pages/home.html" },
+    { "source": "/home.html",               "destination": "/pages/home.html" },
+    { "source": "/shop.html",               "destination": "/pages/shop.html" },
+    { "source": "/product.html",            "destination": "/pages/product.html" },
+    { "source": "/cart.html",               "destination": "/pages/cart.html" },
+    { "source": "/checkout.html",           "destination": "/pages/checkout.html" },
+    { "source": "/order-confirmation.html", "destination": "/pages/order-confirmation.html" },
+    { "source": "/account.html",            "destination": "/pages/account.html" },
+    { "source": "/wishlist.html",           "destination": "/pages/wishlist.html" },
+    { "source": "/login.html",              "destination": "/pages/login.html" },
+    { "source": "/register.html",           "destination": "/pages/register.html" },
+    { "source": "/contact.html",            "destination": "/pages/contact.html" },
+    { "source": "/faq.html",                "destination": "/pages/faq.html" },
+    { "source": "/shipping.html",           "destination": "/pages/shipping.html" },
+    { "source": "/returns.html",            "destination": "/pages/returns.html" },
+    { "source": "/sport.html",              "destination": "/pages/sport.html" },
+    { "source": "/yoga.html",               "destination": "/pages/yoga.html" },
+    { "source": "/healthcare.html",         "destination": "/pages/healthcare.html" },
+    { "source": "/education.html",          "destination": "/pages/education.html" },
+    { "source": "/travel.html",             "destination": "/pages/travel.html" },
+    { "source": "/diagnostics.html",        "destination": "/pages/diagnostics.html" },
+    { "source": "/404.html",                "destination": "/pages/404.html" }
   ]
 }
