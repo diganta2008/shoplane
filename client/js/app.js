@@ -431,6 +431,35 @@
     { href: 'contact.html',    label: 'Contact' },
   ];
 
+  /**
+   * Injects the Independence Day announcement strip at the very top of the
+   * page (before the site header). Called on every page so the promo stays
+   * consistent site-wide. Non-dismissible by design.
+   */
+  function renderIndDayStrip() {
+    if (document.getElementById('in-day-strip')) return;
+    const strip = document.createElement('div');
+    strip.id = 'in-day-strip';
+    strip.className = 'in-day-strip';
+    strip.setAttribute('data-testid', 'indep-strip');
+    strip.innerHTML = `
+      <div class="in-day-strip__inner">
+        <span class="in-day-strip__flag" aria-hidden="true">
+          <span class="stripe stripe--saffron"></span>
+          <span class="stripe stripe--white"></span>
+          <span class="stripe stripe--green"></span>
+        </span>
+        <span class="in-day-strip__msg">
+          <strong>Azadi Sale is live —</strong>
+          up to <strong>78% off</strong> + extra <strong>15%</strong> with code
+          <code>AZADI15</code>. Ends 15 Aug.
+        </span>
+        <a class="in-day-strip__cta" href="shop.html?sort=discount"
+           data-testid="indep-strip-cta">Shop the sale →</a>
+      </div>`;
+    document.body.prepend(strip);
+  }
+
   function renderHeader() {
     const el = document.getElementById('site-header');
     if (!el) return;
@@ -707,6 +736,7 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    renderIndDayStrip();
     renderHeader();
     renderFooter();
     refreshBadges();

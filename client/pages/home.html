@@ -21,56 +21,10 @@
     }
 
     /* --------------------------------------------------------------
-       Top announcement strip (compact, festive)
-       ------------------------------------------------------------ */
-    .in-day-strip {
-      background: #0b1220;
-      color: #fff; font-size: 13.5px; position: relative; overflow: hidden;
-      border-bottom: 2px solid transparent;
-      background-image:
-        linear-gradient(#0b1220, #0b1220),
-        linear-gradient(90deg, var(--saffron) 0 33%, #ffffff 33% 66%, var(--india-green) 66% 100%);
-      background-origin: padding-box, border-box;
-      background-clip: padding-box, border-box;
-      border-image: linear-gradient(90deg, var(--saffron) 0 33%, #ffffff 33% 66%, var(--india-green) 66% 100%) 1;
-      border-bottom-width: 3px; border-bottom-style: solid;
-    }
-    .in-day-strip__inner {
-      max-width: 1200px; margin: 0 auto; padding: 11px 16px;
-      display: flex; align-items: center; gap: 14px; position: relative; z-index: 1;
-    }
-    .in-day-strip__msg { flex: 1; text-align: center; letter-spacing: 0.2px; }
-    .in-day-strip__msg strong { color: #ffd580; }
-    .in-day-strip__msg code {
-      background: rgba(255,255,255,0.14); color: #fff;
-      padding: 2px 8px; border-radius: 5px; font-weight: 700;
-      border: 1px dashed rgba(255,255,255,0.25);
-    }
-    .in-day-strip__cta {
-      font-weight: 700; color: #0b1220; background: #fff; padding: 6px 14px;
-      border-radius: 999px; text-decoration: none; white-space: nowrap;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .in-day-strip__cta:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(255,255,255,0.25); }
-    .in-day-strip__close {
-      background: transparent; border: 0; font-size: 22px; line-height: 1;
-      cursor: pointer; color: #fff; padding: 0 4px; opacity: 0.7;
-    }
-    .in-day-strip__close:hover { opacity: 1; }
-    /* Mini flag (proper CSS — never renders as "IN" text) */
-    .in-day-strip__flag {
-      display: inline-flex; flex-direction: column; width: 24px; height: 16px;
-      border-radius: 2px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.35);
-    }
-    .in-day-strip__flag .stripe { flex: 1; display: block; }
-    @media (max-width: 640px) {
-      .in-day-strip__msg { text-align: left; font-size: 12.5px; }
-      .in-day-strip__cta { display: none; }
-    }
-
-    /* --------------------------------------------------------------
        Big Azadi hero banner — dark background, tricolor accents,
        centrepiece Ashoka Chakra, animated sparkles, ribbon.
+       The announcement strip lives in styles.css and is injected
+       globally by app.js so every page shows it consistently.
        ------------------------------------------------------------ */
     .in-day-banner {
       position: relative; overflow: hidden;
@@ -317,24 +271,7 @@
 </head>
 <body data-page="home">
 
-<!-- Independence Day announcement strip (dismissible; hides for 24h) -->
-<div id="in-day-strip" class="in-day-strip" data-testid="indep-strip" hidden>
-  <div class="in-day-strip__inner">
-    <span class="in-day-strip__flag" aria-hidden="true">
-      <span class="stripe stripe--saffron"></span>
-      <span class="stripe stripe--white"></span>
-      <span class="stripe stripe--green"></span>
-    </span>
-    <span class="in-day-strip__msg">
-      <strong>Azadi Sale is live —</strong>
-      up to <strong>78% off</strong> + extra <strong>15%</strong> with code
-      <code>AZADI15</code>. Ends 15 Aug.
-    </span>
-    <a class="in-day-strip__cta" href="shop.html?sort=discount" data-testid="indep-strip-cta">Shop the sale →</a>
-    <button class="in-day-strip__close" type="button"
-            data-testid="indep-strip-close" aria-label="Dismiss">×</button>
-  </div>
-</div>
+<!-- Announcement strip is injected globally by js/app.js -->
 
 <header class="site-header" id="site-header"></header>
 
@@ -563,20 +500,6 @@
     nlFeedback.textContent = '✓ Subscribed! Your 10% off code will land in your inbox shortly.';
     nlForm.reset();
   });
-
-  /* ---- Independence Day sale strip (dismissible for 24h) ---------- */
-  (function () {
-    const STRIP_KEY = 'shoplane.indep.dismissedAt';
-    const strip = document.getElementById('in-day-strip');
-    if (!strip) return;
-    const dismissedAt = Number(localStorage.getItem(STRIP_KEY) || 0);
-    const DAY = 24 * 60 * 60 * 1000;
-    if (Date.now() - dismissedAt > DAY) strip.hidden = false;
-    strip.querySelector('.in-day-strip__close').addEventListener('click', () => {
-      localStorage.setItem(STRIP_KEY, String(Date.now()));
-      strip.hidden = true;
-    });
-  })();
 
   /* ---- Independence Day countdown to 15 Aug 23:59:59 IST --------- */
   (function () {

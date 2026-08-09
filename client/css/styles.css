@@ -890,6 +890,77 @@ h3 { font-size: 1.25rem; }
   display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
   color: var(--slate-500); font-size: 13px;
 }
+
+/* ==============================================================
+   Independence Day announcement strip — shown on every page.
+   Injected globally from app.js so it stays consistent site-wide.
+   ============================================================== */
+.in-day-strip {
+  background: #0b1220;
+  color: #fff;
+  font-size: 13.5px;
+  position: relative;
+  overflow: hidden;
+  border-image: linear-gradient(90deg, #FF9933 0 33%, #ffffff 33% 66%, #138808 66% 100%) 1;
+  border-bottom: 3px solid transparent;
+}
+.in-day-strip__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  z-index: 1;
+}
+.in-day-strip__flag {
+  display: inline-flex;
+  flex-direction: column;
+  width: 24px;
+  height: 16px;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+.in-day-strip__flag .stripe { flex: 1; display: block; }
+.in-day-strip__flag .stripe--saffron { background: #FF9933; }
+.in-day-strip__flag .stripe--white   { background: #FFFFFF; }
+.in-day-strip__flag .stripe--green   { background: #138808; }
+.in-day-strip__msg {
+  flex: 1;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+.in-day-strip__msg strong { color: #ffd580; }
+.in-day-strip__msg code {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-weight: 700;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+}
+.in-day-strip__cta {
+  font-weight: 700;
+  color: #0b1220;
+  background: #fff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  flex-shrink: 0;
+}
+.in-day-strip__cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.25);
+}
+@media (max-width: 640px) {
+  .in-day-strip__msg { text-align: left; font-size: 12.5px; }
+  .in-day-strip__cta { display: none; }
+}
 .social-links { display: flex; gap: 12px; }
 .social-links a {
   width: 42px; height: 42px; border-radius: 999px;
