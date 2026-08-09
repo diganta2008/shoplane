@@ -157,6 +157,8 @@
       'WELCOME10': { type: 'percent', value: 10, label: '10% off (welcome)' },
       'SAVE20':    { type: 'percent', value: 20, label: '20% off (loyalty)' },
       'FREESHIP':  { type: 'flat',    value: 9.99, label: 'Free shipping' },
+      'AZADI15':   { type: 'percent', value: 15, label: '15% off (Independence Day)' },
+      'AZADI25':   { type: 'percent', value: 25, label: '25% off (Independence Day · over $200)' },
     };
     const key = (code || '').trim().toUpperCase();
     const c = codes[key];
@@ -535,6 +537,7 @@
               <li><a href="shop.html?category=Books"       data-testid="footer-cat-books">Books</a></li>
               <li><a href="shop.html?category=Medical"     data-testid="footer-cat-medical">Medical</a></li>
               <li><a href="shop.html?category=Sports"      data-testid="footer-cat-sports">Sports</a></li>
+              <li><a href="yoga.html"                      data-testid="footer-yoga">Yoga</a></li>
             </ul>
           </div>
           <div>

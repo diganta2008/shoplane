@@ -1612,6 +1612,33 @@ window.CATALOG = [
     description: 'Six-panel performance cap with laser-perforated crown, sweat-wicking terry sweatband, and adjustable snapback closure. UPF 50+.',
     specs: { 'Fabric': 'Recycled polyester', 'UPF': '50+', 'Closure': 'Snapback', 'Fit': 'One size (56 – 62 cm)', 'Care': 'Machine wash cold' },
   },
+  {
+    id: 107, sku: 'SPT-107', name: 'ZenBloc Cork Yoga Block (Pair)',
+    category: 'Sports', tags: ['yoga', 'accessory', 'cork'], subCategory: 'Yoga',
+    price: 24.99, oldPrice: 34.99, rating: 4.7, reviewCount: 312, stock: 240,
+    image: '../images/product-yoga-mat.svg', badge: 'hot',
+    sizes: [], colors: ['Natural cork'],
+    description: 'Pair of solid cork blocks (9 x 6 x 4 inches) — dense enough to support restorative poses, natural texture prevents slipping, and antimicrobial by nature.',
+    specs: { 'Material': 'Solid cork', 'Size': '9 x 6 x 4 in', 'Weight': '650 g each', 'Includes': 'Pair', 'Warranty': '1 year' },
+  },
+  {
+    id: 108, sku: 'SPT-108', name: 'FlowStrap Cotton Yoga Strap 8ft',
+    category: 'Sports', tags: ['yoga', 'accessory', 'strap'], subCategory: 'Yoga',
+    price: 14.99, oldPrice: 19.99, rating: 4.5, reviewCount: 158, stock: 420,
+    image: '../images/product-yoga-mat.svg', badge: 'sale',
+    sizes: [], colors: ['Amethyst', 'Sage', 'Sand'],
+    description: 'Heavy-duty 100% cotton yoga strap with a D-ring buckle. 8 ft is long enough for most bind assists and hamstring work.',
+    specs: { 'Material': '100% cotton', 'Length': '8 ft (244 cm)', 'Buckle': 'Metal D-ring', 'Weight': '145 g', 'Care': 'Machine wash cold' },
+  },
+  {
+    id: 109, sku: 'SPT-109', name: 'RestNest Rectangular Yoga Bolster',
+    category: 'Sports', tags: ['yoga', 'restorative', 'bolster'], subCategory: 'Yoga',
+    price: 54.99, oldPrice: 79.99, rating: 4.8, reviewCount: 189, stock: 68,
+    image: '../images/product-yoga-mat.svg', badge: 'new',
+    sizes: [], colors: ['Sage', 'Charcoal', 'Ivory'],
+    description: 'Firm-yet-supportive rectangular bolster filled with recycled cotton batting. Removable, washable organic-cotton cover with a carry handle.',
+    specs: { 'Fill': 'Recycled cotton', 'Cover': 'Organic cotton (removable)', 'Size': '26 x 10 x 6 in', 'Weight': '2.1 kg', 'Warranty': '2 years' },
+  },
 ];
 
 /* ------------------------------------------------------------------

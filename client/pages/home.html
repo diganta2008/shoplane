@@ -9,8 +9,124 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Independence-Day announcement strip (top of page) */
+    .in-day-strip { background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+                    color: #0f172a; font-size: 13.5px; }
+    .in-day-strip__inner { max-width: 1200px; margin: 0 auto; padding: 10px 16px;
+                           display: flex; align-items: center; gap: 14px; }
+    .in-day-strip__msg { flex: 1; text-align: center; }
+    .in-day-strip__msg code { background: rgba(0,0,0,0.08); padding: 1px 6px;
+                              border-radius: 4px; font-weight: 700; }
+    .in-day-strip__cta { font-weight: 700; color: #0f172a; text-decoration: none; white-space: nowrap; }
+    .in-day-strip__cta:hover { text-decoration: underline; }
+    .in-day-strip__close { background: transparent; border: 0; font-size: 22px;
+                           line-height: 1; cursor: pointer; color: #0f172a;
+                           padding: 0 4px; opacity: 0.7; }
+    .in-day-strip__close:hover { opacity: 1; }
+    .in-day-strip__flag { display: inline-flex; flex-direction: column;
+                          width: 22px; height: 15px; border-radius: 2px;
+                          overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
+    .in-day-strip__flag .stripe { flex: 1; display: block; }
+    @media (max-width: 640px) {
+      .in-day-strip__msg { text-align: left; }
+      .in-day-strip__cta { display: none; }
+    }
+
+    /* Independence-Day hero banner */
+    .in-day-banner {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #fff8f1 0%, #ffffff 55%, #eaf7ea 100%);
+      border: 1px solid #f7e7d1; border-radius: 20px;
+      padding: 32px 34px; display: grid;
+      grid-template-columns: 12px 1fr 260px; gap: 28px; align-items: center;
+    }
+    @media (max-width: 900px) {
+      .in-day-banner { grid-template-columns: 12px 1fr; }
+      .in-day-banner__timer { grid-column: 2 / -1; }
+    }
+    .in-day-banner__accent { display: flex; flex-direction: column;
+                             align-self: stretch; border-radius: 6px; overflow: hidden;
+                             min-height: 200px; box-shadow: 0 4px 20px rgba(255,153,51,0.2); }
+    .stripe { flex: 1; display: block; }
+    .stripe--saffron { background: #FF9933; }
+    .stripe--white   { background: #FFFFFF; display: grid; place-items: center; }
+    .stripe--green   { background: #138808; }
+    /* Ashoka Chakra on the white stripe of the big banner */
+    .chakra {
+      display: block; width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid #000080;
+      background:
+        conic-gradient(from 0deg, #000080 0 2deg, transparent 2deg 15deg,
+                       #000080 15deg 17deg, transparent 17deg 30deg,
+                       #000080 30deg 32deg, transparent 32deg 45deg,
+                       #000080 45deg 47deg, transparent 47deg 60deg,
+                       #000080 60deg 62deg, transparent 62deg 75deg,
+                       #000080 75deg 77deg, transparent 77deg 90deg,
+                       #000080 90deg 92deg, transparent 92deg 105deg,
+                       #000080 105deg 107deg, transparent 107deg 120deg,
+                       #000080 120deg 122deg, transparent 122deg 135deg,
+                       #000080 135deg 137deg, transparent 137deg 150deg,
+                       #000080 150deg 152deg, transparent 152deg 165deg,
+                       #000080 165deg 167deg, transparent 167deg 180deg,
+                       #000080 180deg 182deg, transparent 182deg 195deg,
+                       #000080 195deg 197deg, transparent 197deg 210deg,
+                       #000080 210deg 212deg, transparent 212deg 225deg,
+                       #000080 225deg 227deg, transparent 227deg 240deg,
+                       #000080 240deg 242deg, transparent 242deg 255deg,
+                       #000080 255deg 257deg, transparent 257deg 270deg,
+                       #000080 270deg 272deg, transparent 272deg 285deg,
+                       #000080 285deg 287deg, transparent 287deg 300deg,
+                       #000080 300deg 302deg, transparent 302deg 315deg,
+                       #000080 315deg 317deg, transparent 317deg 330deg,
+                       #000080 330deg 332deg, transparent 332deg 345deg,
+                       #000080 345deg 347deg, transparent 347deg 360deg);
+    }
+    .in-day-banner__body h2 { margin: 8px 0 10px; font-size: 32px; color: var(--heading); }
+    .in-day-banner__eyebrow { display: inline-block; background: rgba(255,153,51,0.14);
+                               color: #b45309; font-weight: 700; padding: 4px 12px;
+                               border-radius: 999px; font-size: 12px; letter-spacing: 0.3px; }
+    .in-day-banner__body p { max-width: 60ch; color: var(--slate-700); line-height: 1.6;
+                              margin: 0 0 18px; font-size: 15.5px; }
+    .in-day-banner__body code { background: #f1f5f9; padding: 1px 8px; border-radius: 5px;
+                                 font-weight: 700; color: #b45309; letter-spacing: 0.5px; }
+    .in-day-banner__cta { display: flex; flex-wrap: wrap; gap: 10px; }
+    .in-day-banner__timer { text-align: center; }
+    .in-day-banner__timer-title { color: var(--muted); font-size: 12px; text-transform: uppercase;
+                                   letter-spacing: 1.2px; font-weight: 700; margin-bottom: 8px; }
+    .in-day-banner__timer-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .in-day-banner__timer-row > div {
+      background: #ffffff; border: 1px solid #e6e8ec; border-radius: 10px; padding: 10px 4px;
+      display: flex; flex-direction: column; align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .in-day-banner__timer-row span { font-size: 22px; font-weight: 800; color: var(--heading);
+                                      line-height: 1; font-variant-numeric: tabular-nums; }
+    .in-day-banner__timer-row small { color: var(--muted); font-size: 10.5px;
+                                       text-transform: uppercase; letter-spacing: 0.6px;
+                                       margin-top: 4px; }
+  </style>
 </head>
 <body data-page="home">
+
+<!-- Independence Day announcement strip (dismissible; hides for 24h) -->
+<div id="in-day-strip" class="in-day-strip" data-testid="indep-strip" hidden>
+  <div class="in-day-strip__inner">
+    <span class="in-day-strip__flag" aria-hidden="true">
+      <span class="stripe stripe--saffron"></span>
+      <span class="stripe stripe--white"></span>
+      <span class="stripe stripe--green"></span>
+    </span>
+    <span class="in-day-strip__msg">
+      <strong>Azadi Sale is live —</strong>
+      up to <strong>78% off</strong> + extra <strong>15%</strong> with code
+      <code>AZADI15</code>. Ends 15 Aug.
+    </span>
+    <a class="in-day-strip__cta" href="shop.html?sort=discount" data-testid="indep-strip-cta">Shop the sale →</a>
+    <button class="in-day-strip__close" type="button"
+            data-testid="indep-strip-close" aria-label="Dismiss">×</button>
+  </div>
+</div>
 
 <header class="site-header" id="site-header"></header>
 
@@ -50,6 +166,46 @@
     <h2 class="section-title">Shop by Category</h2>
     <p class="section-subtitle">Find exactly what you need, faster.</p>
     <div class="grid grid-4" id="category-grid" data-testid="category-grid"></div>
+  </div>
+</section>
+
+<!-- Independence Day banner ------------------------------------------- -->
+<section class="section" style="padding-top:0;padding-bottom:20px;">
+  <div class="container">
+    <div class="in-day-banner" data-testid="indep-banner">
+      <div class="in-day-banner__accent" aria-hidden="true">
+        <span class="stripe stripe--saffron"></span>
+        <span class="stripe stripe--white">
+          <span class="chakra"></span>
+        </span>
+        <span class="stripe stripe--green"></span>
+      </div>
+      <div class="in-day-banner__body">
+        <span class="in-day-banner__eyebrow">🇮🇳 Independence Day Sale · 9–15 Aug</span>
+        <h2>Azadi ka Amrit Sale</h2>
+        <p>Up to <strong>78% off</strong> across every category — plus an extra
+          <strong>15% off</strong> with code <code>AZADI15</code>, or
+          <strong>25% off</strong> on orders over $200 with <code>AZADI25</code>.
+          Free shipping on everything.</p>
+        <div class="in-day-banner__cta">
+          <a href="shop.html?sort=discount" class="btn btn-primary btn-lg" data-testid="indep-shop-now">
+            Shop the sale
+          </a>
+          <a href="#featured" class="btn btn-outline btn-lg" data-testid="indep-view-featured">
+            Explore featured
+          </a>
+        </div>
+      </div>
+      <div class="in-day-banner__timer" data-testid="indep-timer">
+        <div class="in-day-banner__timer-title">Sale ends in</div>
+        <div class="in-day-banner__timer-row">
+          <div><span data-timer="d">0</span><small>days</small></div>
+          <div><span data-timer="h">0</span><small>hrs</small></div>
+          <div><span data-timer="m">0</span><small>min</small></div>
+          <div><span data-timer="s">0</span><small>sec</small></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -174,6 +330,46 @@
     nlFeedback.textContent = '✓ Subscribed! Your 10% off code will land in your inbox shortly.';
     nlForm.reset();
   });
+
+  /* ---- Independence Day sale strip (dismissible for 24h) ---------- */
+  (function () {
+    const STRIP_KEY = 'shoplane.indep.dismissedAt';
+    const strip = document.getElementById('in-day-strip');
+    if (!strip) return;
+    const dismissedAt = Number(localStorage.getItem(STRIP_KEY) || 0);
+    const DAY = 24 * 60 * 60 * 1000;
+    if (Date.now() - dismissedAt > DAY) strip.hidden = false;
+    strip.querySelector('.in-day-strip__close').addEventListener('click', () => {
+      localStorage.setItem(STRIP_KEY, String(Date.now()));
+      strip.hidden = true;
+    });
+  })();
+
+  /* ---- Independence Day countdown to 15 Aug 23:59:59 IST --------- */
+  (function () {
+    // 15 Aug 2026 23:59:59 IST = 15 Aug 18:29:59 UTC
+    const endAt = new Date('2026-08-15T18:29:59Z').getTime();
+    const timer = document.querySelector('[data-testid="indep-timer"]');
+    if (!timer) return;
+    const nD = timer.querySelector('[data-timer="d"]');
+    const nH = timer.querySelector('[data-timer="h"]');
+    const nM = timer.querySelector('[data-timer="m"]');
+    const nS = timer.querySelector('[data-timer="s"]');
+
+    function tick() {
+      const ms = Math.max(0, endAt - Date.now());
+      const d = Math.floor(ms / 86_400_000);
+      const h = Math.floor((ms % 86_400_000) / 3_600_000);
+      const m = Math.floor((ms % 3_600_000) / 60_000);
+      const s = Math.floor((ms % 60_000) / 1000);
+      nD.textContent = String(d);
+      nH.textContent = String(h).padStart(2, '0');
+      nM.textContent = String(m).padStart(2, '0');
+      nS.textContent = String(s).padStart(2, '0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
 </script>
 
 </body>
