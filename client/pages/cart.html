@@ -103,8 +103,14 @@
               <button class="btn btn-outline" id="apply-coupon" data-testid="apply-coupon">Apply</button>
             </div>
             <div class="coupon-hint" data-testid="coupon-hint">
-              Try <code>AZADI15</code>, <code>AZADI25</code>, <code>SAVE20</code>,
-              <code>WELCOME10</code> or <code>FREESHIP</code>.
+              Try
+              <button type="button" class="coupon-code" data-code="AZADI15">AZADI15</button>,
+              <button type="button" class="coupon-code" data-code="AZADI25">AZADI25</button>,
+              <button type="button" class="coupon-code" data-code="SAVE20">SAVE20</button>,
+              <button type="button" class="coupon-code" data-code="WELCOME10">WELCOME10</button>
+              or
+              <button type="button" class="coupon-code" data-code="FREESHIP">FREESHIP</button>.
+              <span class="coupon-hint__tip">Click a code to auto-fill.</span>
             </div>
           `}
 
@@ -180,6 +186,15 @@
         }
       });
     }
+    wrap.querySelectorAll('.coupon-code').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const code = btn.dataset.code || '';
+        if (!couponInp) return;
+        couponInp.value = code;
+        couponInp.focus();
+        couponInp.select();
+      });
+    });
     const removeBtn = document.getElementById('remove-coupon');
     if (removeBtn) {
       removeBtn.addEventListener('click', () => {
