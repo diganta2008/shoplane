@@ -1073,8 +1073,6 @@ h3 { font-size: 1.25rem; }
   top: 0;
   z-index: 1000;
   overflow: visible;
-  border-image: linear-gradient(90deg, #FF9933 0 33%, #ffffff 33% 66%, #138808 66% 100%) 1;
-  border-bottom: 3px solid transparent;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 .in-day-strip__inner {
