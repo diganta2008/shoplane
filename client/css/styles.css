@@ -103,7 +103,7 @@ h3 { font-size: 1.25rem; }
 
 /* ---------- Header / Navigation ----------------------------------------- */
 .site-header {
-  position: sticky; top: 0; z-index: 100;
+  position: sticky; top: var(--strip-h, 0px); z-index: 100;
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid var(--border);
@@ -894,15 +894,19 @@ h3 { font-size: 1.25rem; }
 /* ==============================================================
    Independence Day announcement strip — shown on every page.
    Injected globally from app.js so it stays consistent site-wide.
+   Sticky at top: stays visible as the user scrolls the page.
    ============================================================== */
 .in-day-strip {
   background: #0b1220;
   color: #fff;
   font-size: 13.5px;
-  position: relative;
-  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  overflow: visible;
   border-image: linear-gradient(90deg, #FF9933 0 33%, #ffffff 33% 66%, #138808 66% 100%) 1;
   border-bottom: 3px solid transparent;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 .in-day-strip__inner {
   max-width: 1200px;
@@ -914,20 +918,72 @@ h3 { font-size: 1.25rem; }
   position: relative;
   z-index: 1;
 }
+/* Floating mini-flag with a tiny pole; gently waves so it feels alive */
 .in-day-strip__flag {
   display: inline-flex;
   flex-direction: column;
-  width: 24px;
-  height: 16px;
+  width: 28px;
+  height: 20px;
   border-radius: 2px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
   flex-shrink: 0;
+  position: relative;
+  margin-left: 6px;
+  transform-origin: left center;
+  animation: stripFlagFloat 2.6s ease-in-out infinite;
 }
-.in-day-strip__flag .stripe { flex: 1; display: block; }
+.in-day-strip__flag::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: -4px;
+  bottom: -6px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #e5e7eb 0%, #9ca3af 60%, #6b7280 100%);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.45);
+}
+.in-day-strip__flag::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: -6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fef3c7, #f59e0b 60%, #b45309);
+  box-shadow: 0 0 6px rgba(253, 224, 71, 0.7);
+}
+.in-day-strip__flag .stripe {
+  flex: 1;
+  display: block;
+  overflow: hidden;
+}
+.in-day-strip__flag .stripe:first-child { border-top-right-radius: 2px; }
+.in-day-strip__flag .stripe:last-child  { border-bottom-right-radius: 2px; }
 .in-day-strip__flag .stripe--saffron { background: #FF9933; }
 .in-day-strip__flag .stripe--white   { background: #FFFFFF; }
 .in-day-strip__flag .stripe--green   { background: #138808; }
+@keyframes stripFlagFloat {
+  0%, 100% { transform: translateY(0)   skewX(0deg)  rotate(0deg); }
+  50%      { transform: translateY(-2px) skewX(4deg) rotate(-1deg); }
+}
+/* Independence-Day pill next to the flag */
+.in-day-strip__pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 153, 51, 0.18);
+  border: 1px solid rgba(255, 153, 51, 0.5);
+  color: #ffd580;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 .in-day-strip__msg {
   flex: 1;
   text-align: center;
@@ -956,6 +1012,9 @@ h3 { font-size: 1.25rem; }
 .in-day-strip__cta:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(255, 255, 255, 0.25);
+}
+@media (max-width: 720px) {
+  .in-day-strip__pill { display: none; }
 }
 @media (max-width: 640px) {
   .in-day-strip__msg { text-align: left; font-size: 12.5px; }

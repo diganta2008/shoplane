@@ -449,6 +449,9 @@
           <span class="stripe stripe--white"></span>
           <span class="stripe stripe--green"></span>
         </span>
+        <span class="in-day-strip__pill" data-testid="indep-strip-day">
+          80<sup style="font-size:0.7em;">th</sup>&nbsp;Independence Day
+        </span>
         <span class="in-day-strip__msg">
           <strong>Azadi Sale is live —</strong>
           up to <strong>78% off</strong> + extra <strong>15%</strong> with code
@@ -458,6 +461,14 @@
            data-testid="indep-strip-cta">Shop the sale →</a>
       </div>`;
     document.body.prepend(strip);
+
+    const updateStripHeight = () => {
+      document.documentElement.style.setProperty(
+        '--strip-h', strip.offsetHeight + 'px',
+      );
+    };
+    updateStripHeight();
+    window.addEventListener('resize', updateStripHeight);
   }
 
   function renderHeader() {
