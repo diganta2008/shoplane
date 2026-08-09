@@ -1,0 +1,9 @@
+{
+  "public": "./",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "directoryListing": false,
+  "rewrites": [
+    { "source": "/", "destination": "/pages/home.html" }
+  ]
+}
