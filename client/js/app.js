@@ -152,23 +152,39 @@
     return { subtotal, discount, shipping, tax, total, coupon };
   }
 
+  const COUPON_CODES = {
+    'WELCOME10': { type: 'percent', value: 10, label: '10% off (welcome)' },
+    'SAVE20':    { type: 'percent', value: 20, label: '20% off (loyalty)' },
+    'FREESHIP':  { type: 'flat',    value: 9.99, label: 'Free shipping' },
+    'AZADI15':   { type: 'percent', value: 15, label: '15% off (Independence Day)' },
+    'AZADI25':   { type: 'percent', value: 25, label: '25% off (Independence Day · over $200)' },
+  };
+
   function applyCoupon(code) {
-    const codes = {
-      'WELCOME10': { type: 'percent', value: 10, label: '10% off (welcome)' },
-      'SAVE20':    { type: 'percent', value: 20, label: '20% off (loyalty)' },
-      'FREESHIP':  { type: 'flat',    value: 9.99, label: 'Free shipping' },
-      'AZADI15':   { type: 'percent', value: 15, label: '15% off (Independence Day)' },
-      'AZADI25':   { type: 'percent', value: 25, label: '25% off (Independence Day · over $200)' },
-    };
     const key = (code || '').trim().toUpperCase();
-    const c = codes[key];
+    if (!key) {
+      toast('Enter a code', 'Type a coupon code and hit Apply.', 'error');
+      return false;
+    }
+    const c = COUPON_CODES[key];
     if (!c) {
-      toast('Invalid coupon', `We could not find "${code}".`, 'error');
-      write(STORAGE.coupon, null);
+      // Don't wipe an already-applied valid coupon just because the new attempt was bad.
+      const valid = Object.keys(COUPON_CODES).join(', ');
+      toast('Invalid coupon', `"${code}" is not recognised. Try: ${valid}.`, 'error');
       return false;
     }
     write(STORAGE.coupon, Object.assign({ code: key }, c));
     toast('Coupon applied', c.label, 'success');
+    dispatch('cart:change', getCart());
+    return true;
+  }
+
+  /** Removes any applied coupon from local state so the summary recalculates. */
+  function clearCoupon() {
+    const cur = read(STORAGE.coupon, null);
+    if (!cur) return false;
+    write(STORAGE.coupon, null);
+    toast('Coupon removed', `"${cur.code}" is no longer applied.`, 'info');
     dispatch('cart:change', getCart());
     return true;
   }
@@ -822,7 +838,7 @@
 
   window.ShopLane = {
     getCart, addToCart, updateQty, removeFromCart, clearCart,
-    cartCount, cartSummary, applyCoupon,
+    cartCount, cartSummary, applyCoupon, clearCoupon,
     getWishlist, toggleWishlist, inWishlist,
     getOrders, placeOrder,
     money, stars, productCardHtml, toast,

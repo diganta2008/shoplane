@@ -85,11 +85,28 @@
         <aside class="order-summary" data-testid="order-summary">
           <h3 style="margin-top:0;">Order Summary</h3>
 
-          <div class="coupon-row">
-            <input type="text" id="coupon" placeholder="Coupon code (try WELCOME10)" data-testid="coupon-input"
-                   value="${summary.coupon ? summary.coupon.code : ''}"/>
-            <button class="btn btn-outline" id="apply-coupon" data-testid="apply-coupon">Apply</button>
-          </div>
+          ${summary.coupon ? `
+            <div class="coupon-applied" data-testid="coupon-applied">
+              <span class="coupon-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <strong>${summary.coupon.code}</strong>
+                ${summary.coupon.label ? `<span class="coupon-chip__label">${summary.coupon.label}</span>` : ''}
+              </span>
+              <button type="button" class="coupon-remove" id="remove-coupon"
+                      data-testid="remove-coupon" aria-label="Remove coupon">
+                Remove
+              </button>
+            </div>
+          ` : `
+            <div class="coupon-row">
+              <input type="text" id="coupon" placeholder="Coupon code (try AZADI15)" data-testid="coupon-input"/>
+              <button class="btn btn-outline" id="apply-coupon" data-testid="apply-coupon">Apply</button>
+            </div>
+            <div class="coupon-hint" data-testid="coupon-hint">
+              Try <code>AZADI15</code>, <code>AZADI25</code>, <code>SAVE20</code>,
+              <code>WELCOME10</code> or <code>FREESHIP</code>.
+            </div>
+          `}
 
           <div class="summary-row" data-testid="summary-subtotal">
             <span>Subtotal</span><span>${window.ShopLane.money(summary.subtotal)}</span>
@@ -150,10 +167,25 @@
         render();
       }
     });
-    document.getElementById('apply-coupon').addEventListener('click', () => {
-      const code = document.getElementById('coupon').value;
-      if (window.ShopLane.applyCoupon(code)) render();
-    });
+    const applyBtn  = document.getElementById('apply-coupon');
+    const couponInp = document.getElementById('coupon');
+    if (applyBtn && couponInp) {
+      applyBtn.addEventListener('click', () => {
+        if (window.ShopLane.applyCoupon(couponInp.value)) render();
+      });
+      couponInp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (window.ShopLane.applyCoupon(couponInp.value)) render();
+        }
+      });
+    }
+    const removeBtn = document.getElementById('remove-coupon');
+    if (removeBtn) {
+      removeBtn.addEventListener('click', () => {
+        if (window.ShopLane.clearCoupon()) render();
+      });
+    }
   }
 
   window.addEventListener('cart:change', render);
