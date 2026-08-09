@@ -7,6 +7,89 @@
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* --------------------------------------------------------------
+       Contact page — India-map background watermark
+       ------------------------------------------------------------ */
+    .contact-wrap { position: relative; isolation: isolate; }
+    .contact-wrap__bg {
+      position: absolute; inset: 0; z-index: -1; overflow: hidden;
+      pointer-events: none; display: grid; place-items: center;
+    }
+    .contact-wrap__bg svg {
+      width: min(88vw, 780px); height: auto;
+      opacity: 0.09; filter: drop-shadow(0 12px 32px rgba(109,40,217,0.15));
+    }
+
+    /* Reach-us card sits on a soft glassy panel so the map behind is visible */
+    .contact-wrap .order-summary {
+      background: rgba(255,255,255,0.82); backdrop-filter: blur(6px);
+    }
+
+    /* --------------------------------------------------------------
+       "We deliver across India" mini-map card (replaces iframe)
+       ------------------------------------------------------------ */
+    .in-map-card {
+      position: relative; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,153,51,0.18), transparent 55%),
+        radial-gradient(circle at 80% 85%, rgba(19,136,8,0.20),  transparent 55%),
+        linear-gradient(135deg, #fff7ed 0%, #ffffff 50%, #ecfdf5 100%);
+      padding: 16px 14px 12px;
+    }
+    .in-map-card__inner {
+      position: relative; height: 220px;
+      display: grid; place-items: center;
+    }
+    .in-map-card__inner svg {
+      width: 100%; height: 100%; display: block;
+      filter: drop-shadow(0 4px 10px rgba(11,18,32,0.15));
+    }
+    .in-map-card__pin {
+      position: absolute; top: 30%; left: 33%;
+      width: 18px; height: 24px;
+      transform: translate(-50%, -100%);
+      z-index: 2;
+    }
+    .in-map-card__pin::before {
+      content: ""; position: absolute; left: 50%; top: 50%;
+      width: 38px; height: 38px; transform: translate(-50%,-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(220,38,38,0.55), rgba(220,38,38,0) 65%);
+      animation: pinPulse 1.8s ease-in-out infinite;
+    }
+    .in-map-card__pin::after {
+      content: ""; position: absolute; inset: 0;
+      background: #dc2626;
+      clip-path: path("M9 0C4 0 0 4 0 9c0 6 9 15 9 15s9-9 9-15c0-5-4-9-9-9z");
+      box-shadow: 0 2px 4px rgba(0,0,0,0.35);
+    }
+    .in-map-card__pin span {
+      position: absolute; left: 50%; top: 6px;
+      transform: translateX(-50%);
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #fff; z-index: 1;
+    }
+    @keyframes pinPulse {
+      0%,100% { opacity: 0.55; transform: translate(-50%,-50%) scale(1);   }
+      50%     { opacity: 1;    transform: translate(-50%,-50%) scale(1.6); }
+    }
+    .in-map-card__caption {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 10px; color: var(--slate-700);
+      font-size: 13.5px; font-weight: 600;
+    }
+    .in-map-card__caption .mini-flag {
+      display: inline-flex; flex-direction: column;
+      width: 22px; height: 15px; border-radius: 3px;
+      overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .in-map-card__caption .mini-flag span { flex: 1; display: block; }
+    .in-map-card__caption .mini-flag .s-saf { background: #FF9933; }
+    .in-map-card__caption .mini-flag .s-whi { background: #FFFFFF; }
+    .in-map-card__caption .mini-flag .s-grn { background: #138808; }
+  </style>
 </head>
 <body data-page="contact">
 
@@ -23,8 +106,52 @@
   </div>
 </section>
 
-<div class="container" style="padding:30px 20px 60px;">
-  <div class="checkout-layout">
+<div class="contact-wrap">
+  <!-- India-map watermark behind the whole contact section -->
+  <div class="contact-wrap__bg" aria-hidden="true">
+    <svg viewBox="0 0 500 560" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <defs>
+        <linearGradient id="in-map-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"  stop-color="#FF9933"/>
+          <stop offset="50%" stop-color="#8b5cf6"/>
+          <stop offset="100%" stop-color="#138808"/>
+        </linearGradient>
+      </defs>
+      <path d="M 140 30
+               C 165 22, 195 22, 220 30
+               C 245 34, 268 42, 285 55
+               C 300 66, 320 70, 340 76
+               C 362 82, 383 90, 400 102
+               C 418 112, 435 122, 445 138
+               C 452 152, 448 168, 435 175
+               C 418 180, 400 175, 385 178
+               C 372 183, 358 190, 348 202
+               C 340 218, 340 236, 335 254
+               C 328 278, 320 302, 312 328
+               C 305 355, 298 382, 290 408
+               C 280 432, 268 456, 253 478
+               C 240 496, 225 508, 215 500
+               C 205 488, 200 470, 192 452
+               C 180 428, 168 402, 156 376
+               C 142 348, 128 322, 116 296
+               C 102 268, 88 240, 78 212
+               C 68 186, 60 162, 55 138
+               C 52 115, 60 92, 78 76
+               C 95 62, 115 52, 128 42
+               C 133 36, 137 32, 140 30 Z"
+            fill="url(#in-map-bg)" stroke="#6d28d9" stroke-width="1.8" stroke-linejoin="round"/>
+      <!-- Sri Lanka -->
+      <ellipse cx="270" cy="520" rx="12" ry="20"
+               fill="url(#in-map-bg)" stroke="#6d28d9" stroke-width="1.8"/>
+      <!-- Andaman & Nicobar hint -->
+      <circle cx="440" cy="380" r="4" fill="#6d28d9" opacity="0.5"/>
+      <circle cx="445" cy="400" r="3" fill="#6d28d9" opacity="0.5"/>
+      <circle cx="448" cy="420" r="3" fill="#6d28d9" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="container" style="padding:30px 20px 60px;">
+    <div class="checkout-layout">
 
     <div class="form-card" data-testid="contact-card">
       <h3 style="margin-top:0;">Send us a message</h3>
@@ -91,22 +218,68 @@
           <div style="color:var(--slate-700);">Mon – Sat · 10 : 00 AM – 8 : 00 PM<br>Sunday closed</div>
         </div>
 
-        <div style="border-radius:12px;overflow:hidden;height:220px;border:1px solid var(--border);background:#f7f8fa;" data-testid="store-map">
-          <iframe
-            title="ShopLane store on the map"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=77.081%2C28.437%2C77.101%2C28.457&layer=mapnik&marker=28.4472%2C77.091"
-            style="border:0;width:100%;height:100%;display:block;"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        <div style="text-align:right;margin-top:6px;font-size:12.5px;">
-          <a href="https://www.openstreetmap.org/?mlat=28.4472&amp;mlon=77.091#map=15/28.4472/77.091"
-             target="_blank" rel="noopener noreferrer"
-             data-testid="map-larger" style="color:var(--primary);">View larger map ↗</a>
+        <div class="in-map-card" data-testid="store-map">
+          <div class="in-map-card__inner">
+            <svg viewBox="0 0 500 560" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 aria-label="Map of India showing our store location">
+              <defs>
+                <linearGradient id="in-map-card-fill" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%"  stop-color="#FF9933" stop-opacity="0.75"/>
+                  <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+                  <stop offset="100%" stop-color="#138808" stop-opacity="0.75"/>
+                </linearGradient>
+              </defs>
+              <path d="M 140 30
+                       C 165 22, 195 22, 220 30
+                       C 245 34, 268 42, 285 55
+                       C 300 66, 320 70, 340 76
+                       C 362 82, 383 90, 400 102
+                       C 418 112, 435 122, 445 138
+                       C 452 152, 448 168, 435 175
+                       C 418 180, 400 175, 385 178
+                       C 372 183, 358 190, 348 202
+                       C 340 218, 340 236, 335 254
+                       C 328 278, 320 302, 312 328
+                       C 305 355, 298 382, 290 408
+                       C 280 432, 268 456, 253 478
+                       C 240 496, 225 508, 215 500
+                       C 205 488, 200 470, 192 452
+                       C 180 428, 168 402, 156 376
+                       C 142 348, 128 322, 116 296
+                       C 102 268, 88 240, 78 212
+                       C 68 186, 60 162, 55 138
+                       C 52 115, 60 92, 78 76
+                       C 95 62, 115 52, 128 42
+                       C 133 36, 137 32, 140 30 Z"
+                    fill="url(#in-map-card-fill)"
+                    stroke="#4c1d95" stroke-width="2" stroke-linejoin="round"/>
+              <!-- Sri Lanka -->
+              <ellipse cx="270" cy="520" rx="12" ry="20"
+                       fill="url(#in-map-card-fill)"
+                       stroke="#4c1d95" stroke-width="2"/>
+              <!-- Andaman & Nicobar hint -->
+              <circle cx="440" cy="380" r="4" fill="#4c1d95" opacity="0.6"/>
+              <circle cx="445" cy="400" r="3" fill="#4c1d95" opacity="0.6"/>
+              <circle cx="448" cy="420" r="3" fill="#4c1d95" opacity="0.6"/>
+            </svg>
+            <!-- Store pin (positioned over Gurugram/Delhi region) -->
+            <div class="in-map-card__pin" title="ShopLane HQ · Gurugram, Haryana">
+              <span></span>
+            </div>
+          </div>
+          <div class="in-map-card__caption">
+            <span class="mini-flag" aria-hidden="true">
+              <span class="s-saf"></span>
+              <span class="s-whi"></span>
+              <span class="s-grn"></span>
+            </span>
+            Delivering across India · HQ in Gurugram
+          </div>
         </div>
       </div>
     </aside>
 
+    </div>
   </div>
 </div>
 
