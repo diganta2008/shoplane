@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopLane Diagnostics</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .diag-card    { background:white;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px; }
+    .diag-row     { display:grid;grid-template-columns:180px 1fr auto;gap:12px;padding:8px 0;border-bottom:1px solid var(--slate-100);align-items:center; }
+    .diag-row:last-child { border-bottom:none; }
+    .diag-key     { color:var(--muted);font-weight:600;font-size:13px; }
+    .diag-val     { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;color:var(--heading);word-break:break-all; }
+    .pill         { display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px; }
+    .pill-good    { background:#D1FAE5;color:#065F46; }
+    .pill-bad     { background:#FEE2E2;color:#7F1D1D; }
+    .pill-warn    { background:#FEF3C7;color:#92400E; }
+    .pill-info    { background:#DBEAFE;color:#1E3A8A; }
+    .diag-log     { font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;background:#0F172A;color:#E2E8F0;padding:16px;border-radius:8px;max-height:400px;overflow:auto;white-space:pre-wrap; }
+    .btn-row      { display:flex;gap:8px;flex-wrap:wrap; }
+  </style>
+</head>
+<body data-page="diagnostics">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">Diagnostics</h1>
+    <p data-testid="page-subtitle">Live view of your session, storage, API reachability, and DB write-through path.</p>
+  </div>
+</section>
+
+<div class="container">
+
+  <div class="diag-card">
+    <h3 style="margin-top:0;">1. Session state</h3>
+    <div id="session-block"></div>
+  </div>
+
+  <div class="diag-card">
+    <h3 style="margin-top:0;">2. API reachability</h3>
+    <div id="api-block"></div>
+    <div class="btn-row" style="margin-top:12px;">
+      <button class="btn btn-outline" data-testid="diag-recheck" id="btn-recheck">Re-check API</button>
+      <button class="btn btn-outline" data-testid="diag-fetch-me" id="btn-me">GET /auth/me</button>
+      <button class="btn btn-outline" data-testid="diag-fetch-cart" id="btn-cart">GET /cart</button>
+      <button class="btn btn-outline" data-testid="diag-fetch-orders" id="btn-orders">GET /orders</button>
+    </div>
+  </div>
+
+  <div class="diag-card">
+    <h3 style="margin-top:0;">3. localStorage</h3>
+    <div id="ls-block"></div>
+    <div class="btn-row" style="margin-top:12px;">
+      <button class="btn btn-outline" data-testid="diag-clear-user" id="btn-clear-user">Clear phantom session</button>
+      <button class="btn btn-outline" data-testid="diag-clear-all" id="btn-clear-all">Clear ALL ShopLane data</button>
+    </div>
+  </div>
+
+  <div class="diag-card">
+    <h3 style="margin-top:0;">4. Live API log</h3>
+    <pre class="diag-log" id="log" data-testid="diag-log">(actions will appear here)</pre>
+  </div>
+
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const $  = (id) => document.getElementById(id);
+  const log = (label, obj) => {
+    const line = `${new Date().toISOString().split('T')[1].split('.')[0]}  ${label}` +
+      (obj !== undefined ? '\n' + JSON.stringify(obj, null, 2) : '');
+    $('log').textContent = line + '\n\n' + $('log').textContent;
+  };
+
+  function pill(kind, text) {
+    return `<span class="pill pill-${kind}" data-testid="pill-${kind}">${text}</span>`;
+  }
+
+  async function render() {
+    const user   = window.Auth?.get?.() || null;
+    const tokens = window.ShopLaneApi?.tokens?.read?.() || null;
+    const hasSess = !!tokens?.accessToken;
+    const reachable = window.ShopLaneApi ? await window.ShopLaneApi.isReachable() : false;
+
+    // --- 1. session ---
+    let sessKind, sessLabel;
+    if (user && hasSess && reachable) { sessKind='good';  sessLabel='online — DB writes work'; }
+    else if (user && !hasSess && reachable) { sessKind='warn'; sessLabel='PHANTOM — user in browser, no API token'; }
+    else if (user && !reachable) { sessKind='bad'; sessLabel='API down but user in browser'; }
+    else { sessKind='info'; sessLabel='guest (no user in browser)'; }
+
+    $('session-block').innerHTML = `
+      <div class="diag-row"><span class="diag-key">Status</span>
+        <span class="diag-val">${sessLabel}</span>
+        <span>${pill(sessKind, sessKind==='good'?'ONLINE':sessKind==='warn'?'PHANTOM':sessKind==='bad'?'OFFLINE':'GUEST')}</span></div>
+      <div class="diag-row"><span class="diag-key">User in browser</span>
+        <span class="diag-val" data-testid="diag-user">${user ? user.email + ' (id=' + (user.id ?? '?') + ')' : '(none)'}</span>
+        <span>${user ? pill('good','present') : pill('info','none')}</span></div>
+      <div class="diag-row"><span class="diag-key">Access token</span>
+        <span class="diag-val" data-testid="diag-access">${tokens?.accessToken ? tokens.accessToken.substring(0,30)+'…' : '(none)'}</span>
+        <span>${tokens?.accessToken ? pill('good','present') : pill('bad','missing')}</span></div>
+      <div class="diag-row"><span class="diag-key">Refresh token</span>
+        <span class="diag-val">${tokens?.refreshToken ? tokens.refreshToken.substring(0,30)+'…' : '(none)'}</span>
+        <span>${tokens?.refreshToken ? pill('good','present') : pill('bad','missing')}</span></div>
+    `;
+
+    // --- 2. API ---
+    $('api-block').innerHTML = `
+      <div class="diag-row"><span class="diag-key">Base URL</span>
+        <span class="diag-val" data-testid="diag-base">${window.ShopLaneApi?.base || '(no api.js loaded)'}</span>
+        <span>${window.ShopLaneApi ? pill('good','loaded') : pill('bad','missing')}</span></div>
+      <div class="diag-row"><span class="diag-key">GET /health</span>
+        <span class="diag-val" data-testid="diag-health">${reachable ? 'OK' : 'unreachable'}</span>
+        <span>${reachable ? pill('good','200') : pill('bad','fail')}</span></div>
+    `;
+
+    // --- 3. LS ---
+    const ls = {};
+    for (const k of ['shoplane.user','shoplane.tokens','shoplane.cart','shoplane.wishlist','shoplane.orders','shoplane.coupon']) {
+      ls[k] = localStorage.getItem(k);
+    }
+    $('ls-block').innerHTML = Object.entries(ls).map(([k,v]) => {
+      const short = v ? (v.length > 80 ? v.substring(0,80)+'…' : v) : '(empty)';
+      return `<div class="diag-row"><span class="diag-key">${k}</span>
+        <span class="diag-val">${short}</span>
+        <span>${v ? pill('info', (JSON.parse(v || '[]').length ?? 1) + ' item') : pill('info','—')}</span></div>`;
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', render);
+
+  $('btn-recheck').addEventListener('click', () => { log('[re-check API]'); render(); });
+  $('btn-me').addEventListener('click', async () => {
+    try { const r = await window.ShopLaneApi.me(); log('GET /auth/me OK', r); }
+    catch (e) { log('GET /auth/me FAILED', {message:e.message,status:e.status,code:e.code,details:e.details}); }
+    render();
+  });
+  $('btn-cart').addEventListener('click', async () => {
+    try { const r = await window.ShopLaneApi.getCart(); log('GET /cart OK', r); }
+    catch (e) { log('GET /cart FAILED', {message:e.message,status:e.status,code:e.code}); }
+    render();
+  });
+  $('btn-orders').addEventListener('click', async () => {
+    try { const r = await window.ShopLaneApi.listOrders(); log('GET /orders OK', r); }
+    catch (e) { log('GET /orders FAILED', {message:e.message,status:e.status,code:e.code}); }
+    render();
+  });
+  $('btn-clear-user').addEventListener('click', () => {
+    if (window.Auth?.clear) window.Auth.clear();
+    log('Cleared shoplane.user + tokens');
+    render();
+  });
+  $('btn-clear-all').addEventListener('click', () => {
+    if (!confirm('This will remove ALL shoplane.* keys from localStorage. Continue?')) return;
+    Object.keys(localStorage).filter(k => k.startsWith('shoplane.')).forEach(k => localStorage.removeItem(k));
+    log('Cleared all shoplane.* keys');
+    render();
+  });
+</script>
+
+</body>
+</html>

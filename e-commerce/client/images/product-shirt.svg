@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_sh" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F3F4F6"/><stop offset="100%" stop-color="#D1D5DB"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <filter id="s_sh"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.28"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_sh)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.35)"/>
+  <g filter="url(#s_sh)">
+    <path d="M200 160 L250 140 Q300 160 350 140 L400 160 L450 200 L490 260 L440 290 L430 260 L430 460 L170 460 L170 260 L160 290 L110 260 L150 200 Z" fill="url(#shirt)" stroke="#0F172A" stroke-width="3"/>
+    <path d="M250 140 L300 210 L350 140" fill="none" stroke="#0F172A" stroke-width="3"/>
+    <path d="M275 160 L300 200 L325 160 L325 240 L275 240 Z" fill="#0F172A"/>
+    <circle cx="300" cy="290" r="4" fill="#0F172A"/>
+    <circle cx="300" cy="340" r="4" fill="#0F172A"/>
+    <circle cx="300" cy="390" r="4" fill="#0F172A"/>
+    <circle cx="300" cy="440" r="4" fill="#0F172A"/>
+    <line x1="300" y1="240" x2="300" y2="460" stroke="rgba(0,0,0,0.15)" stroke-width="2"/>
+  </g>
+  <text x="300" y="530" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#0F172A" text-anchor="middle" letter-spacing="4">FORMAL SHIRT</text>
+</svg>

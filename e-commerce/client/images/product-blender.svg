@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_bl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEE2E2"/><stop offset="100%" stop-color="#F87171"/>
+    </linearGradient>
+    <linearGradient id="jar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(248,250,252,0.9)"/><stop offset="100%" stop-color="rgba(203,213,225,0.6)"/>
+    </linearGradient>
+    <filter id="s_bl"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_bl)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.30)"/>
+  <g filter="url(#s_bl)">
+    <rect x="220" y="140" width="160" height="30" rx="6" fill="#0F172A"/>
+    <path d="M230 170 L370 170 L360 340 L240 340 Z" fill="url(#jar)" stroke="#0F172A" stroke-width="3"/>
+    <path d="M260 260 L340 260 L335 320 L265 320 Z" fill="#F87171"/>
+    <path d="M290 200 L310 200 L308 240 L292 240 Z" fill="#0F172A"/>
+    <path d="M280 220 L320 240 L300 250 Z" fill="#0F172A"/>
+    <rect x="180" y="340" width="240" height="130" rx="16" fill="#0F172A"/>
+    <rect x="220" y="380" width="160" height="50" rx="10" fill="#1E293B"/>
+    <circle cx="260" cy="405" r="8" fill="#F87171"/>
+    <circle cx="300" cy="405" r="8" fill="#F87171"/>
+    <circle cx="340" cy="405" r="8" fill="#F87171"/>
+  </g>
+  <text x="300" y="530" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#7F1D1D" text-anchor="middle" letter-spacing="4">BLENDER PRO</text>
+</svg>

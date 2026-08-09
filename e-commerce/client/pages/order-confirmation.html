@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order confirmed — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="order-confirmation">
+
+<header class="site-header" id="site-header"></header>
+
+<div class="container" style="padding:60px 0;">
+  <div id="wrap"></div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const orderId = sessionStorage.getItem('shoplane.last-order');
+  const orders  = window.ShopLane.getOrders();
+  const order   = orders.find((o) => o.id === orderId) || orders[0];
+  const wrap    = document.getElementById('wrap');
+
+  if (!order) {
+    wrap.innerHTML = `
+      <div class="empty-state" data-testid="no-order">
+        <div class="icon">📭</div>
+        <h3>No recent order</h3>
+        <p>Looks like you landed here directly. Explore the shop or view your orders.</p>
+        <a href="shop.html" class="btn btn-primary">Continue shopping</a>
+      </div>`;
+  } else {
+    wrap.innerHTML = `
+      <div style="text-align:center;margin-bottom:40px;" data-testid="order-success">
+        <img src="../images/order-success.svg" alt="" width="220" style="margin:0 auto 12px;">
+        <h1 style="margin-bottom:6px;">Thank you — your order is confirmed!</h1>
+        <p style="color:var(--muted);">A confirmation email has been sent to
+          <strong data-testid="order-email">${order.shipping.email}</strong>. You can track
+          your order status any time from your account page.</p>
+      </div>
+
+      <div class="cart-layout">
+        <div class="form-card" data-testid="order-details">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+            <div>
+              <div style="color:var(--muted);font-size:13px;">Order number</div>
+              <div style="font-weight:800;font-size:1.3rem;color:var(--heading);" data-testid="order-number">${order.id}</div>
+            </div>
+            <div>
+              <div style="color:var(--muted);font-size:13px;">Placed on</div>
+              <div style="font-weight:600;color:var(--slate-700);" data-testid="order-date">${new Date(order.date).toLocaleString()}</div>
+            </div>
+            <span class="badge-status" style="padding:6px 14px;font-size:13px;" data-testid="order-status">${order.status}</span>
+          </div>
+
+          <h3>Items</h3>
+          ${order.items.map((it) => `
+            <div style="display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);" data-testid="order-item">
+              <div style="width:60px;height:60px;border-radius:8px;overflow:hidden;background:var(--slate-100);">
+                <img src="${it.image}" alt="" style="width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div style="flex:1;">
+                <div style="font-weight:600;color:var(--heading);">${it.name}</div>
+                <div style="font-size:13px;color:var(--muted);">Qty ${it.qty} · ${window.ShopLane.money(it.price)}</div>
+              </div>
+              <div style="font-weight:700;color:var(--heading);">${window.ShopLane.money(it.price * it.qty)}</div>
+            </div>`).join('')}
+
+          <h3 class="mt-24">Shipping to</h3>
+          <div style="color:var(--slate-700);line-height:1.7;" data-testid="order-shipping-address">
+            <strong>${order.shipping.name}</strong><br>
+            ${order.shipping.address}<br>
+            ${order.shipping.city}, ${order.shipping.state} ${order.shipping.zip}<br>
+            ${order.shipping.country} · ${order.shipping.phone}
+          </div>
+
+          <h3 class="mt-24">Payment</h3>
+          <div style="color:var(--slate-700);" data-testid="order-payment-method">
+            ${({ card: 'Credit / Debit Card', upi: 'UPI / Net-banking', cod: 'Cash on Delivery' }[order.payment.method])}
+          </div>
+        </div>
+
+        <aside class="order-summary" data-testid="order-summary">
+          <h3 style="margin-top:0;">Payment summary</h3>
+          <div class="summary-row"><span>Subtotal</span><span>${window.ShopLane.money(order.summary.subtotal)}</span></div>
+          ${order.summary.discount > 0 ? `<div class="summary-row" style="color:var(--success);"><span>Discount</span><span>− ${window.ShopLane.money(order.summary.discount)}</span></div>` : ''}
+          <div class="summary-row"><span>Shipping</span><span>${order.summary.shipping === 0 ? 'Free' : window.ShopLane.money(order.summary.shipping)}</span></div>
+          <div class="summary-row"><span>Tax</span><span>${window.ShopLane.money(order.summary.tax)}</span></div>
+          <div class="summary-row total"><span>Total paid</span><span data-testid="order-total">${window.ShopLane.money(order.summary.total)}</span></div>
+
+          <a href="account.html" class="btn btn-primary btn-block mt-16" data-testid="view-orders">View all orders</a>
+          <a href="shop.html"    class="btn btn-outline btn-block mt-16" data-testid="continue-shopping">Continue shopping</a>
+        </aside>
+      </div>`;
+  }
+</script>
+
+</body>
+</html>

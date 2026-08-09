@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="register">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="auth-layout">
+  <div class="auth-card" data-testid="register-card">
+    <h1 data-testid="page-title">Create your account</h1>
+    <p class="subtitle">Get faster checkout and personalised picks.</p>
+
+    <form id="register-form" novalidate>
+      <div class="field mb-16">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" required data-testid="register-name"
+               placeholder="Jane Doe" autocomplete="name"/>
+      </div>
+      <div class="field mb-16">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required data-testid="register-email"
+               placeholder="you@example.com" autocomplete="email"/>
+      </div>
+      <div class="field mb-16">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6"
+               data-testid="register-password" placeholder="At least 6 characters" autocomplete="new-password"/>
+        <span class="hint">Must be at least 6 characters.</span>
+      </div>
+      <div class="field mb-16">
+        <label for="confirm">Confirm password</label>
+        <input type="password" id="confirm" name="confirm" required
+               data-testid="register-confirm" autocomplete="new-password"/>
+      </div>
+      <label class="checkbox-row">
+        <input type="checkbox" id="terms" required data-testid="register-terms"/>
+        <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</span>
+      </label>
+
+      <div id="register-feedback" class="form-feedback" data-testid="register-feedback"></div>
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg mt-16" data-testid="register-submit">
+        Create account
+      </button>
+    </form>
+
+    <div class="auth-alt">
+      Already have an account? <a href="login.html" data-testid="link-login">Sign in</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const form = document.getElementById('register-form');
+  const feedback = document.getElementById('register-feedback');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (form.password.value !== form.confirm.value) {
+      feedback.className = 'form-feedback is-visible error';
+      feedback.textContent = 'Passwords do not match.';
+      return;
+    }
+    if (!form.terms.checked) {
+      feedback.className = 'form-feedback is-visible error';
+      feedback.textContent = 'Please accept the terms and privacy policy.';
+      return;
+    }
+    submitBtn.disabled = true;
+    feedback.className = 'form-feedback is-visible info';
+    feedback.textContent = 'Creating your account\u2026';
+    try {
+      const result = await window.Auth.register(form.name.value, form.email.value, form.password.value);
+      if (!result.ok) {
+        feedback.className = 'form-feedback is-visible error';
+        feedback.textContent = result.error;
+        submitBtn.disabled = false;
+        return;
+      }
+      if (result.offline) {
+        feedback.className = 'form-feedback is-visible warning';
+        feedback.innerHTML = `\u26A0 Server unreachable \u2014 account for <strong>${result.user.name}</strong> saved only in this browser. ` +
+          `Start the API server on :8080 and register again to persist to the database.`;
+        submitBtn.disabled = false;
+        return;
+      }
+      feedback.className = 'form-feedback is-visible success';
+      feedback.textContent = `\u2713 Account created. Welcome, ${result.user.name}!`;
+      setTimeout(() => { location.href = 'account.html'; }, 800);
+    } catch (err) {
+      feedback.className = 'form-feedback is-visible error';
+      feedback.textContent = err.message || 'Registration failed';
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

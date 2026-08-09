@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_cap" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DCFCE7"/><stop offset="100%" stop-color="#4ADE80"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0F766E"/><stop offset="100%" stop-color="#064E3B"/>
+    </linearGradient>
+    <filter id="s_cap"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_cap)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.35)"/>
+  <g filter="url(#s_cap)">
+    <path d="M150 340 Q150 200 300 200 Q450 200 450 340 L450 370 L150 370 Z" fill="url(#cap)"/>
+    <path d="M150 370 Q100 380 90 420 L510 420 Q500 380 450 370 Z" fill="#064E3B"/>
+    <circle cx="300" cy="220" r="10" fill="#FDE68A"/>
+    <text x="300" y="310" font-family="Inter,sans-serif" font-size="60" font-weight="900" fill="#FDE68A" text-anchor="middle">S</text>
+  </g>
+  <text x="300" y="500" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#064E3B" text-anchor="middle" letter-spacing="4">CAPS &amp; HATS</text>
+</svg>

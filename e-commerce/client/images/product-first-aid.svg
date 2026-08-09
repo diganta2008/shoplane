@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_fa" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEE2E2"/><stop offset="100%" stop-color="#DC2626"/>
+    </linearGradient>
+    <linearGradient id="kit" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444"/><stop offset="100%" stop-color="#991B1B"/>
+    </linearGradient>
+    <filter id="s_fa"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_fa)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.30)"/>
+  <g filter="url(#s_fa)">
+    <rect x="240" y="140" width="120" height="30" rx="6" fill="#0F172A"/>
+    <rect x="120" y="170" width="360" height="280" rx="18" fill="url(#kit)" stroke="#0F172A" stroke-width="4"/>
+    <rect x="270" y="230" width="60" height="160" fill="white"/>
+    <rect x="220" y="280" width="160" height="60" fill="white"/>
+    <rect x="120" y="290" width="360" height="12" fill="#0F172A"/>
+    <path d="M240 450 L240 500 L360 500 L360 450" fill="#0F172A"/>
+  </g>
+  <text x="300" y="550" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#7F1D1D" text-anchor="middle" letter-spacing="4">FIRST AID KIT</text>
+</svg>

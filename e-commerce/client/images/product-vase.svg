@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_vs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE7F3"/><stop offset="100%" stop-color="#F472B6"/>
+    </linearGradient>
+    <linearGradient id="vase" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDF2F8"/><stop offset="100%" stop-color="#F9A8D4"/>
+    </linearGradient>
+    <filter id="s_vs"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_vs)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.35)"/>
+  <g filter="url(#s_vs)">
+    <ellipse cx="300" cy="470" rx="140" ry="18" fill="rgba(15,23,42,0.15)"/>
+    <path d="M260 170 L340 170 L340 200 L370 240 Q400 300 380 380 Q360 450 300 460 Q240 450 220 380 Q200 300 230 240 L260 200 Z" fill="url(#vase)" stroke="#0F172A" stroke-width="3"/>
+    <ellipse cx="300" cy="175" rx="40" ry="8" fill="#0F172A"/>
+    <path d="M270 130 Q290 90 310 130" fill="none" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+    <path d="M285 120 Q285 80 300 60 Q315 80 315 120" fill="#DC2626"/>
+    <path d="M290 60 Q290 40 300 30 Q310 40 310 60" fill="#F97316"/>
+    <path d="M330 140 Q360 100 350 60" fill="none" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="360" cy="70" r="10" fill="#EAB308"/>
+  </g>
+  <text x="300" y="520" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#831843" text-anchor="middle" letter-spacing="4">CERAMIC VASE</text>
+</svg>

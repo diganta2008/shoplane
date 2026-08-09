@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_st" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#CCFBF1"/><stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+    <linearGradient id="chest" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F1F5F9"/><stop offset="100%" stop-color="#94A3B8"/>
+    </linearGradient>
+    <filter id="s_st"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_st)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.30)"/>
+  <g filter="url(#s_st)">
+    <path d="M180 140 Q180 260 260 300 Q300 320 340 300 Q420 260 420 140" fill="none" stroke="#0F172A" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="180" cy="140" r="18" fill="#0F172A"/>
+    <circle cx="420" cy="140" r="18" fill="#0F172A"/>
+    <path d="M300 320 Q290 380 290 430" stroke="#0F172A" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <circle cx="290" cy="440" r="60" fill="url(#chest)" stroke="#0F172A" stroke-width="6"/>
+    <circle cx="290" cy="440" r="42" fill="#0D9488"/>
+    <circle cx="290" cy="440" r="16" fill="#0F172A"/>
+  </g>
+  <text x="300" y="540" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#134E4A" text-anchor="middle" letter-spacing="4">STETHOSCOPE</text>
+</svg>

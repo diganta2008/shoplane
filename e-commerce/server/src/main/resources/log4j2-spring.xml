@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ShopLane server logging.
+  - Console: colour-annotated single line, includes X-Request-Id from MDC.
+  - Rolling file: server/logs/shoplane-server.log
+      * Rolls when the file hits 10 MB or the day changes.
+      * Keeps up to 14 rolled files, deletes older ones automatically.
+      * Same layout as the console but without ANSI colour codes.
+  - Environment overrides:
+      SHOPLANE_LOG_DIR    directory to write logs to (default: logs)
+      SHOPLANE_LOG_LEVEL  root level (default: INFO)
+-->
+<Configuration status="WARN" monitorInterval="30">
+
+  <Properties>
+    <Property name="LOG_DIR">${sys:SHOPLANE_LOG_DIR:-${env:SHOPLANE_LOG_DIR:-logs}}</Property>
+    <Property name="APP_NAME">shoplane-backend</Property>
+    <Property name="PATTERN_CONSOLE">%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level}{FATAL=red bright, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan} [%X{requestId}] %style{%logger{24}}{cyan} - %msg%n%throwable</Property>
+    <Property name="PATTERN_FILE">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%X{requestId}] %logger{40} - %msg%n%throwable</Property>
+  </Properties>
+
+  <Appenders>
+
+    <Console name="Console" target="SYSTEM_OUT" follow="true">
+      <PatternLayout pattern="${PATTERN_CONSOLE}" disableAnsi="false"/>
+    </Console>
+
+    <RollingFile name="RollingFile"
+                 fileName="${LOG_DIR}/${APP_NAME}.log"
+                 filePattern="${LOG_DIR}/${APP_NAME}-%d{yyyy-MM-dd}-%i.log.gz"
+                 immediateFlush="true">
+      <PatternLayout pattern="${PATTERN_FILE}"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="14">
+        <Delete basePath="${LOG_DIR}" maxDepth="1">
+          <IfFileName glob="${APP_NAME}-*.log.gz"/>
+          <IfLastModified age="14d"/>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <!--
+      Dedicated access-log-style appender that only receives lines from the
+      RequestIdFilter. Keeps a clean per-request one-liner file so you can
+      grep or tail it without the framework chatter.
+    -->
+    <RollingFile name="AccessFile"
+                 fileName="${LOG_DIR}/${APP_NAME}-access.log"
+                 filePattern="${LOG_DIR}/${APP_NAME}-access-%d{yyyy-MM-dd}-%i.log.gz"
+                 immediateFlush="true">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{requestId}] %msg%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="14">
+        <Delete basePath="${LOG_DIR}" maxDepth="1">
+          <IfFileName glob="${APP_NAME}-access-*.log.gz"/>
+          <IfLastModified age="14d"/>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+  </Appenders>
+
+  <Loggers>
+
+    <!-- Framework noise -->
+    <Logger name="org.hibernate.SQL"                  level="WARN" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+    </Logger>
+    <Logger name="org.springframework.security"       level="INFO" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+    </Logger>
+    <Logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+    </Logger>
+
+    <!-- ShopLane package: full DEBUG-capable, tunable via env var -->
+    <Logger name="com.shoplane" level="${sys:SHOPLANE_LOG_LEVEL:-${env:SHOPLANE_LOG_LEVEL:-INFO}}" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+    </Logger>
+
+    <!-- Access log (dedicated file + still visible on console) -->
+    <Logger name="com.shoplane.common.RequestIdFilter" level="INFO" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+      <AppenderRef ref="AccessFile"/>
+    </Logger>
+
+    <Root level="${sys:SHOPLANE_LOG_LEVEL:-${env:SHOPLANE_LOG_LEVEL:-INFO}}">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
+    </Root>
+
+  </Loggers>
+
+</Configuration>

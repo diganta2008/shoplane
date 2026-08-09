@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_earbuds" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F1F5F9"/><stop offset="100%" stop-color="#94A3B8"/>
+    </linearGradient>
+    <filter id="s_earbuds"><feGaussianBlur in="SourceAlpha" stdDeviation="8"/><feOffset dy="10"/><feComponentTransfer><feFuncA type="linear" slope="0.25"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_earbuds)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(15,23,42,0.08)"/>
+  <g filter="url(#s_earbuds)">
+    <rect x="180" y="220" width="240" height="160" rx="30" fill="#F8FAFC" stroke="#0F172A" stroke-width="4"/>
+    <rect x="220" y="260" width="160" height="30" rx="8" fill="#0F172A"/>
+    <circle cx="230" cy="360" r="6" fill="#0F172A"/>
+    <ellipse cx="140" cy="320" rx="42" ry="52" fill="white" stroke="#0F172A" stroke-width="3"/>
+    <ellipse cx="140" cy="310" rx="26" ry="26" fill="#0F172A"/>
+    <rect x="130" y="360" width="20" height="90" rx="10" fill="white" stroke="#0F172A" stroke-width="3"/>
+    <ellipse cx="460" cy="320" rx="42" ry="52" fill="white" stroke="#0F172A" stroke-width="3"/>
+    <ellipse cx="460" cy="310" rx="26" ry="26" fill="#0F172A"/>
+    <rect x="450" y="360" width="20" height="90" rx="10" fill="white" stroke="#0F172A" stroke-width="3"/>
+  </g>
+  <text x="300" y="530" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#0F172A" text-anchor="middle" letter-spacing="4">EARBUDS PRO 3</text>
+</svg>

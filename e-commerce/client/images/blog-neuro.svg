@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="bgu" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EDE9FE"/><stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#bgu)"/>
+  <circle cx="80"  cy="80"  r="90"  fill="rgba(255,255,255,0.25)"/>
+  <circle cx="720" cy="420" r="110" fill="rgba(255,255,255,0.20)"/>
+  <g transform="translate(280 60)">
+    <path d="M120 30 Q80 30 60 60 Q30 80 40 130 Q20 160 50 200 Q40 260 80 280 Q90 320 140 320 L140 30 Z" fill="#F1F5F9" stroke="#0F172A" stroke-width="3"/>
+    <path d="M140 30 Q180 30 200 60 Q230 80 220 130 Q240 160 210 200 Q220 260 180 280 Q170 320 140 320 L140 30 Z" fill="#DDD6FE" stroke="#0F172A" stroke-width="3"/>
+    <path d="M60 90 Q90 100 100 130 Q80 150 100 180" stroke="#7C3AED" stroke-width="3" fill="none"/>
+    <path d="M180 90 Q160 110 170 140 Q190 160 170 190" stroke="#7C3AED" stroke-width="3" fill="none"/>
+    <path d="M120 140 Q140 150 160 140" stroke="#7C3AED" stroke-width="3" fill="none"/>
+    <path d="M110 220 Q140 230 170 220" stroke="#7C3AED" stroke-width="3" fill="none"/>
+    <circle cx="100" cy="110" r="4" fill="#7C3AED"/>
+    <circle cx="180" cy="120" r="4" fill="#7C3AED"/>
+    <circle cx="120" cy="200" r="4" fill="#7C3AED"/>
+    <circle cx="170" cy="240" r="4" fill="#7C3AED"/>
+  </g>
+  <text x="400" y="440" font-family="Inter,sans-serif" font-size="30" font-weight="900" fill="#4C1D95" text-anchor="middle" letter-spacing="6">NEUROLOGY</text>
+</svg>

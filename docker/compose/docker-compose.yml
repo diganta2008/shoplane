@@ -1,0 +1,104 @@
+# ------------------------------------------------------------------
+# MySQL local development stack
+#
+#   Bring up:      docker compose up -d
+#   Follow logs:   docker compose logs -f mysql
+#   Shell:         docker compose exec mysql mysql -uroot -p
+#   Tear down:     docker compose down          (keeps data)
+#   Wipe:          docker compose down -v       (drops the volume)
+#
+# Reads secrets & host port from the sibling .env file. Copy
+# .env.example -> .env before first run.
+# ------------------------------------------------------------------
+
+name: shoplane-db
+
+services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: shoplane-mysql
+    restart: unless-stopped
+
+    # Environment variables consumed by the official mysql image
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:      ${MYSQL_DATABASE}
+      MYSQL_USER:          ${MYSQL_USER}
+      MYSQL_PASSWORD:      ${MYSQL_PASSWORD}
+      TZ:                  ${TZ:-Asia/Kolkata}
+
+    # host:container — MYSQL_PORT defaults to 3306
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+
+    volumes:
+      # Persistent data
+      - mysql_data:/var/lib/mysql
+      # Init scripts run once on the very first container start
+      # (executed alphabetically). Add .sql or .sh files under ./init.
+      - ./init:/docker-entrypoint-initdb.d:ro
+      # NOTE: we intentionally do NOT bind-mount ./conf.d/*.cnf here.
+      # On Windows / macOS Docker Desktop, bind-mounted files land as
+      # world-writable, which MySQL refuses to load ("... is ignored").
+      # All essential tuning is passed via `command:` below instead.
+
+    # Server tuning — passed as CLI flags so they always apply
+    # (works on every host regardless of bind-mount permissions).
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --max_connections=200
+      - --max_allowed_packet=64M
+      - --wait_timeout=28800
+      - --sql_mode=STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION
+      - --innodb_buffer_pool_size=256M
+      - --innodb_flush_log_at_trx_commit=2
+      - --slow_query_log=1
+      - --long_query_time=1
+      # ---- Legacy auth plugin (disabled by default in MySQL 8.4) ---
+      # Enabling this lets GUI clients (Workbench, DBeaver, older JDBC
+      # drivers) connect without "Public Key Retrieval is not allowed".
+      # See init/03-native-auth.sql where the users are switched over.
+      - --mysql-native-password=ON
+
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+    networks:
+      - shoplane-net
+
+  # -------- phpMyAdmin (optional, dev-only) ----------------------
+  # Enable with:   docker compose --profile tools up -d
+  # Then open:     http://localhost:${PMA_PORT:-8081}
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    container_name: shoplane-phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      UPLOAD_LIMIT: 128M
+    ports:
+      - "${PMA_PORT:-8081}:80"
+    networks:
+      - shoplane-net
+    profiles: ["tools"]
+
+volumes:
+  mysql_data:
+    name: shoplane_mysql_data
+
+networks:
+  shoplane-net:
+    name: shoplane-net
+    driver: bridge

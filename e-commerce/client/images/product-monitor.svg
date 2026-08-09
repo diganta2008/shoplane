@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_monitor" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <filter id="s_monitor"><feGaussianBlur in="SourceAlpha" stdDeviation="12"/><feOffset dy="14"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_monitor)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.12)"/>
+  <g filter="url(#s_monitor)">
+    <rect x="70" y="130" width="460" height="280" rx="12" fill="#0F172A"/>
+    <rect x="88" y="148" width="424" height="244" rx="4" fill="#1E293B"/>
+    <rect x="120" y="180" width="200" height="12" rx="4" fill="#F59E0B"/>
+    <rect x="120" y="210" width="360" height="8" rx="4" fill="#334155"/>
+    <rect x="120" y="230" width="280" height="8" rx="4" fill="#334155"/>
+    <rect x="120" y="255" width="120" height="110" rx="6" fill="rgba(245,158,11,0.5)"/>
+    <rect x="260" y="255" width="120" height="110" rx="6" fill="rgba(16,185,129,0.5)"/>
+    <rect x="380" y="255" width="120" height="110" rx="6" fill="rgba(96,165,250,0.5)"/>
+    <rect x="280" y="410" width="40" height="30" fill="#0F172A"/>
+    <rect x="200" y="440" width="200" height="14" rx="4" fill="#0F172A"/>
+  </g>
+  <text x="300" y="530" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="rgba(255,255,255,0.9)" text-anchor="middle" letter-spacing="4">32-INCH 4K MONITOR</text>
+</svg>

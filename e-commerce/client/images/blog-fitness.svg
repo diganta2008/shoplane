@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="bgf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF3C7"/><stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#bgf)"/>
+  <circle cx="700" cy="80" r="120" fill="rgba(255,255,255,0.30)"/>
+  <circle cx="80"  cy="420" r="100" fill="rgba(255,255,255,0.20)"/>
+  <g transform="translate(240 100)">
+    <circle cx="160" cy="80" r="46" fill="#F1F5F9" stroke="#0F172A" stroke-width="3"/>
+    <path d="M124 130 L196 130 L216 210 L104 210 Z" fill="#F97316"/>
+    <path d="M124 130 L196 130 L204 156 L116 156 Z" fill="#EA580C"/>
+    <rect x="140" y="210" width="20" height="80" fill="#F1F5F9" stroke="#0F172A" stroke-width="2"/>
+    <rect x="160" y="210" width="20" height="80" fill="#F1F5F9" stroke="#0F172A" stroke-width="2"/>
+    <path d="M100 190 L60 220" stroke="#0F172A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M220 190 L260 220" stroke="#0F172A" stroke-width="8" stroke-linecap="round"/>
+    <rect x="46"  y="204" width="40" height="24" rx="4" fill="#0F172A"/>
+    <rect x="272" y="204" width="40" height="24" rx="4" fill="#0F172A"/>
+  </g>
+  <text x="400" y="440" font-family="Inter,sans-serif" font-size="30" font-weight="900" fill="#7C2D12" text-anchor="middle" letter-spacing="6">FITNESS</text>
+</svg>

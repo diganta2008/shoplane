@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="healthcare">
+
+<header class="site-header" id="site-header"></header>
+
+<!-- HERO ---------------------------------------------------------- -->
+<section class="hc-hero" data-testid="hc-hero">
+  <div class="container hc-hero__grid">
+    <div class="hc-hero__copy">
+      <span class="hc-hero__eyebrow" data-testid="hc-hero-eyebrow">ShopLane Healthcare</span>
+      <h1 data-testid="hc-hero-title">Care that meets you where you are.</h1>
+      <p data-testid="hc-hero-subtitle">
+        Talk to verified doctors, read evidence-backed health articles, and shop
+        home medical instruments &mdash; all in one place.
+      </p>
+      <div class="hc-hero__cta">
+        <a href="#doctors" class="btn btn-primary btn-lg" data-testid="cta-book">
+          Book a doctor
+        </a>
+        <a href="shop.html?category=Medical" class="btn btn-ghost btn-lg" data-testid="cta-shop-instruments">
+          Shop instruments
+        </a>
+      </div>
+      <ul class="hc-hero__stats" data-testid="hc-hero-stats">
+        <li><strong>8+</strong><span>Verified doctors</span></li>
+        <li><strong>15</strong><span>Instruments in stock</span></li>
+        <li><strong>24&times;7</strong><span>Telehealth access</span></li>
+      </ul>
+    </div>
+    <div class="hc-hero__art" aria-hidden="true">
+      <svg viewBox="0 0 480 480" width="100%" height="100%">
+        <defs>
+          <linearGradient id="hero-heart" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f43f5e"/><stop offset="100%" stop-color="#be123c"/>
+          </linearGradient>
+        </defs>
+        <circle cx="240" cy="240" r="200" fill="white" opacity="0.4"/>
+        <path d="M240 130 Q160 60 100 140 Q40 220 240 380 Q440 220 380 140 Q320 60 240 130 Z"
+              fill="url(#hero-heart)"/>
+        <path d="M110 240 Q140 240 155 210 L180 300 L210 160 L240 320 L270 200 L295 240 L360 240"
+              stroke="white" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALTIES --------------------------------------------------- -->
+<section class="hc-section" data-testid="hc-specialties">
+  <div class="container">
+    <div class="hc-section__head">
+      <h2>Find a specialist</h2>
+      <p class="hc-muted">Pick a specialty to filter the doctor directory below.</p>
+    </div>
+    <div class="hc-specialty-strip" id="hc-specialty-strip"
+         data-testid="specialty-strip"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- DOCTORS ------------------------------------------------------- -->
+<section id="doctors" class="hc-section hc-section--tinted" data-testid="hc-doctors">
+  <div class="container">
+    <div class="hc-section__head">
+      <h2>Featured doctors</h2>
+      <p class="hc-muted">
+        Every doctor listed is verified by our clinical team. Rating,
+        experience and next-available slot are updated hourly.
+      </p>
+    </div>
+
+    <div class="hc-doctor-grid" id="hc-doctor-grid"
+         data-testid="doctor-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- INSTRUMENTS --------------------------------------------------- -->
+<section class="hc-section" data-testid="hc-instruments">
+  <div class="container">
+    <div class="hc-section__head">
+      <h2>Medical instruments</h2>
+      <p class="hc-muted">
+        Home diagnostics, monitoring devices and mobility aids &mdash;
+        shippable to your door. Add to cart just like any other product.
+      </p>
+      <a href="shop.html?category=Medical" class="hc-section__link"
+         data-testid="see-all-instruments">See all 15 &rsaquo;</a>
+    </div>
+
+    <div class="grid grid-3" id="hc-instrument-grid"
+         data-testid="instrument-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- BLOG ---------------------------------------------------------- -->
+<section class="hc-section hc-section--tinted" data-testid="hc-blog">
+  <div class="container">
+    <div class="hc-section__head">
+      <h2>Health blog</h2>
+      <p class="hc-muted">
+        Practical, evidence-backed health writing from the doctors on our platform.
+      </p>
+    </div>
+
+    <div class="hc-blog-grid" id="hc-blog-grid"
+         data-testid="blog-grid"><!-- filled by JS --></div>
+  </div>
+</section>
+
+<!-- CTA BAND ------------------------------------------------------ -->
+<section class="hc-cta-band" data-testid="hc-cta-band">
+  <div class="container hc-cta-band__grid">
+    <div>
+      <h3>Need care right now?</h3>
+      <p>Talk to a general physician in under 5 minutes on video.</p>
+    </div>
+    <a href="#" class="btn btn-primary btn-lg" data-testid="cta-telehealth"
+       id="cta-telehealth">Start video consult</a>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/healthcare-data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const money = (v) => '$' + Number(v).toFixed(2);
+  const stars = (r) => '★★★★★☆☆☆☆☆'.substr(5 - Math.round(r), 5);
+  const slug  = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+  /* ---- Specialties strip -------------------------------------- */
+  const specStrip = document.getElementById('hc-specialty-strip');
+  let activeSpecialty = null;
+
+  function renderSpecialties() {
+    const counts = new Map();
+    (window.HC_DOCTORS || []).forEach((d) => {
+      counts.set(d.specialty, (counts.get(d.specialty) || 0) + 1);
+    });
+    const chips = [
+      `<button class="hc-spec-chip ${activeSpecialty ? '' : 'active'}"
+               data-spec="__all__" data-testid="spec-chip-all">
+         All <span class="hc-spec-chip__count">${(window.HC_DOCTORS || []).length}</span>
+       </button>`
+    ].concat((window.HC_SPECIALTIES || []).map((s) => {
+      const c = counts.get(s.name) || 0;
+      const on = activeSpecialty === s.name ? 'active' : '';
+      return `
+        <button class="hc-spec-chip ${on}" data-spec="${s.name}"
+                data-testid="spec-chip-${slug(s.name)}">
+          ${s.name} <span class="hc-spec-chip__count">${c}</span>
+        </button>`;
+    })).join('');
+    specStrip.innerHTML = chips;
+  }
+
+  specStrip.addEventListener('click', (e) => {
+    const btn = e.target.closest('.hc-spec-chip');
+    if (!btn) return;
+    activeSpecialty = btn.dataset.spec === '__all__' ? null : btn.dataset.spec;
+    renderSpecialties();
+    renderDoctors();
+    document.getElementById('doctors').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* ---- Doctors grid ------------------------------------------- */
+  const doctorGrid = document.getElementById('hc-doctor-grid');
+  function renderDoctors() {
+    const list = (window.HC_DOCTORS || []).filter((d) =>
+      !activeSpecialty || d.specialty === activeSpecialty);
+    if (!list.length) {
+      doctorGrid.innerHTML = '<div class="empty-state"><h3>No doctors found for this specialty.</h3></div>';
+      return;
+    }
+    doctorGrid.innerHTML = list.map((d) => `
+      <article class="hc-doc-card" data-testid="doctor-card" data-doctor-id="${d.id}">
+        <div class="hc-doc-card__media">
+          <img src="${d.image}" alt="${d.name}"/>
+          ${d.telehealth ? '<span class="hc-doc-card__tele" title="Telehealth available">📹 Video visit</span>' : ''}
+        </div>
+        <div class="hc-doc-card__body">
+          <span class="hc-doc-card__spec" data-testid="doctor-specialty">${d.specialty}</span>
+          <h3 data-testid="doctor-name">${d.name}</h3>
+          <p class="hc-doc-card__qual">${d.qualifications}</p>
+          <p class="hc-doc-card__hospital">${d.hospital}</p>
+          <div class="hc-doc-card__stats">
+            <span title="Rating"><span class="stars">${stars(d.rating)}</span> ${d.rating.toFixed(1)} (${d.reviewCount})</span>
+            <span title="Experience">${d.experienceYears} yrs exp.</span>
+          </div>
+          <div class="hc-doc-card__foot">
+            <div>
+              <div class="hc-doc-card__fee" data-testid="doctor-fee">${money(d.fee)}</div>
+              <div class="hc-doc-card__slot" data-testid="doctor-slot">Next: ${d.nextSlot}</div>
+            </div>
+            <button class="btn btn-primary btn-sm"
+                    data-testid="book-doctor-btn"
+                    data-doctor-id="${d.id}">Book</button>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  doctorGrid.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-testid="book-doctor-btn"]');
+    if (!btn) return;
+    const doc = window.getDoctor(btn.dataset.doctorId);
+    if (window.ShopLane && window.ShopLane.toast) {
+      window.ShopLane.toast(`Consultation request sent to ${doc.name}. You will get a confirmation shortly.`);
+    } else {
+      alert('Consultation request sent to ' + doc.name + '.');
+    }
+  });
+
+  /* ---- Instruments (first 6 from Medical category) ------------ */
+  const instrumentGrid = document.getElementById('hc-instrument-grid');
+  const medicalProducts = (window.CATALOG || []).filter((p) => p.category === 'Medical').slice(0, 6);
+  instrumentGrid.innerHTML = medicalProducts.map((p) =>
+    window.ShopLane && window.ShopLane.productCardHtml
+      ? window.ShopLane.productCardHtml(p)
+      : `<div>${p.name}</div>`).join('');
+
+  /* ---- Blog grid ---------------------------------------------- */
+  const blogGrid = document.getElementById('hc-blog-grid');
+  blogGrid.innerHTML = (window.HC_BLOG || []).map((b) => `
+    <article class="hc-blog-card" data-testid="blog-card" data-blog-id="${b.id}">
+      <a class="hc-blog-card__media" href="#" data-testid="blog-link">
+        <img src="${b.hero}" alt="${b.title}"/>
+        <span class="hc-blog-card__cat">${b.category}</span>
+      </a>
+      <div class="hc-blog-card__body">
+        <h3 data-testid="blog-title">${b.title}</h3>
+        <p class="hc-blog-card__excerpt" data-testid="blog-excerpt">${b.excerpt}</p>
+        <div class="hc-blog-card__meta">
+          <span data-testid="blog-author">${b.author}</span>
+          <span>&bull;</span>
+          <span data-testid="blog-date">${new Date(b.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+          <span>&bull;</span>
+          <span>${b.readMin} min read</span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+
+  /* ---- Telehealth CTA ----------------------------------------- */
+  document.getElementById('cta-telehealth').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (window.ShopLane && window.ShopLane.toast) {
+      window.ShopLane.toast('Finding an available general physician…');
+    } else {
+      alert('Finding an available general physician…');
+    }
+  });
+
+  /* ---- Initial render ----------------------------------------- */
+  renderSpecialties();
+  renderDoctors();
+</script>
+
+</body>
+</html>

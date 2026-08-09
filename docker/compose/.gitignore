@@ -1,0 +1,6 @@
+# Never commit the resolved .env — it contains real secrets.
+.env
+
+# Runtime artefacts (in case someone bind-mounts data locally)
+data/
+*.log

@@ -1,0 +1,78 @@
+spring:
+  application:
+    name: shoplane-backend
+
+  datasource:
+    url:  ${DB_URL:jdbc:mysql://127.0.0.1:3306/shoplane?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=utf8}
+    username: ${DB_USER:shoplane}
+    password: ${DB_PASSWORD:shoplane_change_me}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: ShopLaneHikari
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 5000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      # The schema is created by docker/compose/init/*.sql — never let JPA modify it.
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+
+  main:
+    banner-mode: off
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+
+# Custom application properties, bound via ShopLaneProperties
+shoplane:
+  jwt:
+    issuer: shoplane-api
+    access-secret:  ${JWT_SECRET:dev-only-shoplane-access-secret-please-change-me-min-32-chars}
+    refresh-secret: ${JWT_REFRESH_SECRET:dev-only-shoplane-refresh-secret-please-change-me-min-32-chars}
+    access-ttl-minutes:  ${JWT_ACCESS_TTL_MINUTES:15}
+    refresh-ttl-days:    ${JWT_REFRESH_TTL_DAYS:7}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5500,http://127.0.0.1:5500,http://localhost:9090,http://127.0.0.1:9090,http://localhost:3000,http://shoplane.com,http://shoplane.com:9090,http://shoplane.com:8080,http://api.shoplane.com,http://api.shoplane.com:8080}
+
+# Spring Doc / Swagger UI
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+  api-docs:
+    path: /v3/api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+# Logging is fully configured by src/main/resources/log4j2-spring.xml.
+# Only levels are honoured from here (Spring Boot's LoggingSystem forwards them to Log4j2).
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN
+    org.springframework.security: INFO
+    com.shoplane.common.RequestIdFilter: INFO
+    org.springframework.web.servlet.DispatcherServlet: INFO

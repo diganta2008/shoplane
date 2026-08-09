@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="wishlist">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">My Wishlist</h1>
+    <p data-testid="page-subtitle">Items you've saved for later.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <span class="current">Wishlist</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container" style="padding:30px 20px;">
+  <div id="wrap"></div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const wrap = document.getElementById('wrap');
+
+  function render() {
+    const list = window.ShopLane.getWishlist();
+    if (list.length === 0) {
+      wrap.innerHTML = `
+        <div class="empty-state" data-testid="empty-wishlist">
+          <div class="icon">💜</div>
+          <h3>Your wishlist is empty</h3>
+          <p>Tap the heart icon on any product to save it here.</p>
+          <a href="shop.html" class="btn btn-primary btn-lg" data-testid="empty-wishlist-cta">Discover products</a>
+        </div>`;
+      return;
+    }
+    const products = list.map((id) => window.getProduct(id)).filter(Boolean);
+    wrap.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+        <div style="color:var(--muted);" data-testid="wishlist-count">${products.length} item${products.length === 1 ? '' : 's'} saved</div>
+        <button class="btn btn-outline" id="add-all" data-testid="add-all-to-cart">Add all to cart</button>
+      </div>
+      <div class="grid grid-4" data-testid="wishlist-grid">
+        ${products.map((p) => window.ShopLane.productCardHtml(p)).join('')}
+      </div>`;
+
+    document.getElementById('add-all').addEventListener('click', () => {
+      products.forEach((p) => window.ShopLane.addToCart(p.id, 1));
+    });
+  }
+
+  render();
+  window.addEventListener('wishlist:change', render);
+</script>
+
+</body>
+</html>

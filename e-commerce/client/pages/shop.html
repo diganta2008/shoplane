@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="shop">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">Shop All Products</h1>
+    <p data-testid="page-subtitle">Browse the full catalog. Filter, sort and add to cart in one click.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <span class="current">Shop</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container">
+  <div class="shop-layout">
+
+    <!-- Filters ---------------------------------------------------- -->
+    <aside class="filter-panel" data-testid="filter-panel">
+      <div class="filter-group" data-testid="filter-category-group">
+        <div class="filter-title">Category</div>
+        <label class="filter-option">
+          <input type="radio" name="category" value="" checked data-testid="filter-category-all"/>
+          All categories
+        </label>
+
+        <div class="cat-node" data-parent="Electronics">
+          <label class="filter-option">
+            <input type="radio" name="category" value="Electronics" data-testid="filter-category-electronics"/>
+            Electronics <span class="count" data-testid="count-Electronics">0</span>
+          </label>
+          <div class="subcat-tree" data-tree-for="Electronics"
+               data-testid="subcat-tree-electronics" hidden></div>
+        </div>
+
+        <div class="cat-node" data-parent="Fashion">
+          <label class="filter-option">
+            <input type="radio" name="category" value="Fashion" data-testid="filter-category-fashion"/>
+            Fashion <span class="count" data-testid="count-Fashion">0</span>
+          </label>
+          <div class="subcat-tree" data-tree-for="Fashion"
+               data-testid="subcat-tree-fashion" hidden></div>
+        </div>
+
+        <div class="cat-node" data-parent="Home">
+          <label class="filter-option">
+            <input type="radio" name="category" value="Home" data-testid="filter-category-home"/>
+            Home <span class="count" data-testid="count-Home">0</span>
+          </label>
+          <div class="subcat-tree" data-tree-for="Home"
+               data-testid="subcat-tree-home" hidden></div>
+        </div>
+
+        <div class="cat-node" data-parent="Books">
+          <label class="filter-option">
+            <input type="radio" name="category" value="Books" data-testid="filter-category-books"/>
+            Books <span class="count" data-testid="count-Books">0</span>
+          </label>
+          <div class="subcat-tree" data-tree-for="Books"
+               data-testid="subcat-tree-books" hidden></div>
+        </div>
+
+        <div class="cat-node" data-parent="Medical">
+          <label class="filter-option">
+            <input type="radio" name="category" value="Medical" data-testid="filter-category-medical"/>
+            Medical <span class="count" data-testid="count-Medical">0</span>
+          </label>
+          <div class="subcat-tree" data-tree-for="Medical"
+               data-testid="subcat-tree-medical" hidden></div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Price range</div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--slate-700);margin-bottom:6px;">
+          <span>$0</span>
+          <span data-testid="price-max-label">$2000</span>
+        </div>
+        <input type="range" min="0" max="2000" step="10" value="2000"
+               id="price-range" class="range-slider" data-testid="filter-price"/>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Minimum rating</div>
+        <label class="filter-option">
+          <input type="radio" name="rating" value="0" checked data-testid="filter-rating-any"/>
+          Any rating
+        </label>
+        <label class="filter-option">
+          <input type="radio" name="rating" value="4" data-testid="filter-rating-4"/>
+          4★ &amp; above
+        </label>
+        <label class="filter-option">
+          <input type="radio" name="rating" value="4.5" data-testid="filter-rating-4-5"/>
+          4.5★ &amp; above
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-title">Availability</div>
+        <label class="filter-option">
+          <input type="checkbox" id="in-stock-only" data-testid="filter-in-stock"/>
+          In stock only
+        </label>
+      </div>
+
+      <button class="btn btn-ghost btn-block" id="reset-filters" data-testid="reset-filters">
+        Reset filters
+      </button>
+    </aside>
+
+    <!-- Results ---------------------------------------------------- -->
+    <div>
+      <div class="shop-toolbar" data-testid="shop-toolbar">
+        <div>
+          <span class="count" data-testid="result-count">Showing 0 products</span>
+          <span id="active-filter-chips" style="margin-left:12px;" data-testid="filter-chips"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label for="sort-select" style="font-size:13px;color:var(--muted);">Sort by:</label>
+          <select id="sort-select" data-testid="sort-select">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low → high</option>
+            <option value="price-desc">Price: high → low</option>
+            <option value="rating">Highest rated</option>
+            <option value="newest">Newest first</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-3" id="product-grid" data-testid="product-grid"></div>
+
+      <div id="no-results" class="empty-state hidden" data-testid="no-results">
+        <div class="icon">🔍</div>
+        <h3>No products match your filters</h3>
+        <p>Try adjusting the price range, rating or clearing the search query.</p>
+        <button class="btn btn-primary" id="no-results-reset">Reset filters</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const grid = document.getElementById('product-grid');
+  const resultCount = document.querySelector('[data-testid="result-count"]');
+  const chipsEl = document.getElementById('active-filter-chips');
+  const noResults = document.getElementById('no-results');
+  const priceRange = document.getElementById('price-range');
+  const priceLabel = document.querySelector('[data-testid="price-max-label"]');
+  const inStock = document.getElementById('in-stock-only');
+  const sortSelect = document.getElementById('sort-select');
+
+  // Populate counts per category
+  window.CATEGORIES.forEach((c) => {
+    const el = document.querySelector(`[data-testid="count-${c.id}"]`);
+    if (el) el.textContent = window.CATALOG.filter((p) => p.category === c.id).length;
+  });
+
+  // Read URL params to pre-apply filters/search
+  const url = new URL(location.href);
+  const initialCategory = url.searchParams.get('category');
+  const initialQuery = url.searchParams.get('q') || '';
+  const initialSubcategory = url.searchParams.get('subcategory');
+  if (initialCategory) {
+    const radio = document.querySelector(`input[name="category"][value="${initialCategory}"]`);
+    if (radio) radio.checked = true;
+  }
+
+  // ---- Sub-category state (nested tree under each Category radio) --
+  const selectedSubcats = new Set();
+  function slug(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
+
+  // Bring the top of the results into view whenever the user applies a
+  // filter. Skipped on the initial render so the browser scroll-restore
+  // works as expected on back-navigation.
+  const shopToolbar = document.querySelector('[data-testid="shop-toolbar"]');
+  function scrollToResults() {
+    if (!shopToolbar) return;
+    const rect = shopToolbar.getBoundingClientRect();
+    // Only scroll when the toolbar is off-screen; otherwise stay put.
+    if (rect.top >= 0 && rect.top <= 80) return;
+    const header = document.getElementById('site-header');
+    const headerH = header ? header.getBoundingClientRect().height : 0;
+    const top = window.scrollY + rect.top - headerH - 12;
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+  }
+
+  function currentFilters() {
+    return {
+      category: document.querySelector('input[name="category"]:checked').value,
+      subcategories: Array.from(selectedSubcats),
+      priceMax: Number(priceRange.value),
+      minRating: Number(document.querySelector('input[name="rating"]:checked').value),
+      inStock: inStock.checked,
+      query: initialQuery.toLowerCase(),
+      sort: sortSelect.value,
+    };
+  }
+
+  function subcatsForCategory(cat) {
+    const counts = new Map();
+    window.CATALOG.forEach((p) => {
+      if (p.category !== cat || !p.subCategory) return;
+      counts.set(p.subCategory, (counts.get(p.subCategory) || 0) + 1);
+    });
+    return Array.from(counts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+  }
+
+  // Build a nested checkbox tree once per category (data doesn't change client-side).
+  function buildSubcategoryTrees() {
+    document.querySelectorAll('.subcat-tree').forEach((tree) => {
+      const cat = tree.dataset.treeFor;
+      const list = subcatsForCategory(cat);
+      if (!list.length) { tree.innerHTML = ''; return; }
+      tree.innerHTML = list.map(([name, count]) => `
+        <label class="filter-option filter-option--nested">
+          <input type="checkbox" name="subcategory"
+                 value="${name}" data-parent="${cat}"
+                 data-testid="filter-subcat-${slug(cat)}-${slug(name)}"/>
+          ${name} <span class="count">${count}</span>
+        </label>`).join('');
+    });
+    // Delegated change listener (one, for the whole sidebar)
+    document.querySelectorAll('input[name="subcategory"]').forEach((el) => {
+      el.addEventListener('change', () => {
+        if (el.checked) selectedSubcats.add(el.value);
+        else            selectedSubcats.delete(el.value);
+        render();
+        scrollToResults();
+      });
+    });
+  }
+
+  function refreshSubcategoryTrees() {
+    const cat = document.querySelector('input[name="category"]:checked').value;
+    // Show only the tree matching the selected category (empty when "All").
+    document.querySelectorAll('.subcat-tree').forEach((tree) => {
+      tree.hidden = !cat || tree.dataset.treeFor !== cat;
+    });
+    // Any previously selected subcats that no longer belong to the active category
+    // are dropped and their checkboxes reset.
+    document.querySelectorAll('input[name="subcategory"]').forEach((el) => {
+      const belongs = cat && el.dataset.parent === cat;
+      if (!belongs && el.checked) { el.checked = false; }
+    });
+    selectedSubcats.clear();
+    document
+      .querySelectorAll('input[name="subcategory"]:checked')
+      .forEach((el) => selectedSubcats.add(el.value));
+  }
+
+  function render() {
+    const f = currentFilters();
+    let list = window.CATALOG.filter((p) => {
+      if (f.category && p.category !== f.category) return false;
+      if (f.subcategories.length && !f.subcategories.includes(p.subCategory)) return false;
+      if (p.price > f.priceMax) return false;
+      if (p.rating < f.minRating) return false;
+      if (f.inStock && p.stock === 0) return false;
+      if (f.query && !(
+        p.name.toLowerCase().includes(f.query) ||
+        p.category.toLowerCase().includes(f.query) ||
+        (p.subCategory && p.subCategory.toLowerCase().includes(f.query)) ||
+        (p.tags || []).some((t) => t.includes(f.query))
+      )) return false;
+      return true;
+    });
+
+    switch (f.sort) {
+      case 'price-asc':  list.sort((a, b) => a.price - b.price); break;
+      case 'price-desc': list.sort((a, b) => b.price - a.price); break;
+      case 'rating':     list.sort((a, b) => b.rating - a.rating); break;
+      case 'newest':     list.reverse(); break;
+      default: /* featured — original order */ break;
+    }
+
+    resultCount.textContent = `Showing ${list.length} product${list.length === 1 ? '' : 's'}`;
+    grid.innerHTML = list.map((p) => window.ShopLane.productCardHtml(p)).join('');
+    noResults.classList.toggle('hidden', list.length !== 0);
+
+    // filter chips
+    const chips = [];
+    if (f.category)          chips.push({ key: 'category',  label: f.category });
+    f.subcategories.forEach((s) =>
+      chips.push({ key: 'subcategory', label: s, value: s }));
+    if (f.priceMax < 2000)   chips.push({ key: 'price',     label: `≤ $${f.priceMax}` });
+    if (f.minRating > 0)     chips.push({ key: 'rating',    label: `${f.minRating}★+` });
+    if (f.inStock)           chips.push({ key: 'stock',     label: 'In stock' });
+    if (f.query)             chips.push({ key: 'query',     label: `"${initialQuery}"` });
+    chipsEl.innerHTML = chips.map((c) => `
+      <span class="chip" data-testid="chip-${c.key}${c.value ? '-' + slug(c.value) : ''}">${c.label}
+        <button aria-label="Remove ${c.key} filter"
+                data-remove="${c.key}"
+                ${c.value ? `data-value="${c.value}"` : ''}>×</button>
+      </span>`).join(' ');
+  }
+
+  // filter events
+  document.querySelectorAll('input[name="category"]').forEach((el) =>
+    el.addEventListener('change', () => {
+      // switching categories collapses the previous tree, expands the new one,
+      // and drops any subcat selections that no longer apply.
+      refreshSubcategoryTrees();
+      render();
+      scrollToResults();
+    }));
+  document.querySelectorAll('input[name="rating"]').forEach((el) =>
+    el.addEventListener('change', () => { render(); scrollToResults(); }));
+  priceRange.addEventListener('input', () => {
+    priceLabel.textContent = '$' + priceRange.value;
+    render();
+  });
+  // Only scroll to top when the user *releases* the price slider, so smooth
+  // dragging isn't interrupted mid-motion.
+  priceRange.addEventListener('change', scrollToResults);
+  inStock.addEventListener('change', () => { render(); scrollToResults(); });
+  sortSelect.addEventListener('change', () => { render(); scrollToResults(); });
+
+  document.getElementById('reset-filters').addEventListener('click', resetAll);
+  document.getElementById('no-results-reset').addEventListener('click', resetAll);
+  chipsEl.addEventListener('click', (e) => {
+    const rm = e.target.closest('[data-remove]');
+    if (!rm) return;
+    const key = rm.dataset.remove;
+    if (key === 'category') {
+      document.querySelector('input[name="category"][value=""]').checked = true;
+      refreshSubcategoryTrees();
+    }
+    if (key === 'subcategory') {
+      const cb = document.querySelector(
+        `input[name="subcategory"][value="${rm.dataset.value}"]`);
+      if (cb) cb.checked = false;
+      selectedSubcats.delete(rm.dataset.value);
+    }
+    if (key === 'rating')   document.querySelector('input[name="rating"][value="0"]').checked = true;
+    if (key === 'price')    { priceRange.value = 2000; priceLabel.textContent = '$2000'; }
+    if (key === 'stock')    inStock.checked = false;
+    if (key === 'query')    { url.searchParams.delete('q'); history.replaceState(null, '', url); location.reload(); }
+    render();
+    scrollToResults();
+  });
+
+  function resetAll() {
+    document.querySelector('input[name="category"][value=""]').checked = true;
+    document.querySelector('input[name="rating"][value="0"]').checked = true;
+    priceRange.value = 2000; priceLabel.textContent = '$2000';
+    inStock.checked = false;
+    sortSelect.value = 'featured';
+    document.querySelectorAll('input[name="subcategory"]:checked')
+      .forEach((el) => (el.checked = false));
+    refreshSubcategoryTrees();
+    render();
+    scrollToResults();
+  }
+
+  buildSubcategoryTrees();
+  refreshSubcategoryTrees();
+  if (initialSubcategory) {
+    const cb = document.querySelector(
+      `input[name="subcategory"][value="${initialSubcategory}"]`);
+    if (cb) { cb.checked = true; selectedSubcats.add(initialSubcategory); }
+  }
+  render();
+
+  // If page landed from a search, pre-fill the header search box
+  window.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('global-search');
+    if (searchInput && initialQuery) searchInput.value = initialQuery;
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+# Custom MySQL configuration snippets. Files in this folder are
+# read after the defaults, so anything here overrides the base config.
+# Restart the container after editing:  docker compose restart mysql
+
+[mysqld]
+# UTF8MB4 everywhere
+character-set-server         = utf8mb4
+collation-server             = utf8mb4_0900_ai_ci
+init-connect                 = 'SET NAMES utf8mb4'
+
+# Reasonable dev-friendly limits
+max_connections              = 200
+max_allowed_packet           = 64M
+wait_timeout                 = 28800
+
+# Log slow queries (>= 1s) — useful during automation runs
+slow_query_log               = 1
+slow_query_log_file          = /var/lib/mysql/mysql-slow.log
+long_query_time              = 1
+log_queries_not_using_indexes= 1
+
+# InnoDB
+innodb_buffer_pool_size      = 256M
+innodb_flush_log_at_trx_commit = 2
+innodb_flush_method          = O_DIRECT
+
+[client]
+default-character-set        = utf8mb4
+
+[mysql]
+default-character-set        = utf8mb4

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_air" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ECFEFF"/><stop offset="100%" stop-color="#67E8F9"/>
+    </linearGradient>
+    <linearGradient id="body_air" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F8FAFC"/><stop offset="100%" stop-color="#CBD5E1"/>
+    </linearGradient>
+    <filter id="s_air"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_air)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.30)"/>
+  <g filter="url(#s_air)">
+    <rect x="220" y="120" width="160" height="360" rx="18" fill="url(#body_air)" stroke="#0F172A" stroke-width="3"/>
+    <circle cx="300" cy="220" r="50" fill="none" stroke="#0EA5E9" stroke-width="3"/>
+    <circle cx="300" cy="220" r="30" fill="none" stroke="#0EA5E9" stroke-width="3"/>
+    <circle cx="300" cy="220" r="10" fill="#0EA5E9"/>
+    <line x1="240" y1="320" x2="360" y2="320" stroke="#94A3B8" stroke-width="4"/>
+    <line x1="240" y1="340" x2="360" y2="340" stroke="#94A3B8" stroke-width="4"/>
+    <line x1="240" y1="360" x2="360" y2="360" stroke="#94A3B8" stroke-width="4"/>
+    <line x1="240" y1="380" x2="360" y2="380" stroke="#94A3B8" stroke-width="4"/>
+    <line x1="240" y1="400" x2="360" y2="400" stroke="#94A3B8" stroke-width="4"/>
+    <rect x="270" y="440" width="60" height="14" rx="4" fill="#0F172A"/>
+    <path d="M170 200 Q140 240 170 300" fill="none" stroke="#22D3EE" stroke-width="4" stroke-linecap="round"/>
+    <path d="M430 200 Q460 240 430 300" fill="none" stroke="#22D3EE" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="300" y="540" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#0C4A6E" text-anchor="middle" letter-spacing="4">AIR PURIFIER</text>
+</svg>

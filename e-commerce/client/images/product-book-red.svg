@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_br" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEE2E2"/><stop offset="100%" stop-color="#EF4444"/>
+    </linearGradient>
+    <linearGradient id="cover_r" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DC2626"/><stop offset="100%" stop-color="#7F1D1D"/>
+    </linearGradient>
+    <filter id="s_br"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dx="12" dy="14"/><feComponentTransfer><feFuncA type="linear" slope="0.35"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_br)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.30)"/>
+  <g filter="url(#s_br)">
+    <rect x="180" y="100" width="240" height="380" rx="6" fill="url(#cover_r)"/>
+    <rect x="180" y="100" width="20" height="380" fill="rgba(0,0,0,0.25)"/>
+    <text x="300" y="180" font-family="Georgia,serif" font-size="18" fill="rgba(255,255,255,0.7)" text-anchor="middle" letter-spacing="2">MEMOIR</text>
+    <text x="300" y="260" font-family="Georgia,serif" font-size="42" font-weight="800" fill="rgba(255,255,255,0.95)" text-anchor="middle">EDUCATED</text>
+    <line x1="240" y1="290" x2="360" y2="290" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+    <path d="M300 320 L280 400 L300 380 L320 400 Z" fill="rgba(255,255,255,0.85)"/>
+    <text x="300" y="445" font-family="Georgia,serif" font-size="14" font-style="italic" fill="rgba(255,255,255,0.75)" text-anchor="middle">A Story of Change</text>
+  </g>
+  <text x="300" y="540" font-family="Inter,sans-serif" font-size="22" font-weight="800" fill="#7F1D1D" text-anchor="middle" letter-spacing="4">BESTSELLER</text>
+</svg>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="checkout">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">Checkout</h1>
+    <p data-testid="page-subtitle">Almost there! Just a few details to complete your order.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <a href="cart.html">Cart</a><span class="sep">/</span>
+      <span class="current">Checkout</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container">
+  <div id="session-banner" data-testid="checkout-session-banner"
+       style="display:none;padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:14px;line-height:1.5;"></div>
+  <form id="checkout-form" novalidate>
+    <div class="checkout-layout">
+
+      <!-- LEFT: forms -------------------------------------------- -->
+      <div class="form-card" data-testid="checkout-form">
+
+        <div class="step-header">
+          <div class="step-number">1</div>
+          <h3>Contact information</h3>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" required
+                   data-testid="checkout-email" placeholder="you@example.com"/>
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" required
+                   data-testid="checkout-phone" placeholder="+91 90000 00000"/>
+          </div>
+        </div>
+
+        <div class="step-header">
+          <div class="step-number">2</div>
+          <h3>Shipping address</h3>
+        </div>
+        <div id="address-picker-wrap" data-testid="address-picker-wrap" style="display:none;margin-bottom:16px;">
+          <label for="address-picker" style="display:block;font-weight:600;margin-bottom:6px;color:var(--heading);">
+            Use a saved address
+          </label>
+          <select id="address-picker" data-testid="address-picker"
+                  style="width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:white;">
+            <option value="">— Enter a new address below —</option>
+          </select>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px;">
+            Manage saved addresses on your <a href="account.html#addresses" data-testid="manage-addresses">account page</a>.
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" name="firstName" required
+                   data-testid="checkout-first-name"/>
+          </div>
+          <div class="field">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" name="lastName" required
+                   data-testid="checkout-last-name"/>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="field">
+            <label for="address">Street address</label>
+            <input type="text" id="address" name="address" required
+                   data-testid="checkout-address"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required
+                   data-testid="checkout-city"/>
+          </div>
+          <div class="field">
+            <label for="state">State / Region</label>
+            <input type="text" id="state" name="state" required
+                   data-testid="checkout-state"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="zip">ZIP / Postal code</label>
+            <input type="text" id="zip" name="zip" required
+                   data-testid="checkout-zip"/>
+          </div>
+          <div class="field">
+            <label for="country">Country</label>
+            <select id="country" name="country" required data-testid="checkout-country">
+              <option value="">Select country</option>
+              <option value="IN" selected>India</option>
+              <option value="US">United States</option>
+              <option value="GB">United Kingdom</option>
+              <option value="AU">Australia</option>
+              <option value="CA">Canada</option>
+              <option value="AE">United Arab Emirates</option>
+              <option value="SG">Singapore</option>
+            </select>
+          </div>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="save-address" data-testid="checkout-save-address"/>
+          <label for="save-address">Save this address to my address book</label>
+        </div>
+        <div class="checkbox-row" id="save-default-row" style="display:none;">
+          <input type="checkbox" id="save-address-default" data-testid="checkout-save-default"/>
+          <label for="save-address-default">Also set as my default</label>
+        </div>
+
+        <div class="step-header">
+          <div class="step-number">3</div>
+          <h3>Payment method</h3>
+        </div>
+        <div class="payment-methods" data-testid="payment-methods">
+          <label class="payment-method active" data-testid="payment-card">
+            <input type="radio" name="payment" value="card" checked/>
+            <span class="method-icon">💳</span>
+            <div class="method-info">
+              <div class="name">Credit / Debit Card</div>
+              <div class="desc">Visa, Mastercard, RuPay, Amex</div>
+            </div>
+          </label>
+          <label class="payment-method" data-testid="payment-upi">
+            <input type="radio" name="payment" value="upi"/>
+            <span class="method-icon">🏦</span>
+            <div class="method-info">
+              <div class="name">UPI / Net-banking</div>
+              <div class="desc">Instant bank transfer</div>
+            </div>
+          </label>
+          <label class="payment-method" data-testid="payment-cod">
+            <input type="radio" name="payment" value="cod"/>
+            <span class="method-icon">💵</span>
+            <div class="method-info">
+              <div class="name">Cash on Delivery</div>
+              <div class="desc">Pay when your order arrives</div>
+            </div>
+          </label>
+        </div>
+
+        <div id="card-fields" class="mt-24">
+          <div class="form-row single">
+            <div class="field">
+              <label for="cardNumber">Card number</label>
+              <input type="text" id="cardNumber" name="cardNumber"
+                     placeholder="1234 5678 9012 3456" data-testid="card-number"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="cardExp">Expiry (MM/YY)</label>
+              <input type="text" id="cardExp" name="cardExp" placeholder="12/28" data-testid="card-expiry"/>
+            </div>
+            <div class="field">
+              <label for="cardCvv">CVV</label>
+              <input type="text" id="cardCvv" name="cardCvv" placeholder="123" data-testid="card-cvv"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="agree-terms" required data-testid="agree-terms"/>
+          <label for="agree-terms">I have read &amp; agree to the terms and privacy policy.</label>
+        </div>
+
+        <div id="checkout-feedback" class="form-feedback" data-testid="checkout-feedback"></div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block mt-16" data-testid="place-order">
+          Place Order  <span id="order-total-inline"></span>
+        </button>
+      </div>
+
+      <!-- RIGHT: summary ----------------------------------------- -->
+      <aside class="order-summary" data-testid="checkout-summary">
+        <h3 style="margin-top:0;">Order summary</h3>
+        <div id="summary-body"></div>
+      </aside>
+
+    </div>
+  </form>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  // If cart is empty, redirect to cart page
+  const cart = window.ShopLane.getCart();
+  if (cart.length === 0) {
+    location.href = 'cart.html';
+  }
+
+  // ---- summary render ----
+  function renderSummary() {
+    const summary = window.ShopLane.cartSummary();
+    const items = window.ShopLane.getCart();
+    document.getElementById('summary-body').innerHTML = `
+      <div style="max-height:280px;overflow:auto;margin-bottom:12px;">
+        ${items.map((l) => {
+          const p = window.getProduct(l.productId);
+          if (!p) return '';
+          return `
+            <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);" data-testid="summary-item">
+              <div style="position:relative;width:56px;height:56px;border-radius:8px;overflow:hidden;background:var(--slate-100);flex-shrink:0;">
+                <img src="${p.image}" alt="" style="width:100%;height:100%;object-fit:cover;">
+                <span style="position:absolute;top:-6px;right:-6px;background:var(--primary);color:white;border-radius:999px;min-width:20px;height:20px;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 5px;">${l.qty}</span>
+              </div>
+              <div style="flex:1;font-size:13px;">
+                <div style="font-weight:600;color:var(--heading);">${p.name}</div>
+                <div style="color:var(--muted);">${[l.size, l.color].filter(Boolean).join(' · ') || '—'}</div>
+              </div>
+              <div style="font-weight:700;color:var(--heading);font-size:14px;">${window.ShopLane.money(p.price * l.qty)}</div>
+            </div>`;
+        }).join('')}
+      </div>
+      <div class="summary-row"><span>Subtotal</span><span>${window.ShopLane.money(summary.subtotal)}</span></div>
+      ${summary.discount > 0 ? `<div class="summary-row" style="color:var(--success);"><span>Discount ${summary.coupon ? '(' + summary.coupon.code + ')' : ''}</span><span>− ${window.ShopLane.money(summary.discount)}</span></div>` : ''}
+      <div class="summary-row"><span>Shipping</span><span>${summary.shipping === 0 ? 'Free' : window.ShopLane.money(summary.shipping)}</span></div>
+      <div class="summary-row"><span>Tax</span><span>${window.ShopLane.money(summary.tax)}</span></div>
+      <div class="summary-row total"><span>Total</span><span data-testid="checkout-total">${window.ShopLane.money(summary.total)}</span></div>`;
+    document.getElementById('order-total-inline').textContent = '· ' + window.ShopLane.money(summary.total);
+  }
+  renderSummary();
+
+  // Auto-fill email if logged in
+  const user = window.Auth && window.Auth.get();
+  if (user) document.getElementById('email').value = user.email;
+
+  // ---- Saved address picker ----
+  // If the user is on a real API session, fetch their address book and
+  // populate the dropdown. Selecting one autofills every shipping field
+  // and lets the client submit `addressId` instead of a duplicated block.
+  let SELECTED_ADDRESS = null;   // full address object when the picker is used
+  (async function loadSavedAddresses() {
+    if (!window.Auth?.hasApiSession?.()) return;
+    if (!window.ShopLaneApi) return;
+    try {
+      const res = await window.ShopLaneApi.listAddresses();
+      const list = res.data || [];
+      if (!list.length) return;
+      const wrap  = document.getElementById('address-picker-wrap');
+      const picker = document.getElementById('address-picker');
+      wrap.style.display = 'block';
+      list.forEach((a) => {
+        const opt = document.createElement('option');
+        opt.value = String(a.id);
+        opt.textContent = `${a.label || a.fullName} — ${a.street}, ${a.city} ${a.zip}` +
+                          (a.isDefault ? ' (default)' : '');
+        opt.dataset.address = JSON.stringify(a);
+        picker.appendChild(opt);
+      });
+      const def = list.find((a) => a.isDefault);
+      if (def) {
+        picker.value = String(def.id);
+        picker.dispatchEvent(new Event('change'));
+      }
+      picker.addEventListener('change', () => {
+        const chosen = picker.selectedOptions[0]?.dataset.address;
+        if (!chosen) { SELECTED_ADDRESS = null; setFormReadonly(false); return; }
+        SELECTED_ADDRESS = JSON.parse(chosen);
+        const [first, ...rest] = SELECTED_ADDRESS.fullName.split(/\s+/);
+        document.getElementById('firstName').value = first || '';
+        document.getElementById('lastName').value  = rest.join(' ') || '';
+        document.getElementById('phone').value     = SELECTED_ADDRESS.phone;
+        document.getElementById('address').value   = SELECTED_ADDRESS.street;
+        document.getElementById('city').value      = SELECTED_ADDRESS.city;
+        document.getElementById('state').value     = SELECTED_ADDRESS.state;
+        document.getElementById('zip').value       = SELECTED_ADDRESS.zip;
+        document.getElementById('country').value   = SELECTED_ADDRESS.country;
+        setFormReadonly(true);
+        // Hide the "save this address" checkbox — it's already saved.
+        document.getElementById('save-address').checked = false;
+        document.getElementById('save-address').closest('.checkbox-row').style.display = 'none';
+        document.getElementById('save-default-row').style.display = 'none';
+      });
+    } catch (e) {
+      console.warn('[checkout] could not load saved addresses:', e);
+    }
+  })();
+
+  function setFormReadonly(readonly) {
+    ['firstName','lastName','phone','address','city','state','zip','country'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.readOnly = readonly;
+      if (el.tagName === 'SELECT') el.disabled = readonly;
+      el.style.background = readonly ? 'var(--slate-100)' : '';
+    });
+  }
+
+  // Toggle the "also set as default" checkbox visibility
+  document.getElementById('save-address').addEventListener('change', (e) => {
+    document.getElementById('save-default-row').style.display = e.target.checked ? '' : 'none';
+    if (!e.target.checked) document.getElementById('save-address-default').checked = false;
+  });
+
+  // Pre-flight session status banner. Tells the user *up front* whether the
+  // order will actually be saved to the database.
+  (async function preflight() {
+    const banner = document.getElementById('session-banner');
+    if (!banner) return;
+    const hasSess   = window.Auth?.hasApiSession?.() || false;
+    const reachable = window.ShopLaneApi ? await window.ShopLaneApi.isReachable() : false;
+
+    if (user && hasSess && reachable) {
+      banner.style.display = 'block';
+      banner.style.background = '#ECFDF5';
+      banner.style.color = '#065F46';
+      banner.style.border = '1px solid #6EE7B7';
+      banner.setAttribute('data-testid-status', 'online');
+      banner.innerHTML = `<strong>&#10003; Signed in as ${user.email}.</strong>
+        Your order will be saved to the ShopLane database.`;
+    } else if (user && !hasSess && reachable) {
+      banner.style.display = 'block';
+      banner.style.background = '#FEF3C7';
+      banner.style.color = '#92400E';
+      banner.style.border = '1px solid #FCD34D';
+      banner.setAttribute('data-testid-status', 'phantom');
+      banner.innerHTML = `<strong>&#9888; Your session expired.</strong>
+        You are signed in only in this browser. If you place an order now,
+        it will <em>not</em> be saved to the database.
+        <a href="login.html?next=checkout.html" data-testid="checkout-signin"
+           style="color:#92400E;font-weight:700;text-decoration:underline;">
+           Sign in again</a> to persist your order.`;
+    } else if (user && !reachable) {
+      banner.style.display = 'block';
+      banner.style.background = '#FEE2E2';
+      banner.style.color = '#7F1D1D';
+      banner.style.border = '1px solid #FCA5A5';
+      banner.setAttribute('data-testid-status', 'offline');
+      banner.innerHTML = `<strong>&#10007; Server is unreachable.</strong>
+        The API on <code>:8080</code> is not responding, so this order cannot
+        be saved to the database. Start the server and reload.`;
+    } else {
+      banner.style.display = 'block';
+      banner.style.background = '#EFF6FF';
+      banner.style.color = '#1E3A8A';
+      banner.style.border = '1px solid #93C5FD';
+      banner.setAttribute('data-testid-status', 'guest');
+      banner.innerHTML = `<strong>Guest checkout.</strong>
+        This order will live only in <em>this browser</em>.
+        <a href="login.html?next=checkout.html" data-testid="checkout-signin"
+           style="color:#1E3A8A;font-weight:700;text-decoration:underline;">
+           Sign in</a> if you want it saved to the ShopLane database.`;
+    }
+  })();
+
+  // Payment method visual toggle + card fields visibility
+  document.querySelectorAll('.payment-method').forEach((el) => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.payment-method').forEach((x) => x.classList.remove('active'));
+      el.classList.add('active');
+      const val = el.querySelector('input').value;
+      document.getElementById('card-fields').style.display = val === 'card' ? '' : 'none';
+    });
+  });
+
+  // Submit
+  const form = document.getElementById('checkout-form');
+  const feedback = document.getElementById('checkout-feedback');
+  const placeBtn = form.querySelector('[data-testid="place-order"]');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    feedback.className = 'form-feedback';
+
+    const required = form.querySelectorAll('[required]');
+    for (const el of required) {
+      if (!el.value || (el.type === 'checkbox' && !el.checked)) {
+        feedback.className = 'form-feedback is-visible error';
+        feedback.textContent = 'Please complete all required fields before placing your order.';
+        el.focus();
+        return;
+      }
+    }
+
+    const shipping = SELECTED_ADDRESS ? {
+      addressId: SELECTED_ADDRESS.id,
+      email:     form.email.value,
+      name:      SELECTED_ADDRESS.fullName,
+      phone:     SELECTED_ADDRESS.phone,
+      address:   SELECTED_ADDRESS.street,
+      city:      SELECTED_ADDRESS.city,
+      state:     SELECTED_ADDRESS.state,
+      zip:       SELECTED_ADDRESS.zip,
+      country:   SELECTED_ADDRESS.country,
+    } : {
+      email:    form.email.value,
+      phone:    form.phone.value,
+      name:     `${form.firstName.value} ${form.lastName.value}`.trim(),
+      address:  form.address.value,
+      city:     form.city.value,
+      state:    form.state.value,
+      zip:      form.zip.value,
+      country:  form.country.value,
+      saveAsAddress:  document.getElementById('save-address').checked,
+      saveAsDefault:  document.getElementById('save-address-default').checked,
+      saveAsLabel:    null,
+    };
+    const payment = { method: form.payment.value };
+
+    if (placeBtn) placeBtn.disabled = true;
+    feedback.className = 'form-feedback is-visible info';
+    feedback.textContent = 'Placing your order\u2026';
+    try {
+      const order = await window.ShopLane.placeOrder(shipping, payment);
+      if (!order) {
+        feedback.className = 'form-feedback is-visible error';
+        feedback.textContent = 'Something went wrong. Please try again.';
+        if (placeBtn) placeBtn.disabled = false;
+        return;
+      }
+      sessionStorage.setItem('shoplane.last-order', order.id);
+      feedback.className = 'form-feedback is-visible success';
+      feedback.textContent = `\u2713 Order ${order.id} placed. Redirecting\u2026`;
+      setTimeout(() => { location.href = 'order-confirmation.html'; }, 400);
+    } catch (err) {
+      feedback.className = 'form-feedback is-visible error';
+      feedback.textContent = err.message || 'Could not place order.';
+      if (placeBtn) placeBtn.disabled = false;
+      if (err.code === 'PHANTOM_SESSION') {
+        setTimeout(() => {
+          location.href = 'login.html?next=checkout.html';
+        }, 1500);
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

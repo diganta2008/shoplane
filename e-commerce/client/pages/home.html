@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopLane — Curated products for everyday life</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="home">
+
+<header class="site-header" id="site-header"></header>
+
+<!-- Hero ------------------------------------------------------------- -->
+<section class="hero" data-testid="hero">
+  <div class="container">
+    <div>
+      <span class="hero-eyebrow" data-testid="hero-eyebrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Free shipping over $100
+      </span>
+      <h1>Everything you love, <span class="accent">delivered fast.</span></h1>
+      <p>ShopLane brings together premium electronics, timeless fashion,
+         beautifully crafted home goods and inspiring books — all in one
+         place, all at prices you will love.</p>
+      <div class="hero-cta">
+        <a href="shop.html" class="btn btn-primary btn-lg" data-testid="hero-shop-now">Shop Now
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#featured" class="btn btn-outline btn-lg" data-testid="hero-explore">Explore Featured</a>
+      </div>
+      <div class="hero-stats" data-testid="hero-stats">
+        <div class="hero-stat"><span class="num" data-testid="stat-products">1,200+</span><span class="lbl">Products</span></div>
+        <div class="hero-stat"><span class="num" data-testid="stat-customers">50k+</span><span class="lbl">Happy customers</span></div>
+        <div class="hero-stat"><span class="num" data-testid="stat-rating">4.8★</span><span class="lbl">Average rating</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="../images/hero-shopping.svg" alt="ShopLane storefront illustration">
+    </div>
+  </div>
+</section>
+
+<!-- Categories ------------------------------------------------------- -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Shop by Category</h2>
+    <p class="section-subtitle">Find exactly what you need, faster.</p>
+    <div class="grid grid-4" id="category-grid" data-testid="category-grid"></div>
+  </div>
+</section>
+
+<!-- Featured products ------------------------------------------------ -->
+<section class="section" id="featured" style="padding-top:20px;">
+  <div class="container">
+    <h2 class="section-title">Featured Products</h2>
+    <p class="section-subtitle">Hand-picked by our team this week.</p>
+    <div class="grid grid-4" id="featured-grid" data-testid="featured-grid"></div>
+    <div class="text-center mt-40">
+      <a href="shop.html" class="btn btn-outline btn-lg" data-testid="view-all-products">View all products →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Promo banner ----------------------------------------------------- -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="promo" data-testid="promo-banner">
+      <div>
+        <h2>Summer Clearance Sale</h2>
+        <p>Up to 50% off select styles across every category — this week only.
+           Use code <strong>SAVE20</strong> at checkout for an extra 20% off.</p>
+        <a href="shop.html" class="btn btn-accent btn-lg" data-testid="promo-cta">Shop the sale →</a>
+      </div>
+      <div class="promo-visual">
+        <div class="discount">50%</div>
+        <div style="font-weight:700;letter-spacing:0.1em;text-transform:uppercase;font-size:12px;opacity:0.9;">
+          Limited time
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials ----------------------------------------------------- -->
+<section class="section" style="padding-top:20px;">
+  <div class="container">
+    <h2 class="section-title">Loved by 50,000+ shoppers</h2>
+    <p class="section-subtitle">Real reviews from real customers.</p>
+    <div class="grid grid-3" data-testid="testimonials">
+      <div class="testimonial" data-testid="testimonial">
+        <div class="testimonial-quote">"The Aurora headphones are unreal — better noise cancellation than options twice the price. Delivery was two days flat."</div>
+        <div class="testimonial-user">
+          <div class="testimonial-avatar">RS</div>
+          <div><div class="name">Riya S.</div><div class="role">Verified buyer</div></div>
+        </div>
+      </div>
+      <div class="testimonial" data-testid="testimonial">
+        <div class="testimonial-quote">"The Nova watch pairs perfectly with my Android. Battery genuinely lasts a week and the screen is gorgeous outdoors."</div>
+        <div class="testimonial-user">
+          <div class="testimonial-avatar">AK</div>
+          <div><div class="name">Arjun K.</div><div class="role">Verified buyer</div></div>
+        </div>
+      </div>
+      <div class="testimonial" data-testid="testimonial">
+        <div class="testimonial-quote">"Beautiful packaging, super clean checkout. My Barista Pro coffee machine has replaced my daily café run entirely."</div>
+        <div class="testimonial-user">
+          <div class="testimonial-avatar">MP</div>
+          <div><div class="name">Maria P.</div><div class="role">Verified buyer</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter ------------------------------------------------------- -->
+<section class="section" style="padding-top:20px;">
+  <div class="container">
+    <div class="newsletter" data-testid="newsletter">
+      <h2>Get 10% off your first order</h2>
+      <p>Subscribe for launches, offers and quiet handpicked stories.</p>
+      <form class="newsletter-form" id="newsletter-form" novalidate>
+        <input type="email" name="email" placeholder="you@example.com" required
+               data-testid="newsletter-email"/>
+        <button type="submit" class="btn btn-accent" data-testid="newsletter-submit">Subscribe</button>
+      </form>
+      <div id="newsletter-feedback" class="form-feedback" data-testid="newsletter-feedback" style="margin-top:16px;"></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  // Categories
+  const catIcons = {
+    Electronics: '💻', Fashion: '👕', Home: '🏠', Books: '📚',
+  };
+  document.getElementById('category-grid').innerHTML = window.CATEGORIES.map((c) => `
+    <a href="shop.html?category=${encodeURIComponent(c.id)}" class="category-tile"
+       data-testid="category-tile" data-category="${c.id}">
+      <div class="category-icon">${catIcons[c.id]}</div>
+      <h3>${c.name}</h3>
+      <p>${c.desc}</p>
+    </a>`).join('');
+
+  // Featured products — pick 8 (highest rating × review count)
+  const featured = [...window.CATALOG]
+    .sort((a, b) => (b.rating * b.reviewCount) - (a.rating * a.reviewCount))
+    .slice(0, 8);
+  document.getElementById('featured-grid').innerHTML =
+    featured.map((p) => window.ShopLane.productCardHtml(p)).join('');
+
+  // Newsletter
+  const nlForm = document.getElementById('newsletter-form');
+  const nlFeedback = document.getElementById('newsletter-feedback');
+  nlForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = nlForm.email.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      nlFeedback.className = 'form-feedback is-visible error';
+      nlFeedback.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    nlFeedback.className = 'form-feedback is-visible success';
+    nlFeedback.textContent = '✓ Subscribed! Your 10% off code will land in your inbox shortly.';
+    nlForm.reset();
+  });
+</script>
+
+</body>
+</html>

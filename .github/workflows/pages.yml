@@ -1,0 +1,67 @@
+name: Deploy client to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'e-commerce/client/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Stage client folder
+        run: |
+          mkdir -p _site
+          cp -r e-commerce/client/. _site/
+
+      # If the API_BASE repo variable is set (e.g. https://shoplane-api.up.railway.app/api/v1),
+      # prepend a runtime override to api.js so the client hits that URL in production.
+      # No variable = client runs in localStorage-only mode.
+      - name: Inject API base URL
+        env:
+          API_BASE: ${{ vars.API_BASE }}
+        run: |
+          if [ -n "$API_BASE" ]; then
+            echo "Injecting API_BASE=$API_BASE into api.js"
+            printf '/* ---- Injected at deploy time by pages.yml ---- */\nwindow.SHOPLANE_API_BASE = %s;\n\n' "\"$API_BASE\"" \
+              | cat - _site/js/api.js > _site/js/api.js.tmp && mv _site/js/api.js.tmp _site/js/api.js
+          else
+            echo "API_BASE not set — client will fall back to localStorage."
+          fi
+
+      # Move the redirect stub so that opening the Pages site root goes straight to home.html.
+      - name: Fingerprint build
+        run: |
+          echo "Deployed: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" > _site/BUILD.txt
+          echo "Commit:   ${{ github.sha }}" >> _site/BUILD.txt
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

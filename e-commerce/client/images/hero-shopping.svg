@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520" width="640" height="520">
+  <defs>
+    <linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="hg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="hg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <!-- backdrop blob -->
+  <path d="M60 260 Q60 60 300 60 Q560 60 590 240 Q620 420 400 460 Q180 500 120 400 Q60 320 60 260 Z"
+        fill="#EEF2FF" opacity="0.9"/>
+  <circle cx="530" cy="90" r="26" fill="#F59E0B" opacity="0.5"/>
+  <circle cx="90"  cy="410" r="20" fill="#10B981" opacity="0.5"/>
+
+  <!-- Phone / storefront -->
+  <rect x="220" y="90" width="220" height="360" rx="30" fill="white" stroke="#E2E8F0" stroke-width="4"/>
+  <rect x="240" y="110" width="180" height="320" rx="18" fill="#F5F3FF"/>
+  <rect x="260" y="130" width="140" height="90" rx="12" fill="url(#hg1)"/>
+  <text x="330" y="175" font-family="Inter, sans-serif" font-size="18" font-weight="800" fill="white" text-anchor="middle">SUMMER SALE</text>
+  <text x="330" y="200" font-family="Inter, sans-serif" font-size="12" fill="white" opacity="0.85" text-anchor="middle">Up to 50% OFF</text>
+
+  <rect x="260" y="235" width="65" height="85" rx="10" fill="#DDD6FE"/>
+  <circle cx="292" cy="270" r="18" fill="#5B21B6"/>
+  <rect x="266" y="300" width="53" height="4" rx="2" fill="#7C3AED"/>
+  <rect x="266" y="308" width="35" height="4" rx="2" fill="#A78BFA"/>
+
+  <rect x="335" y="235" width="65" height="85" rx="10" fill="#FED7AA"/>
+  <circle cx="367" cy="270" r="18" fill="#EA580C"/>
+  <rect x="341" y="300" width="53" height="4" rx="2" fill="#C2410C"/>
+  <rect x="341" y="308" width="35" height="4" rx="2" fill="#F97316"/>
+
+  <rect x="260" y="335" width="140" height="34" rx="10" fill="#5B21B6"/>
+  <text x="330" y="357" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white" text-anchor="middle">Add to Cart</text>
+  <rect x="260" y="380" width="140" height="34" rx="10" fill="#F5F3FF" stroke="#5B21B6" stroke-width="2"/>
+  <text x="330" y="402" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#5B21B6" text-anchor="middle">Buy Now</text>
+
+  <!-- Shopping bag left -->
+  <path d="M60 300 L80 260 Q90 240 110 240 L150 240 Q170 240 180 260 L200 300 L200 440 Q200 460 180 460 L80 460 Q60 460 60 440 Z" fill="url(#hg2)"/>
+  <path d="M100 260 Q100 220 130 220 Q160 220 160 260" stroke="#78350F" stroke-width="5" fill="none"/>
+  <text x="130" y="360" font-family="Inter, sans-serif" font-size="18" font-weight="900" fill="white" text-anchor="middle">SHOP</text>
+
+  <!-- Shopping bag right -->
+  <path d="M460 320 L478 285 Q486 268 502 268 L540 268 Q556 268 564 285 L582 320 L582 445 Q582 462 566 462 L476 462 Q460 462 460 445 Z" fill="url(#hg3)"/>
+  <path d="M498 285 Q498 250 520 250 Q542 250 542 285" stroke="#065F46" stroke-width="5" fill="none"/>
+  <circle cx="521" cy="370" r="18" fill="white" opacity="0.85"/>
+  <text x="521" y="376" font-family="Inter, sans-serif" font-size="16" font-weight="900" fill="#065F46" text-anchor="middle">%</text>
+
+  <!-- Sparkles -->
+  <path d="M170 90 l6 12 l12 6 l-12 6 l-6 12 l-6 -12 l-12 -6 l12 -6 z" fill="#F59E0B"/>
+  <path d="M480 470 l4 8 l8 4 l-8 4 l-4 8 l-4 -8 l-8 -4 l8 -4 z" fill="#7C3AED"/>
+</svg>

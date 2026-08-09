@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="bgn" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DCFCE7"/><stop offset="100%" stop-color="#22C55E"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#bgn)"/>
+  <circle cx="720" cy="80" r="120" fill="rgba(255,255,255,0.30)"/>
+  <g transform="translate(280 90)">
+    <ellipse cx="120" cy="220" rx="120" ry="30" fill="rgba(15,23,42,0.10)"/>
+    <ellipse cx="120" cy="200" rx="140" ry="60" fill="#F1F5F9" stroke="#0F172A" stroke-width="3"/>
+    <ellipse cx="120" cy="200" rx="120" ry="45" fill="white"/>
+    <path d="M80 100 Q100 60 120 100 Q140 60 160 100" fill="#22C55E" stroke="#166534" stroke-width="2"/>
+    <circle cx="90"  cy="180" r="20" fill="#EF4444"/>
+    <circle cx="90"  cy="180" r="6"  fill="#B91C1C"/>
+    <circle cx="140" cy="190" r="24" fill="#F97316"/>
+    <circle cx="180" cy="180" r="16" fill="#EAB308"/>
+    <circle cx="140" cy="190" r="8"  fill="#C2410C"/>
+    <path d="M120 100 Q110 84 116 76 L120 88 L124 76 Q130 84 120 100" fill="#166534"/>
+    <ellipse cx="118" cy="150" rx="14" ry="6" fill="#166534"/>
+  </g>
+  <text x="400" y="440" font-family="Inter,sans-serif" font-size="30" font-weight="900" fill="#14532D" text-anchor="middle" letter-spacing="6">NUTRITION</text>
+</svg>

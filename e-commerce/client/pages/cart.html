@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="cart">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">Shopping Cart</h1>
+    <p data-testid="page-subtitle">Review the items in your cart before checkout.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <span class="current">Cart</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container">
+  <div id="cart-wrap"></div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const wrap = document.getElementById('cart-wrap');
+
+  function render() {
+    const cart = window.ShopLane.getCart();
+    if (cart.length === 0) {
+      wrap.innerHTML = `
+        <div class="empty-state" data-testid="empty-cart">
+          <img src="../images/empty-cart.svg" alt="" width="180" style="margin:0 auto 16px;">
+          <h3>Your cart is empty</h3>
+          <p>Add a few things you love — we'll keep them safe until you check out.</p>
+          <a href="shop.html" class="btn btn-primary btn-lg" data-testid="empty-cart-cta">Continue Shopping</a>
+        </div>`;
+      return;
+    }
+
+    const summary = window.ShopLane.cartSummary();
+
+    wrap.innerHTML = `
+      <div class="cart-layout">
+
+        <div class="cart-list" data-testid="cart-list">
+          ${cart.map((l) => {
+            const p = window.getProduct(l.productId);
+            if (!p) return '';
+            const line = p.price * l.qty;
+            const meta = [l.size, l.color].filter(Boolean).join(' · ');
+            return `
+              <div class="cart-row" data-testid="cart-row" data-line-key="${l.key}">
+                <a href="product.html?id=${p.id}" class="thumb"><img src="${p.image}" alt="${p.name}"></a>
+                <div class="name">
+                  <a href="product.html?id=${p.id}" data-testid="cart-item-name">${p.name}</a>
+                  ${meta ? `<div class="meta" data-testid="cart-item-meta">${meta}</div>` : ''}
+                </div>
+                <div class="price" data-testid="cart-item-price">${window.ShopLane.money(p.price)}</div>
+                <div class="qty-wrap" data-testid="cart-qty">
+                  <button data-op="dec" data-testid="cart-qty-dec">−</button>
+                  <input type="number" value="${l.qty}" min="1" data-testid="cart-qty-input"/>
+                  <button data-op="inc" data-testid="cart-qty-inc">+</button>
+                </div>
+                <div class="subtotal" data-testid="cart-item-subtotal">${window.ShopLane.money(line)}</div>
+                <button class="remove" data-op="remove" data-testid="cart-item-remove" aria-label="Remove">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+                </button>
+              </div>`;
+          }).join('')}
+        </div>
+
+        <aside class="order-summary" data-testid="order-summary">
+          <h3 style="margin-top:0;">Order Summary</h3>
+
+          <div class="coupon-row">
+            <input type="text" id="coupon" placeholder="Coupon code (try WELCOME10)" data-testid="coupon-input"
+                   value="${summary.coupon ? summary.coupon.code : ''}"/>
+            <button class="btn btn-outline" id="apply-coupon" data-testid="apply-coupon">Apply</button>
+          </div>
+
+          <div class="summary-row" data-testid="summary-subtotal">
+            <span>Subtotal</span><span>${window.ShopLane.money(summary.subtotal)}</span>
+          </div>
+          ${summary.discount > 0 ? `
+            <div class="summary-row" style="color:var(--success);" data-testid="summary-discount">
+              <span>Discount</span><span>− ${window.ShopLane.money(summary.discount)}</span>
+            </div>` : ''}
+          <div class="summary-row" data-testid="summary-shipping">
+            <span>Shipping</span>
+            <span>${summary.shipping === 0 ? 'Free' : window.ShopLane.money(summary.shipping)}</span>
+          </div>
+          <div class="summary-row" data-testid="summary-tax">
+            <span>Tax (8%)</span><span>${window.ShopLane.money(summary.tax)}</span>
+          </div>
+          <div class="summary-row total" data-testid="summary-total">
+            <span>Total</span><span>${window.ShopLane.money(summary.total)}</span>
+          </div>
+
+          <a href="checkout.html" class="btn btn-primary btn-lg btn-block mt-16" data-testid="checkout-btn">
+            Proceed to Checkout →
+          </a>
+          <a href="shop.html" class="btn btn-ghost btn-block mt-16" data-testid="continue-shopping">
+            ← Continue shopping
+          </a>
+
+          <button class="btn btn-danger btn-block mt-16" id="clear-cart" data-testid="clear-cart">
+            Clear cart
+          </button>
+        </aside>
+      </div>`;
+
+    // interactions
+    wrap.querySelectorAll('[data-testid="cart-row"]').forEach((row) => {
+      const key = row.dataset.lineKey;
+      const input = row.querySelector('input');
+      row.querySelector('[data-op="dec"]').addEventListener('click', async () => {
+        await window.ShopLane.updateQty(key, Math.max(1, Number(input.value) - 1));
+        render();
+      });
+      row.querySelector('[data-op="inc"]').addEventListener('click', async () => {
+        await window.ShopLane.updateQty(key, Number(input.value) + 1);
+        render();
+      });
+      input.addEventListener('change', async () => {
+        await window.ShopLane.updateQty(key, Math.max(1, Number(input.value)));
+        render();
+      });
+      row.querySelector('[data-op="remove"]').addEventListener('click', async () => {
+        await window.ShopLane.removeFromCart(key);
+        render();
+      });
+    });
+
+    document.getElementById('clear-cart').addEventListener('click', async () => {
+      if (confirm('Clear all items from your cart?')) {
+        await window.ShopLane.clearCart();
+        render();
+      }
+    });
+    document.getElementById('apply-coupon').addEventListener('click', () => {
+      const code = document.getElementById('coupon').value;
+      if (window.ShopLane.applyCoupon(code)) render();
+    });
+  }
+
+  window.addEventListener('cart:change', render);
+  render();
+</script>
+
+</body>
+</html>

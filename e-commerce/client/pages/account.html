@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="account">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="page-header">
+  <div class="container">
+    <h1 data-testid="page-title">My Account</h1>
+    <p data-testid="page-subtitle">Manage your profile, orders and preferences.</p>
+    <nav class="crumbs" data-testid="breadcrumbs">
+      <a href="home.html">Home</a><span class="sep">/</span>
+      <span class="current">Account</span>
+    </nav>
+  </div>
+</section>
+
+<div class="container">
+  <div id="wrap"></div>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const wrap = document.getElementById('wrap');
+  const user = window.Auth.get();
+
+  if (!user) {
+    wrap.innerHTML = `
+      <div class="empty-state" data-testid="auth-required">
+        <div class="icon">🔒</div>
+        <h3>Please sign in to view your account</h3>
+        <p>Signed-in users can see orders, saved addresses and wishlist here.</p>
+        <a href="login.html?next=account.html" class="btn btn-primary" data-testid="go-login">Sign in</a>
+      </div>`;
+  } else {
+    const orders = window.ShopLane.getOrders();
+    wrap.innerHTML = `
+      <div class="account-layout">
+        <aside class="account-nav" data-testid="account-nav">
+          <a href="#profile"  class="active" data-testid="nav-profile">👤 Profile</a>
+          <a href="#orders"                  data-testid="nav-orders">📦 Orders (${orders.length})</a>
+          <a href="#addresses"               data-testid="nav-addresses">📍 Addresses</a>
+          <a href="wishlist.html"            data-testid="nav-wishlist">💜 Wishlist</a>
+          <a href="cart.html"                data-testid="nav-cart">🛒 Cart (${window.ShopLane.cartCount()})</a>
+          <a href="#logout"                  id="logout" data-testid="logout">🚪 Sign out</a>
+        </aside>
+
+        <div class="account-panel" data-testid="account-panel">
+          <div id="profile-section">
+            <h3 style="margin-top:0;">Profile</h3>
+            <div style="display:flex;align-items:center;gap:16px;padding:16px;background:var(--primary-50);border-radius:var(--radius);margin-bottom:20px;" data-testid="profile-card">
+              <div style="width:60px;height:60px;border-radius:999px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white;display:grid;place-items:center;font-weight:800;font-size:22px;">
+                ${user.name[0].toUpperCase()}
+              </div>
+              <div>
+                <div style="font-size:1.1rem;font-weight:700;color:var(--heading);" data-testid="user-name">${user.name}</div>
+                <div style="color:var(--muted);" data-testid="user-email">${user.email}</div>
+                <div style="color:var(--muted);font-size:12px;">Member since ${new Date(user.loggedInAt).toLocaleDateString()}</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="addresses-section" style="margin-top:24px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <h3 style="margin:0;">Saved addresses</h3>
+              <button class="btn btn-primary" data-testid="add-address-btn" id="add-address-btn"
+                      style="padding:8px 14px;font-size:13px;">+ Add address</button>
+            </div>
+            <div id="address-list" data-testid="address-list" style="margin-top:12px;">
+              <div class="empty-state" style="padding:20px;" data-testid="addresses-loading">
+                <p style="color:var(--muted);">Loading addresses…</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="orders-section" style="margin-top:24px;">
+            <h3>Recent orders</h3>
+            ${orders.length === 0 ? `
+              <div class="empty-state" style="padding:30px 20px;" data-testid="no-orders">
+                <div class="icon">📦</div>
+                <h3 style="font-size:1.1rem;">No orders yet</h3>
+                <p>Once you place an order, it will appear here.</p>
+                <a href="shop.html" class="btn btn-primary">Start shopping</a>
+              </div>
+            ` : orders.map((o) => `
+              <div class="order-item" data-testid="order-row" data-order-id="${o.id}">
+                <div>
+                  <div style="font-weight:700;color:var(--heading);" data-testid="order-id">${o.id}</div>
+                  <div style="color:var(--muted);font-size:13px;">${new Date(o.date).toLocaleString()}</div>
+                </div>
+                <div>
+                  <div style="font-weight:600;color:var(--slate-700);">${o.items.length} item${o.items.length === 1 ? '' : 's'} · ${window.ShopLane.money(o.summary.total)}</div>
+                  <div style="color:var(--muted);font-size:13px;">Ship to ${o.shipping.city}, ${o.shipping.country}</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;align-items:end;">
+                  <span class="badge-status" data-testid="order-status">${o.status}</span>
+                  <button type="button" class="btn btn-outline" style="padding:6px 12px;font-size:12px;"
+                          data-testid="reorder" data-order-id="${o.id}">Reorder</button>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('logout').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('Sign out of your account?')) {
+        window.Auth.clear();
+        location.href = 'login.html';
+      }
+    });
+
+    // ---- Reorder: put every line of a past order back in the cart ----
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('[data-testid="reorder"]');
+      if (!btn) return;
+      e.preventDefault();
+      const orderId = btn.dataset.orderId;
+      const target  = window.ShopLane.getOrders().find((x) => x.id === orderId);
+      if (!target) { alert('Could not find that order.'); return; }
+      if (!target.items || target.items.length === 0) {
+        alert('This order has no items to reorder.'); return;
+      }
+
+      btn.disabled = true;
+      const original = btn.textContent;
+      btn.textContent = 'Adding\u2026';
+      let ok = 0, skipped = 0;
+      for (const line of target.items) {
+        const p = window.getProduct(Number(line.productId));
+        if (!p) { skipped++; continue; }
+        try {
+          await window.ShopLane.addToCart(Number(line.productId), Number(line.qty) || 1, {
+            size:  line.size  || null,
+            color: line.color || null,
+          });
+          ok++;
+        } catch (err) {
+          console.warn('[reorder] addToCart failed:', line, err);
+          skipped++;
+        }
+      }
+
+      if (window.ShopLane?.toast) {
+        window.ShopLane.toast(
+          'Items added to cart',
+          `${ok} item${ok === 1 ? '' : 's'} added${skipped ? ` \u00b7 ${skipped} skipped (out of stock or unavailable)` : ''}. Redirecting to cart\u2026`,
+          ok ? 'success' : 'error'
+        );
+      }
+
+      btn.disabled = false;
+      btn.textContent = original;
+      if (ok > 0) setTimeout(() => { location.href = 'cart.html'; }, 700);
+    });
+
+    // -----------------------------------------------------------------
+    // Address book — CRUD against POST/PATCH/DELETE /api/v1/addresses
+    // -----------------------------------------------------------------
+    const addressList = document.getElementById('address-list');
+
+    async function renderAddresses() {
+      if (!window.Auth.hasApiSession()) {
+        addressList.innerHTML = `
+          <div class="empty-state" style="padding:20px;" data-testid="addresses-signin-required">
+            <p style="color:var(--muted);">Sign in to a real API session to manage saved addresses.</p>
+          </div>`;
+        return;
+      }
+      try {
+        const res = await window.ShopLaneApi.listAddresses();
+        const list = res.data || [];
+        if (!list.length) {
+          addressList.innerHTML = `
+            <div class="empty-state" style="padding:20px;" data-testid="addresses-empty">
+              <p style="color:var(--muted);">No addresses saved yet. Add one to check out faster next time.</p>
+            </div>`;
+          return;
+        }
+        addressList.innerHTML = list.map((a) => `
+          <div class="address-card" data-testid="address-card" data-address-id="${a.id}"
+               style="border:1px solid ${a.isDefault ? 'var(--primary)' : 'var(--border)'};
+                      border-radius:12px;padding:16px;margin-bottom:12px;position:relative;
+                      background:${a.isDefault ? 'var(--primary-50)' : 'white'};">
+            ${a.isDefault
+              ? `<span data-testid="address-default-badge"
+                       style="position:absolute;top:12px;right:12px;background:var(--primary);color:white;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px;">Default</span>`
+              : ''}
+            <div style="font-weight:700;color:var(--heading);margin-bottom:4px;" data-testid="address-name">
+              ${a.fullName}
+              ${a.label ? `<span style="font-weight:500;color:var(--muted);font-size:13px;margin-left:8px;">· ${a.label}</span>` : ''}
+            </div>
+            <div style="color:var(--slate-700);font-size:14px;line-height:1.5;" data-testid="address-body">
+              ${a.street}<br>
+              ${a.city}, ${a.state} ${a.zip}<br>
+              ${a.country} &nbsp;·&nbsp; ${a.phone}
+            </div>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+              ${!a.isDefault ? `<button class="btn btn-outline" data-testid="make-default" data-address-id="${a.id}"
+                                          style="padding:5px 12px;font-size:12px;">Make default</button>` : ''}
+              <button class="btn btn-outline" data-testid="edit-address" data-address-id="${a.id}"
+                      style="padding:5px 12px;font-size:12px;">Edit</button>
+              <button class="btn btn-outline" data-testid="delete-address" data-address-id="${a.id}"
+                      style="padding:5px 12px;font-size:12px;color:var(--danger);border-color:var(--danger);">Delete</button>
+            </div>
+          </div>`).join('');
+      } catch (err) {
+        addressList.innerHTML = `
+          <div class="empty-state" style="padding:20px;">
+            <p style="color:var(--danger);">Could not load addresses: ${err.message}</p>
+          </div>`;
+      }
+    }
+
+    function openAddressModal(existing) {
+      const isEdit = !!existing;
+      const wrap = document.createElement('div');
+      wrap.setAttribute('data-testid', 'address-modal');
+      wrap.style.cssText = `
+        position:fixed;inset:0;background:rgba(15,23,42,.55);display:grid;place-items:center;
+        z-index:9999;padding:16px;`;
+      wrap.innerHTML = `
+        <div style="background:white;border-radius:14px;padding:24px;max-width:520px;width:100%;
+                    max-height:90vh;overflow:auto;">
+          <h3 style="margin:0 0 16px;" data-testid="address-modal-title">
+            ${isEdit ? 'Edit address' : 'Add a new address'}
+          </h3>
+          <form id="address-form">
+            <div class="form-row">
+              <div class="field"><label>Label (optional)</label>
+                <input type="text" name="label" data-testid="addr-label" placeholder="Home, Office…"
+                       maxlength="40" value="${existing?.label || ''}"/></div>
+              <div class="field"><label>Full name</label>
+                <input type="text" name="fullName" data-testid="addr-fullname" required
+                       maxlength="120" value="${existing?.fullName || (user.name || '')}"/></div>
+            </div>
+            <div class="form-row single">
+              <div class="field"><label>Phone</label>
+                <input type="tel" name="phone" data-testid="addr-phone" required
+                       minlength="6" maxlength="32" value="${existing?.phone || ''}"/></div>
+            </div>
+            <div class="form-row single">
+              <div class="field"><label>Street address</label>
+                <input type="text" name="street" data-testid="addr-street" required
+                       minlength="3" maxlength="255" value="${existing?.street || ''}"/></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>City</label>
+                <input type="text" name="city" data-testid="addr-city" required
+                       maxlength="80" value="${existing?.city || ''}"/></div>
+              <div class="field"><label>State</label>
+                <input type="text" name="state" data-testid="addr-state" required
+                       maxlength="80" value="${existing?.state || ''}"/></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>ZIP / postal code</label>
+                <input type="text" name="zip" data-testid="addr-zip" required
+                       minlength="3" maxlength="20" value="${existing?.zip || ''}"/></div>
+              <div class="field"><label>Country</label>
+                <select name="country" data-testid="addr-country" required>
+                  ${['IN','US','GB','AU','CA','AE','SG'].map(c =>
+                    `<option value="${c}" ${(existing?.country || 'IN') === c ? 'selected' : ''}>${c}</option>`
+                  ).join('')}
+                </select></div>
+            </div>
+            <div class="checkbox-row" style="margin-top:8px;">
+              <input type="checkbox" name="isDefault" id="addr-default" data-testid="addr-default"
+                     ${existing?.isDefault ? 'checked' : ''}/>
+              <label for="addr-default">Use as default address</label>
+            </div>
+            <div id="address-feedback" class="form-feedback" data-testid="address-feedback"></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;">
+              <button type="button" class="btn btn-outline" data-testid="addr-cancel" id="addr-cancel">Cancel</button>
+              <button type="submit" class="btn btn-primary" data-testid="addr-save">
+                ${isEdit ? 'Save changes' : 'Add address'}
+              </button>
+            </div>
+          </form>
+        </div>`;
+      document.body.appendChild(wrap);
+      const close = () => wrap.remove();
+      wrap.querySelector('#addr-cancel').addEventListener('click', close);
+      wrap.addEventListener('click', (e) => { if (e.target === wrap) close(); });
+
+      wrap.querySelector('#address-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fb = wrap.querySelector('#address-feedback');
+        const f  = e.target;
+        const body = {
+          label:     f.label.value.trim() || null,
+          fullName:  f.fullName.value.trim(),
+          phone:     f.phone.value.trim(),
+          street:    f.street.value.trim(),
+          city:      f.city.value.trim(),
+          state:     f.state.value.trim(),
+          zip:       f.zip.value.trim(),
+          country:   f.country.value,
+          isDefault: f.isDefault.checked,
+        };
+        try {
+          if (isEdit) await window.ShopLaneApi.updateAddress(existing.id, body);
+          else        await window.ShopLaneApi.createAddress(body);
+          close();
+          renderAddresses();
+        } catch (err) {
+          fb.className = 'form-feedback is-visible error';
+          fb.textContent = err.message + (err.details ? ' — ' + JSON.stringify(err.details) : '');
+        }
+      });
+    }
+
+    document.getElementById('add-address-btn').addEventListener('click', () => openAddressModal(null));
+
+    addressList.addEventListener('click', async (e) => {
+      const editBtn = e.target.closest('[data-testid="edit-address"]');
+      const delBtn  = e.target.closest('[data-testid="delete-address"]');
+      const defBtn  = e.target.closest('[data-testid="make-default"]');
+      if (editBtn) {
+        try {
+          const res = await window.ShopLaneApi.getAddress(Number(editBtn.dataset.addressId));
+          openAddressModal(res.data);
+        } catch (err) { alert('Could not load: ' + err.message); }
+        return;
+      }
+      if (delBtn) {
+        if (!confirm('Delete this address? This cannot be undone.')) return;
+        try {
+          await window.ShopLaneApi.deleteAddress(Number(delBtn.dataset.addressId));
+          renderAddresses();
+        } catch (err) { alert('Delete failed: ' + err.message); }
+        return;
+      }
+      if (defBtn) {
+        try {
+          await window.ShopLaneApi.setDefaultAddress(Number(defBtn.dataset.addressId));
+          renderAddresses();
+        } catch (err) { alert('Could not set default: ' + err.message); }
+      }
+    });
+
+    renderAddresses();
+  }
+</script>
+
+</body>
+</html>

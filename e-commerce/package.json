@@ -1,0 +1,11 @@
+{
+  "name": "shoplane-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ShopLane full-stack demo — static client and Java (Spring Boot + Maven) server against MySQL 8.",
+  "scripts": {
+    "server:dev":   "mvn -f server/pom.xml spring-boot:run",
+    "server:build": "mvn -f server/pom.xml -DskipTests package",
+    "web":          "npx --yes serve -l 5500 client"
+  }
+}

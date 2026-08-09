@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_boots" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEF3C7"/><stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="leather" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350F"/><stop offset="100%" stop-color="#451A03"/>
+    </linearGradient>
+    <filter id="s_boots"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.30"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_boots)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.35)"/>
+  <g filter="url(#s_boots)">
+    <path d="M180 170 L280 170 L280 350 Q280 380 305 380 L440 380 Q460 380 460 400 L460 430 Q460 450 440 450 L200 450 Q180 450 180 430 Z" fill="url(#leather)"/>
+    <ellipse cx="255" cy="380" rx="8" ry="14" fill="rgba(255,255,255,0.15)"/>
+    <ellipse cx="255" cy="410" rx="8" ry="14" fill="rgba(255,255,255,0.15)"/>
+    <rect x="180" y="440" width="280" height="14" fill="#1F2937"/>
+    <path d="M200 170 Q220 155 260 170" fill="none" stroke="#FDE68A" stroke-width="3"/>
+  </g>
+  <text x="300" y="530" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="#451A03" text-anchor="middle" letter-spacing="4">LEATHER BOOTS</text>
+</svg>

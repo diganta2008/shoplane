@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_router" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/><stop offset="100%" stop-color="#3730A3"/>
+    </linearGradient>
+    <filter id="s_router"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.28"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_router)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.10)"/>
+  <g filter="url(#s_router)">
+    <rect x="150" y="260" width="300" height="150" rx="18" fill="#0F172A"/>
+    <rect x="170" y="280" width="260" height="30" rx="6" fill="#1E1B4B"/>
+    <circle cx="200" cy="360" r="6" fill="#10B981"/>
+    <circle cx="230" cy="360" r="6" fill="#10B981"/>
+    <circle cx="260" cy="360" r="6" fill="#F59E0B"/>
+    <circle cx="290" cy="360" r="6" fill="#F59E0B"/>
+    <rect x="200" y="220" width="6" height="60" fill="#1E1B4B"/>
+    <rect x="240" y="200" width="6" height="80" fill="#1E1B4B"/>
+    <rect x="280" y="200" width="6" height="80" fill="#1E1B4B"/>
+    <rect x="320" y="220" width="6" height="60" fill="#1E1B4B"/>
+    <circle cx="220" cy="180" r="30" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="3"/>
+    <circle cx="220" cy="180" r="18" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="3"/>
+    <circle cx="220" cy="180" r="6" fill="white"/>
+  </g>
+  <text x="300" y="500" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="rgba(255,255,255,0.9)" text-anchor="middle" letter-spacing="4">WI-FI 7 MESH</text>
+</svg>

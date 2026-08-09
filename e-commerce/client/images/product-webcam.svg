@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_webcam" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#0E7490"/>
+    </linearGradient>
+    <filter id="s_webcam"><feGaussianBlur in="SourceAlpha" stdDeviation="10"/><feOffset dy="12"/><feComponentTransfer><feFuncA type="linear" slope="0.28"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_webcam)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.10)"/>
+  <g filter="url(#s_webcam)">
+    <rect x="130" y="230" width="340" height="140" rx="24" fill="#0F172A"/>
+    <circle cx="300" cy="300" r="60" fill="#111827" stroke="#0EA5E9" stroke-width="5"/>
+    <circle cx="300" cy="300" r="36" fill="#0F172A"/>
+    <circle cx="300" cy="300" r="16" fill="#0EA5E9"/>
+    <circle cx="415" cy="300" r="10" fill="#0EA5E9"/>
+    <rect x="185" y="285" width="60" height="8" rx="4" fill="#334155"/>
+    <rect x="185" y="305" width="60" height="8" rx="4" fill="#334155"/>
+    <path d="M180 370 L420 370 L400 420 L200 420 Z" fill="#111827"/>
+  </g>
+  <text x="300" y="530" font-family="Inter,sans-serif" font-size="26" font-weight="800" fill="rgba(255,255,255,0.9)" text-anchor="middle" letter-spacing="4">4K STUDIO WEBCAM</text>
+</svg>

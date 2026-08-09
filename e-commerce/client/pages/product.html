@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="product">
+
+<header class="site-header" id="site-header"></header>
+
+<div class="container">
+  <nav class="crumbs" data-testid="breadcrumbs">
+    <a href="home.html">Home</a><span class="sep">/</span>
+    <a href="shop.html">Shop</a><span class="sep">/</span>
+    <a href="#" id="crumb-category" data-testid="crumb-category">Category</a><span class="sep">/</span>
+    <span class="current" id="crumb-product" data-testid="crumb-product">Product</span>
+  </nav>
+
+  <div class="product-detail-layout" id="product-body">
+    <!-- populated by JS -->
+  </div>
+
+  <div id="tabs-block" class="mt-40" data-testid="tabs-block">
+    <div class="tabs" data-testid="tabs">
+      <button class="active" data-tab="description" data-testid="tab-description">Description</button>
+      <button data-tab="specifications" data-testid="tab-specifications">Specifications</button>
+      <button data-tab="reviews" data-testid="tab-reviews">Reviews</button>
+    </div>
+    <div class="tab-panel active" id="tab-description" data-testid="panel-description"></div>
+    <div class="tab-panel" id="tab-specifications" data-testid="panel-specifications"></div>
+    <div class="tab-panel" id="tab-reviews" data-testid="panel-reviews"></div>
+  </div>
+
+  <section class="section" style="padding:60px 0 0;">
+    <h2 class="section-title">You might also like</h2>
+    <div class="grid grid-4" id="related-grid" data-testid="related-grid"></div>
+  </section>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = Number(params.get('id')) || 1;
+  const product = window.getProduct(id) || window.CATALOG[0];
+
+  document.title = `${product.name} — ShopLane`;
+  document.getElementById('crumb-category').textContent = product.category;
+  document.getElementById('crumb-category').href = 'shop.html?category=' + product.category;
+  document.getElementById('crumb-product').textContent = product.name;
+
+  // ---- main detail block ----
+  document.getElementById('product-body').innerHTML = `
+    <div class="gallery" data-testid="gallery">
+      <div class="gallery-main" data-testid="gallery-main">
+        <img id="main-image" src="${product.image}" alt="${product.name}"/>
+      </div>
+      <div class="gallery-thumbs" data-testid="gallery-thumbs">
+        ${[1, 2, 3, 4].map((i) => `
+          <button class="${i === 1 ? 'active' : ''}" data-testid="thumb-${i}" data-thumb="${i}">
+            <img src="${product.image}" alt="thumbnail ${i}"/>
+          </button>`).join('')}
+      </div>
+    </div>
+
+    <div class="product-hero-info" data-testid="product-info">
+      <span class="category" data-testid="product-category">
+        ${product.category}${product.subCategory ? `  &rsaquo;  <span class="subcategory" data-testid="product-subcategory">${product.subCategory}</span>` : ''}  &bull;  SKU ${product.sku}
+      </span>
+      <h1 data-testid="product-name">${product.name}</h1>
+      <div class="product-rating">
+        <span class="stars">${window.ShopLane.stars(product.rating)}</span>
+        <span data-testid="product-rating">${product.rating.toFixed(1)}</span>
+        <span style="color:var(--muted);">(${product.reviewCount} reviews)</span>
+      </div>
+
+      <div class="price-row">
+        <span class="price" data-testid="product-price">${window.ShopLane.money(product.price)}</span>
+        ${product.oldPrice ? `<span class="old-price" data-testid="product-old-price">${window.ShopLane.money(product.oldPrice)}</span>` : ''}
+        ${product.oldPrice ? `<span class="save" data-testid="product-save">
+          Save ${Math.round((1 - product.price / product.oldPrice) * 100)}%
+        </span>` : ''}
+      </div>
+
+      <p class="description" data-testid="product-description">${product.description}</p>
+
+      ${product.sizes.length ? `
+        <div class="option-group" data-testid="size-group">
+          <span class="label">Size</span>
+          <div class="size-list" id="size-list">
+            ${product.sizes.map((s, i) => `
+              <button data-value="${s}" class="${i === 0 ? 'active' : ''}" data-testid="size-${s.replace(/\s+/g, '')}">${s}</button>`).join('')}
+          </div>
+        </div>` : ''}
+
+      ${product.colors.length ? `
+        <div class="option-group" data-testid="color-group">
+          <span class="label">Color</span>
+          <div class="size-list" id="color-list">
+            ${product.colors.map((c, i) => `
+              <button data-value="${c}" class="${i === 0 ? 'active' : ''}" data-testid="color-${c.replace(/\s+/g, '')}">${c}</button>`).join('')}
+          </div>
+        </div>` : ''}
+
+      <div class="option-group" style="display:flex;align-items:center;gap:20px;">
+        <div>
+          <span class="label">Quantity</span>
+          <div class="qty-wrap" data-testid="qty-wrap">
+            <button id="qty-dec" data-testid="qty-decrement">−</button>
+            <input id="qty" type="number" value="1" min="1" max="${product.stock}"
+                   data-testid="qty-input"/>
+            <button id="qty-inc" data-testid="qty-increment">+</button>
+          </div>
+        </div>
+        <div>
+          <span class="label">Availability</span>
+          <div style="font-size:14px;color:${product.stock > 0 ? 'var(--success)' : 'var(--danger)'};font-weight:600;"
+               data-testid="stock-status">
+            ${product.stock > 0 ? `● In stock — ${product.stock} available` : '● Out of stock'}
+          </div>
+        </div>
+      </div>
+
+      <div class="buy-actions">
+        <button class="btn btn-primary btn-lg" id="add-to-cart" data-testid="add-to-cart">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Add to Cart
+        </button>
+        <button class="btn btn-accent btn-lg" id="buy-now" data-testid="buy-now">Buy Now</button>
+        <button class="btn btn-outline btn-lg" id="add-wishlist" data-testid="add-wishlist">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Wishlist
+        </button>
+      </div>
+
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;line-height:1.9;">
+        <div>🚚 Free shipping on orders over $100 · Delivery in 2–4 business days</div>
+        <div>↩️ 30-day free returns</div>
+        <div>🔒 Secure checkout — encrypted end-to-end</div>
+      </div>
+    </div>
+  `;
+
+  // ---- tabs ----
+  document.getElementById('tab-description').innerHTML = `
+    <p style="color:var(--slate-700);line-height:1.7;">${product.description}</p>
+    <ul style="color:var(--slate-700);line-height:1.9;margin-top:16px;">
+      <li>Ships from our closest fulfilment centre</li>
+      <li>Genuine product with manufacturer warranty</li>
+      <li>Backed by our 30-day satisfaction guarantee</li>
+    </ul>`;
+  document.getElementById('tab-specifications').innerHTML = `
+    <dl class="spec-list" data-testid="spec-list">
+      ${Object.entries(product.specs).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}
+    </dl>`;
+  const sampleReviews = [
+    { name: 'Priya D.', rating: 5, date: '3 days ago',  text: 'Absolutely worth every rupee — arrived faster than promised.' },
+    { name: 'Rahul M.', rating: 4, date: '1 week ago',  text: 'Solid build quality. One tiny nit on packaging but the product itself is great.' },
+    { name: 'Anika V.', rating: 5, date: '2 weeks ago', text: 'Bought as a gift, recipient is thrilled. Would order again.' },
+  ];
+  document.getElementById('tab-reviews').innerHTML = sampleReviews.map((r) => `
+    <div class="review" data-testid="review">
+      <div class="head">
+        <span class="testimonial-avatar" style="width:32px;height:32px;font-size:13px;">${r.name[0]}</span>
+        <span class="name">${r.name}</span>
+        <span class="stars">${window.ShopLane.stars(r.rating)}</span>
+        <span class="date">· ${r.date}</span>
+      </div>
+      <div>${r.text}</div>
+    </div>`).join('');
+
+  // tab switch
+  document.querySelectorAll('.tabs button').forEach((b) => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.tabs button').forEach((x) => x.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach((x) => x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById('tab-' + b.dataset.tab).classList.add('active');
+    });
+  });
+
+  // gallery thumbs — all show the same SVG but simulate a gallery
+  document.querySelectorAll('[data-thumb]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-thumb]').forEach((x) => x.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // size / color selection
+  ['size-list', 'color-list'].forEach((groupId) => {
+    const el = document.getElementById(groupId);
+    if (!el) return;
+    el.addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      el.querySelectorAll('button').forEach((x) => x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+
+  // qty controls
+  const qty = document.getElementById('qty');
+  document.getElementById('qty-dec').addEventListener('click', () => { qty.value = Math.max(1, Number(qty.value) - 1); });
+  document.getElementById('qty-inc').addEventListener('click', () => { qty.value = Math.min(product.stock, Number(qty.value) + 1); });
+
+  // add to cart & buy now
+  function selectedOptions() {
+    const sizeBtn  = document.querySelector('#size-list  button.active');
+    const colorBtn = document.querySelector('#color-list button.active');
+    return { size:  sizeBtn  ? sizeBtn.dataset.value  : null,
+             color: colorBtn ? colorBtn.dataset.value : null };
+  }
+  document.getElementById('add-to-cart').addEventListener('click', () => {
+    window.ShopLane.addToCart(product.id, Number(qty.value), selectedOptions());
+  });
+  document.getElementById('buy-now').addEventListener('click', () => {
+    window.ShopLane.addToCart(product.id, Number(qty.value), selectedOptions());
+    setTimeout(() => { location.href = 'checkout.html'; }, 300);
+  });
+  document.getElementById('add-wishlist').addEventListener('click', () => {
+    window.ShopLane.toggleWishlist(product.id);
+  });
+
+  // related products — same category, exclude self
+  const related = window.CATALOG.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+  document.getElementById('related-grid').innerHTML =
+    (related.length ? related : window.CATALOG.slice(0, 4))
+      .map((p) => window.ShopLane.productCardHtml(p)).join('');
+</script>
+
+</body>
+</html>

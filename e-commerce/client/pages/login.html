@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="login">
+
+<header class="site-header" id="site-header"></header>
+
+<section class="auth-layout">
+  <div class="auth-card" data-testid="login-card">
+    <h1 data-testid="page-title">Welcome back</h1>
+    <p class="subtitle">Sign in to continue to your ShopLane account.</p>
+
+    <form id="login-form" novalidate>
+      <div class="field mb-16">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required
+               data-testid="login-email" placeholder="you@example.com" autocomplete="email"/>
+      </div>
+      <div class="field mb-16">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required
+               data-testid="login-password" placeholder="At least 6 characters" autocomplete="current-password"/>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0;">
+        <label class="checkbox-row" style="margin:0;">
+          <input type="checkbox" id="remember" data-testid="login-remember"/>
+          <span>Remember me</span>
+        </label>
+        <a href="#" data-testid="login-forgot" style="font-size:13px;">Forgot password?</a>
+      </div>
+
+      <div id="login-feedback" class="form-feedback" data-testid="login-feedback"></div>
+
+      <button type="submit" class="btn btn-primary btn-block btn-lg mt-16" data-testid="login-submit">
+        Sign in
+      </button>
+    </form>
+
+    <div class="auth-alt">
+      New to ShopLane? <a href="register.html" data-testid="link-register">Create an account</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  const form = document.getElementById('login-form');
+  const feedback = document.getElementById('login-feedback');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  if (window.Auth.isLoggedIn()) {
+    feedback.className = 'form-feedback is-visible info';
+    feedback.textContent = `You are already signed in as ${window.Auth.get().email}.`;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    feedback.className = 'form-feedback is-visible info';
+    feedback.textContent = 'Signing in…';
+    try {
+      const result = await window.Auth.login(form.email.value.trim(), form.password.value);
+      if (!result.ok) {
+        feedback.className = 'form-feedback is-visible error';
+        feedback.textContent = result.error;
+        submitBtn.disabled = false;
+        return;
+      }
+      if (result.offline) {
+        feedback.className = 'form-feedback is-visible warning';
+        feedback.innerHTML = `\u26A0 Server unreachable \u2014 signed in locally only (no database session). Start the API server on :8080 for real auth.`;
+      } else {
+        feedback.className = 'form-feedback is-visible success';
+        feedback.textContent = `\u2713 Welcome, ${result.user.name}! Redirecting\u2026`;
+      }
+      const params = new URLSearchParams(location.search);
+      const next = params.get('next') || 'account.html';
+      setTimeout(() => { location.href = next; }, result.offline ? 1400 : 700);
+    } catch (err) {
+      feedback.className = 'form-feedback is-visible error';
+      feedback.textContent = err.message || 'Login failed';
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

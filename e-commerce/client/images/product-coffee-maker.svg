@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g_coffee-maker" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#7C2D12"/>
+    </linearGradient>
+    <filter id="shadow_coffee-maker" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dx="0" dy="14" result="offsetblur"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.20"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#g_coffee-maker)"/>
+  <circle cx="510" cy="90" r="108" fill="rgba(255,255,255,0.10)"/>
+  <circle cx="72" cy="540" r="72" fill="rgba(0,0,0,0.06)"/>
+  <g filter="url(#shadow_coffee-maker)">
+    <path d="M180 230 L180 400 Q180 460 240 460 L340 460 Q400 460 400 400 L400 230 Z" fill="white" stroke="#78350F" stroke-width="6"/>
+    <path d="M400 260 Q470 260 470 320 Q470 380 400 380" fill="none" stroke="#78350F" stroke-width="10"/>
+    <rect x="220" y="180" width="140" height="50" rx="10" fill="#78350F"/>
+    <path d="M240 180 Q240 150 260 150" stroke="#F59E0B" stroke-width="4" fill="none" opacity="0.7"/>
+    <path d="M290 180 Q290 145 320 145" stroke="#F59E0B" stroke-width="4" fill="none" opacity="0.7"/>
+    <path d="M340 180 Q340 155 360 155" stroke="#F59E0B" stroke-width="4" fill="none" opacity="0.7"/>
+    <circle cx="290" cy="320" r="20" fill="#78350F" opacity="0.15"/></g>
+  <text x="300" y="574" font-family="Inter, sans-serif" font-size="27" font-weight="700" fill="rgba(255,255,255,0.85)" text-anchor="middle" letter-spacing="4">BARISTA PRO</text>
+</svg>

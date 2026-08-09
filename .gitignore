@@ -1,0 +1,41 @@
+### Env files (keep .env.example checked in)
+.env
+.env.*
+!.env.example
+
+### Java / Maven
+target/
+*.class
+!**/mvnw
+!**/mvnw.cmd
+!**/.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+dependency-reduced-pom.xml
+
+### Server runtime output
+e-commerce/server/logs/
+*.log
+
+### Node
+node_modules/
+npm-debug.log*
+
+### IDE / editor
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+.factorypath
+
+### OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+### Local Docker volumes
+docker/compose/data/
+docker/compose/mysql-data/

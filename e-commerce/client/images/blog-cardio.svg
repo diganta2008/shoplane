@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="bgc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FEE2E2"/><stop offset="100%" stop-color="#F87171"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#bgc)"/>
+  <circle cx="720" cy="80"  r="120" fill="rgba(255,255,255,0.30)"/>
+  <circle cx="80"  cy="420" r="100" fill="rgba(255,255,255,0.20)"/>
+  <g transform="translate(240 90)">
+    <path d="M160 60 Q100 20 60 80 Q20 140 160 260 Q300 140 260 80 Q220 20 160 60 Z"
+          fill="#DC2626" stroke="#7F1D1D" stroke-width="4"/>
+    <path d="M100 130 Q120 130 130 110 L145 160 L165 90 L185 180 L200 130 L220 130"
+          fill="none" stroke="#F1F5F9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="400" y="440" font-family="Inter,sans-serif" font-size="30" font-weight="900" fill="#7F1D1D" text-anchor="middle" letter-spacing="6">CARDIOLOGY</text>
+</svg>
