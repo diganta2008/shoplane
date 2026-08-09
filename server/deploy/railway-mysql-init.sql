@@ -16,7 +16,7 @@
 SOURCE ../../docker/init/01-schema.sql;
 SOURCE ../../docker/init/02-seed.sql;
 SOURCE ../../docker/init/03-native-auth.sql;
-SOURCE ../../docker/init/04-user-profiles.sql;
+SOURCE ../../docker/init/04-user-profile-credentials.sql;
 SOURCE ../../docker/init/05-addresses.sql;
 SOURCE ../../docker/init/06-subcategory.sql;
 SOURCE ../../docker/init/07-subcategory-backfill.sql;
