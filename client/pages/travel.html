@@ -432,9 +432,7 @@
       <a class="trv-card" href="${m.wiki}" target="_blank" rel="noopener noreferrer"
          data-testid="monument-card" data-monument="${m.id}">
         <div class="trv-card__media">
-          <img src="${m.photo}" alt="${m.name}" loading="lazy"
-               referrerpolicy="no-referrer"
-               onerror="this.style.opacity=0.35; this.style.filter='grayscale(1)';">
+          <img src="${m.photo}" alt="${m.name}" loading="lazy">
           <span class="trv-card__tag">${m.tag}</span>
           <span class="trv-card__era">${m.era}</span>
         </div>
@@ -449,6 +447,30 @@
         </div>
       </a>
     `).join('');
+
+    // Graceful fallback: if a monument image ever 404s or is blocked,
+    // hide the img and paint a stylized dome/minaret SVG onto the media
+    // panel so the card still looks intentional rather than broken.
+    grid.querySelectorAll('.trv-card__media img').forEach((img) => {
+      img.addEventListener('error', () => {
+        const panel = img.parentNode;
+        if (!panel) return;
+        img.style.display = 'none';
+        panel.style.background =
+          "linear-gradient(135deg,#fef3c7,#f6d18c)," +
+          "url(\"data:image/svg+xml;utf8," +
+          "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 120'>" +
+          "<g fill='%23b98918' opacity='0.35'>" +
+          "<rect x='60' y='70' width='80' height='40'/>" +
+          "<path d='M60 70 Q60 40 100 40 Q140 40 140 70' fill='%23fbbf24'/>" +
+          "<rect x='40' y='60' width='10' height='50'/>" +
+          "<rect x='150' y='60' width='10' height='50'/>" +
+          "<circle cx='45' cy='60' r='8'/><circle cx='155' cy='60' r='8'/>" +
+          "</g></svg>\")";
+        panel.style.backgroundSize = 'cover';
+        panel.style.backgroundPosition = 'center';
+      }, { once: true });
+    });
   }
 
   cityStrip.addEventListener('click', (e) => {
