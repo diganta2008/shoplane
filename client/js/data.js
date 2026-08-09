@@ -1699,6 +1699,7 @@ window.CATEGORIES = [
   { id: 'Medical',     name: 'Medical',     icon: 'stethoscope', desc: 'Instruments for home & clinic use' },
   { id: 'Sports',      name: 'Sports',      icon: 'trophy',      desc: 'Train, ride, run, play' },
   { id: 'Yoga',        name: 'Yoga',        icon: 'lotus',       desc: 'Mats, blocks & mindful gear' },
+  { id: 'Education',   name: 'Education',   icon: 'cap',         desc: 'Coaching, mentors & material' },
 ];
 
 window.getProduct = function (id) {

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Education — Coaching, Materials & News | ShopLane</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="../images/logo.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Education vertical — deep-indigo / sky-blue palette */
+    .ed-hero {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(99,102,241,0.15), transparent 50%),
+        radial-gradient(circle at 85% 80%, rgba(14,165,233,0.18), transparent 55%),
+        linear-gradient(135deg, #eef2ff 0%, #f0f9ff 55%, #eff6ff 100%);
+      padding: 72px 0 48px; border-bottom: 1px solid #e2e8f0;
+    }
+    .ed-hero__grid { display: grid; grid-template-columns: 1.15fr 0.85fr;
+                     gap: 40px; align-items: center; }
+    @media (max-width: 900px) { .ed-hero__grid { grid-template-columns: 1fr; } }
+    .ed-hero__eyebrow { display: inline-block; text-transform: uppercase; letter-spacing: 2px;
+                         font-size: 12px; font-weight: 700; color: #4338ca; }
+    .ed-hero h1 { font-size: clamp(2rem, 3.4vw, 3.2rem); line-height: 1.1; margin: 14px 0 12px; }
+    .ed-hero h1 .accent { background: linear-gradient(90deg, #4338ca, #0ea5e9);
+                          -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .ed-hero p  { font-size: 17px; color: #334155; max-width: 55ch; }
+    .ed-hero__cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .ed-hero__stats { list-style: none; padding: 0; margin: 32px 0 0;
+                       display: flex; gap: 28px; flex-wrap: wrap; }
+    .ed-hero__stats li { display: flex; flex-direction: column; }
+    .ed-hero__stats strong { font-size: 24px; color: #0f172a; font-weight: 900; }
+    .ed-hero__stats span   { font-size: 13px; color: #64748b; }
+    .ed-hero__art { display: flex; justify-content: center; align-items: center; }
+    .ed-hero__art .card-stack {
+      position: relative; width: 320px; height: 260px;
+    }
+    .ed-hero__art .card-stack > div {
+      position: absolute; inset: 0; border-radius: 16px;
+      background: #fff; box-shadow: 0 20px 40px rgba(15,23,42,0.10);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 78px;
+    }
+    .ed-hero__art .card-stack > div:nth-child(1) { transform: rotate(-8deg) translate(-30px, 8px);
+                                                    background: linear-gradient(135deg,#e0e7ff,#c7d2fe); }
+    .ed-hero__art .card-stack > div:nth-child(2) { transform: rotate(4deg)  translate(20px, -6px);
+                                                    background: linear-gradient(135deg,#e0f2fe,#bae6fd); }
+    .ed-hero__art .card-stack > div:nth-child(3) { transform: rotate(0deg)  translate(0, 0);
+                                                    background: linear-gradient(135deg,#ffffff,#f1f5f9); }
+
+    .ed-section { padding: 56px 0; }
+    .ed-section--tinted { background: #f8fafc; }
+    .ed-section__head { position: relative; margin-bottom: 24px; }
+    .ed-section__head h2 { margin: 0 0 6px; font-size: 1.75rem; }
+    .ed-section__link { position: absolute; right: 0; top: 6px; font-weight: 600;
+                         color: #4338ca; font-size: 14px; }
+    .ed-section__link:hover { text-decoration: underline; }
+    .ed-muted { color: var(--muted); margin: 0; max-width: 60ch; }
+
+    /* Stream chips */
+    .ed-stream-strip { display: flex; gap: 10px; flex-wrap: wrap; }
+    .ed-stream-chip  { display: inline-flex; align-items: center; gap: 6px;
+                        background: #fff; border: 1px solid var(--border);
+                        padding: 8px 14px; border-radius: 999px; font-size: 14px;
+                        color: var(--slate-700); cursor: pointer; font-family: inherit;
+                        transition: background .15s ease, border-color .15s ease, color .15s ease; }
+    .ed-stream-chip:hover { border-color: #4338ca; color: #4338ca; }
+    .ed-stream-chip.active { background: #4338ca; border-color: #4338ca; color: white; }
+
+    /* Institute cards */
+    .ed-institutes { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+    .ed-inst { background: #fff; border: 1px solid var(--border); border-radius: 16px;
+               padding: 22px; display: flex; flex-direction: column; gap: 12px;
+               transition: transform .15s ease, box-shadow .15s ease;
+               box-shadow: var(--shadow-sm); }
+    .ed-inst:hover { transform: translateY(-3px); box-shadow: 0 24px 44px -18px rgba(15,23,42,0.18); }
+    .ed-inst__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .ed-inst__name { margin: 0; font-size: 17px; color: var(--heading); line-height: 1.25; }
+    .ed-inst__badge {
+      display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.6px;
+      padding: 3px 8px; border-radius: 999px;
+      background: #eef2ff; color: #4338ca; text-transform: uppercase; white-space: nowrap;
+    }
+    .ed-inst__tag { font-size: 12px; padding: 2px 8px; border-radius: 999px;
+                     background: #f1f5f9; color: var(--slate-700); font-weight: 600; }
+    .ed-inst__tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .ed-inst__tagline { font-size: 13.5px; color: var(--slate-700); margin: 0; line-height: 1.55; }
+    .ed-inst__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px;
+                      font-size: 13px; color: var(--slate-700); }
+    .ed-inst__meta > div { display: flex; align-items: center; gap: 6px; }
+    .ed-inst__meta strong { color: var(--heading); font-weight: 700; }
+    .ed-inst__foot { display: flex; justify-content: space-between; align-items: center;
+                      gap: 10px; margin-top: auto; padding-top: 10px;
+                      border-top: 1px dashed var(--border); }
+    .ed-inst__fee  { font-size: 15px; font-weight: 800; color: var(--heading); }
+    .ed-inst__cta  { font-size: 13px; padding: 8px 14px; }
+    .ed-inst__rating { display: inline-flex; align-items: center; gap: 4px;
+                        font-size: 13px; color: var(--slate-700); }
+    .ed-inst__rating strong { color: var(--heading); font-weight: 800; }
+
+    /* Study material cards */
+    .ed-materials { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+    .ed-mat { background: #fff; border: 1px solid var(--border); border-radius: 14px;
+              padding: 18px; display: flex; gap: 14px; align-items: flex-start;
+              transition: transform .15s ease, box-shadow .15s ease; }
+    .ed-mat:hover { transform: translateY(-2px); box-shadow: 0 18px 32px -18px rgba(15,23,42,0.14); }
+    .ed-mat__icon { font-size: 30px; flex: 0 0 auto; line-height: 1; }
+    .ed-mat__body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .ed-mat__title { margin: 0; font-size: 14px; color: var(--heading); font-weight: 700; line-height: 1.3; }
+    .ed-mat__sub   { font-size: 12px; color: var(--muted); }
+    .ed-mat__foot  { display: flex; align-items: center; justify-content: space-between;
+                      margin-top: 6px; font-size: 12.5px; }
+    .ed-mat__price { font-weight: 800; color: #4338ca; }
+    .ed-mat__price.free { color: #15803d; }
+    .ed-mat__cta   { color: var(--primary); font-weight: 600; }
+
+    /* Blog cards */
+    .ed-blog { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+    .ed-post { background: #fff; border: 1px solid var(--border); border-radius: 16px;
+               padding: 22px; display: flex; flex-direction: column; gap: 10px;
+               transition: transform .15s ease, box-shadow .15s ease; }
+    .ed-post:hover { transform: translateY(-3px); box-shadow: 0 24px 44px -18px rgba(15,23,42,0.16); }
+    .ed-post__meta { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+    .ed-post__tag  { background: #e0e7ff; color: #3730a3; padding: 2px 8px;
+                     border-radius: 999px; font-weight: 700; letter-spacing: 0.3px; }
+    .ed-post h3    { margin: 0; font-size: 16px; line-height: 1.35; color: var(--heading); }
+    .ed-post p     { margin: 0; color: var(--slate-700); font-size: 13.5px; line-height: 1.55; }
+    .ed-post__foot { display: flex; justify-content: space-between; align-items: center;
+                     margin-top: auto; font-size: 12.5px; color: var(--muted); }
+    .ed-post__link { color: #4338ca; font-weight: 600; }
+
+    /* CTA band */
+    .ed-cta-band {
+      background: linear-gradient(135deg, #312e81 0%, #1e3a8a 55%, #0ea5e9 100%);
+      color: #fff; border-radius: 20px; padding: 40px 44px;
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: center;
+      box-shadow: 0 20px 60px -20px rgba(49,46,129,0.55);
+      position: relative; overflow: hidden;
+    }
+    @media (max-width: 900px) {
+      .ed-cta-band { grid-template-columns: 1fr; padding: 32px; text-align: center; }
+      .ed-cta-band__actions { justify-content: center; }
+    }
+    .ed-cta-band::before {
+      content: ""; position: absolute; right: -80px; top: -60px;
+      width: 260px; height: 260px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); pointer-events: none;
+    }
+    .ed-cta-band h2 { margin: 0 0 8px; font-size: 1.75rem; }
+    .ed-cta-band p  { margin: 0; opacity: 0.9; max-width: 55ch; }
+    .ed-cta-band__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .ed-cta-band .btn-primary {
+      background: #fff; color: #1e3a8a;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+    .ed-cta-band .btn-primary:hover { transform: translateY(-2px); }
+    .ed-cta-band .btn-outline {
+      background: transparent; color: #fff; border-color: rgba(255,255,255,0.5);
+    }
+    .ed-cta-band .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+  </style>
+</head>
+<body data-page="education">
+
+<header class="site-header" id="site-header"></header>
+
+<!-- Hero -------------------------------------------------------------- -->
+<section class="ed-hero" data-testid="ed-hero">
+  <div class="container">
+    <div class="ed-hero__grid">
+      <div>
+        <span class="ed-hero__eyebrow">Education Hub</span>
+        <h1>Find the right <span class="accent">coaching, mentors and material.</span></h1>
+        <p>Curated coaching institutes, verified study material, and unbiased
+           education news — all in one place. From JEE and NEET to UPSC,
+           coding bootcamps and K–12 tuition.</p>
+        <div class="ed-hero__cta">
+          <a href="#institutes" class="btn btn-primary btn-lg" data-testid="ed-hero-browse">
+            Browse institutes →
+          </a>
+          <a href="#materials" class="btn btn-outline btn-lg" data-testid="ed-hero-materials">
+            Free study material
+          </a>
+        </div>
+        <ul class="ed-hero__stats">
+          <li><strong>250+</strong><span>Verified institutes</span></li>
+          <li><strong>1.2M+</strong><span>Students helped</span></li>
+          <li><strong>4.7 ★</strong><span>Average rating</span></li>
+        </ul>
+      </div>
+      <div class="ed-hero__art" aria-hidden="true">
+        <div class="card-stack">
+          <div>📐</div>
+          <div>🧪</div>
+          <div>🎓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stream chips ------------------------------------------------------- -->
+<section class="ed-section" data-testid="ed-streams">
+  <div class="container">
+    <div class="ed-section__head">
+      <h2>Pick your stream</h2>
+      <p class="ed-muted">Filters below apply to the institutes grid.</p>
+    </div>
+    <div id="ed-stream-strip" class="ed-stream-strip"></div>
+  </div>
+</section>
+
+<!-- Institutes --------------------------------------------------------- -->
+<section id="institutes" class="ed-section ed-section--tinted" data-testid="ed-institutes-section">
+  <div class="container">
+    <div class="ed-section__head">
+      <h2>Featured coaching institutes</h2>
+      <a href="contact.html" class="ed-section__link" data-testid="ed-list-inst">
+        List your institute →
+      </a>
+      <p class="ed-muted">Hand-vetted for outcomes, teaching quality, and student support.
+         All fees are indicative — final quotes depend on batch and location.</p>
+    </div>
+    <div id="ed-institutes" class="ed-institutes"></div>
+  </div>
+</section>
+
+<!-- Study material ----------------------------------------------------- -->
+<section id="materials" class="ed-section" data-testid="ed-materials-section">
+  <div class="container">
+    <div class="ed-section__head">
+      <h2>Study material</h2>
+      <a href="shop.html?category=Books" class="ed-section__link" data-testid="ed-view-books">
+        See all books →
+      </a>
+      <p class="ed-muted">Downloadable PDFs, printed workbooks and mock-test series
+         put together by top mentors.</p>
+    </div>
+    <div id="ed-materials" class="ed-materials"></div>
+  </div>
+</section>
+
+<!-- Blog / News -------------------------------------------------------- -->
+<section class="ed-section ed-section--tinted" data-testid="ed-blog-section">
+  <div class="container">
+    <div class="ed-section__head">
+      <h2>Education news &amp; blog</h2>
+      <a href="#" class="ed-section__link" data-testid="ed-more-articles">More articles →</a>
+      <p class="ed-muted">Policy shifts, exam updates and honest takes from the classroom.</p>
+    </div>
+    <div id="ed-blog" class="ed-blog"></div>
+  </div>
+</section>
+
+<!-- CTA band ----------------------------------------------------------- -->
+<section class="ed-section">
+  <div class="container">
+    <div class="ed-cta-band" data-testid="ed-cta-band">
+      <div>
+        <h2>Talk to a counsellor — free 15-minute call</h2>
+        <p>Not sure which stream or institute fits? Our counsellors will map your
+           goals to a plan — no obligation, no push-selling.</p>
+      </div>
+      <div class="ed-cta-band__actions">
+        <a href="contact.html?subject=Counselling" class="btn btn-primary btn-lg"
+           data-testid="ed-book-call">Book a call</a>
+        <a href="faq.html" class="btn btn-outline btn-lg"
+           data-testid="ed-view-faq">Read FAQs</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/edu-data.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/app.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/chatbot.js" defer></script>
+
+<script>
+  (function () {
+    const streamStrip = document.getElementById('ed-stream-strip');
+    const institutesEl = document.getElementById('ed-institutes');
+    const materialsEl  = document.getElementById('ed-materials');
+    const blogEl       = document.getElementById('ed-blog');
+    let activeStream = 'all';
+
+    /* --- Stream chips (filter the institutes grid) -------------- */
+    streamStrip.innerHTML = window.EDU_STREAMS.map((s) => `
+      <button type="button" class="ed-stream-chip ${s.id === 'all' ? 'active' : ''}"
+              data-stream="${s.id}" data-testid="ed-stream-${s.id}">
+        <span>${s.icon}</span> ${s.label}
+      </button>`).join('');
+
+    streamStrip.addEventListener('click', (e) => {
+      const btn = e.target.closest('.ed-stream-chip');
+      if (!btn) return;
+      activeStream = btn.dataset.stream;
+      streamStrip.querySelectorAll('.ed-stream-chip').forEach((b) => {
+        b.classList.toggle('active', b === btn);
+      });
+      renderInstitutes();
+    });
+
+    /* --- Institute cards ----------------------------------------- */
+    function renderInstitutes() {
+      const list = window.EDU_INSTITUTES.filter((i) =>
+        activeStream === 'all' || i.streams.includes(activeStream));
+      if (!list.length) {
+        institutesEl.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:32px;
+                       color:var(--muted);border:1px dashed var(--border);
+                       border-radius:12px;">
+            No institutes for this stream yet — try another chip.
+          </div>`;
+        return;
+      }
+      institutesEl.innerHTML = list.map((i) => `
+        <article class="ed-inst" data-testid="ed-inst-${i.id}" data-streams="${i.streams.join(',')}">
+          <div class="ed-inst__head">
+            <h3 class="ed-inst__name">${i.name}</h3>
+            ${i.badge ? `<span class="ed-inst__badge">${i.badge}</span>` : ''}
+          </div>
+          <p class="ed-inst__tagline">${i.tagline}</p>
+          <div class="ed-inst__tags">
+            ${i.tags.map((t) => `<span class="ed-inst__tag">${t}</span>`).join('')}
+          </div>
+          <div class="ed-inst__meta">
+            <div>📚 <strong>${i.mode}</strong></div>
+            <div>📍 ${i.location}</div>
+            <div class="ed-inst__rating">
+              ⭐ <strong>${i.rating.toFixed(1)}</strong>
+              <span style="color:var(--muted);">(${i.reviewCount.toLocaleString()})</span>
+            </div>
+            <div>💼 ${i.streams.map((s) => (window.EDU_STREAMS.find((e) => e.id === s) || {}).label || s).join(', ')}</div>
+          </div>
+          <div class="ed-inst__foot">
+            <span class="ed-inst__fee">${i.fee}</span>
+            <a class="btn btn-primary ed-inst__cta" href="contact.html?subject=Enrolment%20%E2%80%94%20${encodeURIComponent(i.name)}"
+               data-testid="ed-enrol-${i.id}">Enrol / enquire →</a>
+          </div>
+        </article>`).join('');
+    }
+
+    /* --- Study material bundles ---------------------------------- */
+    materialsEl.innerHTML = window.EDU_MATERIALS.map((m) => `
+      <article class="ed-mat" data-testid="ed-mat-${m.id}">
+        <div class="ed-mat__icon">${m.icon}</div>
+        <div class="ed-mat__body">
+          <h4 class="ed-mat__title">${m.title}</h4>
+          <div class="ed-mat__sub">${m.subject} · ${m.format}</div>
+          <div class="ed-mat__foot">
+            <span class="ed-mat__price ${m.price === 'Free' ? 'free' : ''}">${m.price}</span>
+            <a class="ed-mat__cta" href="#" data-testid="ed-mat-download-${m.id}">
+              ${m.price === 'Free' ? 'Download' : 'View'} →
+            </a>
+          </div>
+        </div>
+      </article>`).join('');
+
+    /* --- Education blog ------------------------------------------ */
+    blogEl.innerHTML = window.EDU_BLOG.map((b) => `
+      <article class="ed-post" data-testid="ed-post-${b.id}">
+        <div class="ed-post__meta">
+          <span class="ed-post__tag">${b.tag}</span>
+          <span>${b.date}</span>
+          <span>· ${b.readMins} min read</span>
+        </div>
+        <h3>${b.title}</h3>
+        <p>${b.excerpt}</p>
+        <div class="ed-post__foot">
+          <span>By ${b.author}</span>
+          <a href="#" class="ed-post__link" data-testid="ed-read-${b.id}">Read more →</a>
+        </div>
+      </article>`).join('');
+
+    renderInstitutes();
+  })();
+</script>
+
+</body>
+</html>

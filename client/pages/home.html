@@ -469,15 +469,21 @@
   // Categories
   const catIcons = {
     Electronics: '💻', Fashion: '👕', Home: '🏠', Books: '📚',
-    Medical: '🩺', Sports: '⚽', Yoga: '🧘',
+    Medical: '🩺', Sports: '⚽', Yoga: '🧘', Education: '🎓',
   };
-  document.getElementById('category-grid').innerHTML = window.CATEGORIES.map((c) => `
-    <a href="shop.html?category=${encodeURIComponent(c.id)}" class="category-tile"
+  const catLinks = {
+    Education: 'education.html',
+  };
+  document.getElementById('category-grid').innerHTML = window.CATEGORIES.map((c) => {
+    const href = catLinks[c.id] || `shop.html?category=${encodeURIComponent(c.id)}`;
+    return `
+    <a href="${href}" class="category-tile"
        data-testid="category-tile" data-category="${c.id}">
       <div class="category-icon">${catIcons[c.id] || '🛍️'}</div>
       <h3>${c.name}</h3>
       <p>${c.desc}</p>
-    </a>`).join('');
+    </a>`;
+  }).join('');
 
   // Featured products — pick 8 (highest rating × review count)
   const featured = [...window.CATALOG]

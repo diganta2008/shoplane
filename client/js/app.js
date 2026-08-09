@@ -429,6 +429,7 @@
     { href: 'healthcare.html', label: 'Healthcare' },
     { href: 'sport.html',      label: 'Sport' },
     { href: 'yoga.html',       label: 'Yoga' },
+    { href: 'education.html',  label: 'Education' },
     { href: 'contact.html',    label: 'Contact' },
   ];
 
@@ -579,6 +580,7 @@
               <li><a href="shop.html?category=Medical"     data-testid="footer-cat-medical">Medical</a></li>
               <li><a href="shop.html?category=Sports"      data-testid="footer-cat-sports">Sports</a></li>
               <li><a href="yoga.html"                      data-testid="footer-yoga">Yoga</a></li>
+              <li><a href="education.html"                 data-testid="footer-education">Education</a></li>
             </ul>
           </div>
           <div>
