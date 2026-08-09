@@ -1166,39 +1166,58 @@ h3 { font-size: 1.25rem; }
   .in-day-strip__msg { text-align: left; font-size: 12.5px; }
   .in-day-strip__cta { display: none; }
 }
-.social-links { display: flex; gap: 12px; }
+.social-links { display: flex; gap: 8px; flex-wrap: wrap; }
 .social-links a {
-  width: 42px; height: 42px; border-radius: 999px;
-  background: white; color: #0f172a;
-  display: grid; place-items: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 120ms ease, background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+  width: 34px; height: 34px; border-radius: 9px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #cbd5e1;
+  display: inline-grid; place-items: center;
+  transition: color 150ms ease, background 150ms ease,
+              border-color 150ms ease, transform 150ms ease;
 }
 .social-links a:hover {
-  transform: translateY(-2px);
-  background: var(--primary, #4f46e5);
-  color: white;
-  box-shadow: 0 6px 14px rgba(79, 70, 229, 0.35);
+  color: #fff;
+  background: var(--primary-light, #7C3AED);
+  border-color: transparent;
+  transform: translateY(-1px);
+  text-decoration: none;
 }
 .social-links a:focus-visible {
-  outline: 2px solid var(--primary, #4f46e5); outline-offset: 3px;
+  outline: 2px solid var(--primary-light, #7C3AED); outline-offset: 2px;
 }
 
-.app-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+.app-badges { display: flex; gap: 8px; flex-wrap: wrap; }
 .app-badge {
-  display: inline-block; border-radius: 10px;
-  transition: transform 120ms ease, box-shadow 120ms ease;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #e2e8f0; text-decoration: none;
+  transition: color 150ms ease, background 150ms ease,
+              border-color 150ms ease, transform 150ms ease;
 }
-.app-badge img {
-  display: block; height: 48px; width: auto;
-  border-radius: 10px;
+.app-badge svg { flex: 0 0 auto; width: 20px; height: 20px; color: currentColor; }
+.app-badge__text { display: flex; flex-direction: column; line-height: 1.15; }
+.app-badge__eyebrow {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.6px;
+  text-transform: uppercase; color: #94a3b8;
+  transition: color 150ms ease;
+}
+.app-badge__name {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.1px;
+  color: inherit;
 }
 .app-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  color: #fff;
+  background: var(--primary-light, #7C3AED);
+  border-color: transparent;
+  transform: translateY(-1px);
+  text-decoration: none;
 }
+.app-badge:hover .app-badge__eyebrow { color: rgba(255,255,255,0.85); }
 .app-badge:focus-visible {
-  outline: 2px solid var(--primary, #4f46e5); outline-offset: 3px;
+  outline: 2px solid var(--primary-light, #7C3AED); outline-offset: 2px;
 }
 
 /* ---------- Utilities --------------------------------------------------- */

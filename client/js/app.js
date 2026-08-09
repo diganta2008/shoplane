@@ -658,11 +658,26 @@
             <div class="app-badges mt-16" data-testid="app-badges">
               <a href="#" class="app-badge" data-testid="app-badge-apple"
                  aria-label="Download on the App Store">
-                <img src="../images/app-store-badge.svg" alt="Download on the App Store"/>
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M16.365 1.43c0 1.14-.43 2.23-1.16 3.05-.85.95-2.24 1.68-3.36 1.59-.13-1.13.42-2.31 1.17-3.09.83-.87 2.26-1.53 3.35-1.55zM20.5 17.36c-.55 1.28-.83 1.85-1.55 2.98-1.02 1.57-2.45 3.53-4.22 3.55-1.58.02-1.98-1.02-4.13-1.01-2.14.01-2.59 1.03-4.17 1.01-1.77-.02-3.13-1.79-4.15-3.36C-.32 16.63-.61 11.4 1.5 8.6 3 6.66 5.37 5.5 7.6 5.5c2.28 0 3.71 1.24 5.6 1.24 1.83 0 2.94-1.24 5.58-1.24 2 0 4.12 1.09 5.62 2.98-4.94 2.7-4.14 9.75.1 8.88z"/>
+                </svg>
+                <span class="app-badge__text">
+                  <span class="app-badge__eyebrow">Download on the</span>
+                  <span class="app-badge__name">App Store</span>
+                </span>
               </a>
               <a href="#" class="app-badge" data-testid="app-badge-google"
                  aria-label="Get it on Google Play">
-                <img src="../images/google-play-badge.svg" alt="Get it on Google Play"/>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="#34D399" d="M3.6 2.7A2 2 0 0 0 3 4.1v15.8a2 2 0 0 0 .6 1.4l.1.1L12.5 12 3.7 2.6z"/>
+                  <path fill="#FBBF24" d="m16.7 15.3-3.2-3.3 3.2-3.3 4 2.3c1.1.6 1.1 2.1 0 2.7z"/>
+                  <path fill="#F87171" d="M16.7 15.3 12.5 12 3.6 21.3c.5.5 1.3.6 2 .2z"/>
+                  <path fill="#60A5FA" d="M3.6 2.7 12.5 12l4.2-3.3-11-6.4c-.7-.4-1.5-.3-2 .4z"/>
+                </svg>
+                <span class="app-badge__text">
+                  <span class="app-badge__eyebrow">Get it on</span>
+                  <span class="app-badge__name">Google Play</span>
+                </span>
               </a>
             </div>
           </div>
