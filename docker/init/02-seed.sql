@@ -82,10 +82,12 @@ INSERT INTO products (sku, name, category_id, price, old_price, rating, review_c
 ON DUPLICATE KEY UPDATE name = VALUES(name);
 
 -- ---------- Coupons ----------------------------------------------
-INSERT INTO coupons (code, description, discount_type, value, min_subtotal, is_active) VALUES
-  ('WELCOME10', '10% off welcome coupon',   'percent', 10.00,   0.00, 1),
-  ('SAVE20',    '20% loyalty coupon',       'percent', 20.00, 100.00, 1),
-  ('FREESHIP',  'Free shipping',            'flat',     9.99,   0.00, 1)
+INSERT INTO coupons (code, description, discount_type, value, min_subtotal, is_active, valid_from, valid_until) VALUES
+  ('WELCOME10', '10% off welcome coupon',            'percent', 10.00,   0.00, 1, NULL,         NULL),
+  ('SAVE20',    '20% loyalty coupon',                'percent', 20.00, 100.00, 1, NULL,         NULL),
+  ('FREESHIP',  'Free shipping',                     'flat',     9.99,   0.00, 1, NULL,         NULL),
+  ('AZADI15',   '15% off (Independence Day)',        'percent', 15.00,   0.00, 1, '2026-08-01', '2026-08-20'),
+  ('AZADI25',   '25% off over $200 (Independence Day)','percent',25.00, 200.00, 1, '2026-08-01', '2026-08-20')
 ON DUPLICATE KEY UPDATE description = VALUES(description);
 
 -- ---------- A demo user ------------------------------------------
