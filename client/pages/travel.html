@@ -331,10 +331,10 @@
   <div class="container trv-hero__grid">
     <div>
       <span class="trv-hero__eyebrow" data-testid="trv-hero-eyebrow">ShopLane Travel</span>
-      <h1 data-testid="trv-hero-title">Discover <em>heritage India</em> &mdash; one monument at a time.</h1>
+      <h1 data-testid="trv-page-title">Discover <em>incredible India</em> &mdash; one journey at a time.</h1>
       <p data-testid="trv-hero-subtitle">
-        Curated itineraries across 14 UNESCO-scale sites, hand-picked heritage
-        hotels, and one-tap flights, trains, buses and taxis to get you there.
+        Curated itineraries from Himalayan roads to Andaman beaches, hand-picked
+        heritage stays, and one-tap flights, trains, buses and taxis to get you there.
       </p>
       <div class="trv-hero__cta">
         <a href="#trv-monuments" class="btn btn-primary btn-lg" data-testid="cta-monuments">
@@ -353,19 +353,14 @@
     </div>
     <div class="trv-hero__art">
       <figure class="trv-hero-photo" id="trv-hero-photo" data-testid="trv-hero-photo">
-        <img
-          src="https://commons.wikimedia.org/wiki/Special:FilePath/Taj_Mahal_(Edited).jpeg?width=1200"
-          alt="The Taj Mahal at dawn, reflected in the front pool, Agra"
-          loading="eager"
-          decoding="async"
-          referrerpolicy="no-referrer"/>
-        <span class="trv-hero-photo__badge" aria-hidden="true">
-          UNESCO Heritage
+        <img alt="" loading="eager" decoding="async" referrerpolicy="no-referrer"/>
+        <span class="trv-hero-photo__badge" data-testid="trv-hero-badge" aria-hidden="true">
+          Wanderlust
         </span>
         <figcaption class="trv-hero-photo__cap">
           <div>
-            <h4>Taj Mahal</h4>
-            <span>Agra, Uttar Pradesh &middot; 17th c. Mughal marble mausoleum</span>
+            <h4 data-testid="trv-hero-title">&nbsp;</h4>
+            <span data-testid="trv-hero-sub">&nbsp;</span>
           </div>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
                stroke="#fdf7ec" stroke-width="2" stroke-linecap="round"
@@ -451,37 +446,87 @@
   let activeCity = null;
   let activeMode = 'flight';
 
-  /* Graceful fallback for the hero photo: if Wikimedia is unreachable or
-     the URL 404s, swap the img for a stylised SVG rather than the
-     browser's broken-image icon. Runs once on load. */
-  (function heroPhotoFallback () {
+  /* Random travel hero: pick a scenic (non-monument) photo of India on
+     every page load. All URLs point at Wikimedia Commons via
+     Special:FilePath so they resize on demand. If a photo fails to
+     load, we try the next one; if the whole pool is exhausted, we
+     paint a stylised SVG placeholder instead of a broken-image icon. */
+  (function heroPhotoRandom () {
     const fig = document.getElementById('trv-hero-photo');
     if (!fig) return;
     const img = fig.querySelector('img');
-    if (!img) return;
-    const showFallback = () => {
+    const titleEl = fig.querySelector('[data-testid="trv-hero-title"]');
+    const subEl   = fig.querySelector('[data-testid="trv-hero-sub"]');
+    const badgeEl = fig.querySelector('[data-testid="trv-hero-badge"]');
+    if (!img || !titleEl || !subEl) return;
+
+    const wm = (file) =>
+      'https://commons.wikimedia.org/wiki/Special:FilePath/' +
+      encodeURIComponent(file).replace(/%20/g, '_') + '?width=1200';
+
+    const pool = [
+      { title: 'Kerala Backwaters',    loc: 'Alleppey, Kerala',           badge: 'Backwaters',
+        file: 'House_Boat_DSW.jpg' },
+      { title: 'Munnar Tea Country',   loc: 'Idukki, Kerala',             badge: 'Hill Station',
+        file: 'Munnar_Overview.jpg' },
+      { title: 'Palolem Beach',        loc: 'South Goa',                  badge: 'Beach Escape',
+        file: 'Palolem_Beach,_South_Goa.jpg' },
+      { title: 'Valley of Flowers',    loc: 'Chamoli, Uttarakhand',       badge: 'Alpine Bloom',
+        file: 'Valley_of_flowers_national_park,_Uttarakhand,_India_03_(edit).jpg' },
+      { title: 'Radhanagar Beach',     loc: 'Havelock, Andaman',          badge: 'Island Escape',
+        file: 'Radha_Nagar_beach,_Havelock_Island,_Andamn,_India-_Sun_set_view.jpg' },
+      { title: 'Tadiandamol, Coorg',   loc: 'Kodagu, Karnataka',          badge: 'Western Ghats',
+        file: 'Tadiandamol_Valley,_Western_Ghats.jpg' },
+      { title: 'Kanchenjunga',         loc: 'Sikkim',                     badge: 'Himalayas',
+        file: 'Kangchenjunga_PangPema.JPG' },
+      { title: 'Zanskar Range Road',   loc: 'Ladakh',                     badge: 'Road Trip',
+        file: 'Road_Padum_Zanskar_Range_Jun24_A7CR_00818.jpg' },
+      { title: 'Dawki River',          loc: 'Meghalaya',                  badge: 'Crystal Waters',
+        file: 'Dawki_River,_Meghalaya,_India.jpg' },
+      { title: 'Spiti Valley',         loc: 'Himachal Pradesh',           badge: 'Cold Desert',
+        file: 'Spiti_River_Kaza_Himachal_Jun18_D72_7232.jpg' },
+      { title: 'Havelock Island',      loc: 'Andaman & Nicobar',          badge: 'Coral Isle',
+        file: 'Havelock,_Andaman_&_Nicobar_Islands.JPG' },
+    ];
+
+    const shuffled = pool.slice().sort(() => Math.random() - 0.5);
+    let cursor = 0;
+
+    const paintFallback = () => {
       fig.classList.add('trv-hero-photo--fallback');
       img.remove();
-      const svg = document.createElement('div');
-      svg.style.cssText = 'position:absolute;inset:0;display:grid;place-items:center;';
-      svg.innerHTML = `
+      titleEl.textContent = 'Wanderlust India';
+      subEl.textContent   = 'Beaches, backwaters, Himalayas and everything in between';
+      if (badgeEl) badgeEl.textContent = 'Travel India';
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:absolute;inset:0;display:grid;place-items:center;';
+      wrap.innerHTML = `
         <svg viewBox="0 0 200 150" width="70%" xmlns="http://www.w3.org/2000/svg"
              style="filter:drop-shadow(0 8px 18px rgba(0,0,0,0.35));">
-          <path d="M100 30 Q80 30 80 60 L80 120 L120 120 L120 60 Q120 30 100 30 Z"
-                fill="#fdf7ec" opacity="0.95"/>
-          <rect x="70" y="80" width="60" height="40" fill="#fdf7ec" opacity="0.9"/>
-          <rect x="60" y="70" width="10" height="50" fill="#fdf7ec" opacity="0.75"/>
-          <rect x="130" y="70" width="10" height="50" fill="#fdf7ec" opacity="0.75"/>
-          <circle cx="100" cy="24" r="3" fill="#fdf7ec"/>
-          <path d="M100 27 L100 30" stroke="#fdf7ec" stroke-width="1.5"/>
-          <text x="100" y="140" text-anchor="middle" fill="#fdf7ec"
-                font-family="Inter, sans-serif" font-size="10" font-weight="700"
-                letter-spacing="1.5">HERITAGE INDIA</text>
+          <path d="M10 120 Q30 90 55 110 T110 105 T170 115 T195 110 L195 130 L10 130 Z"
+                fill="#fdf7ec" opacity="0.35"/>
+          <circle cx="150" cy="45" r="22" fill="#fdf7ec" opacity="0.8"/>
+          <path d="M20 90 L40 55 L58 78 L75 45 L92 70 L108 40 L128 72 L145 55 L165 82 L185 60 L185 130 L20 130 Z"
+                fill="#fdf7ec" opacity="0.55"/>
+          <text x="100" y="145" text-anchor="middle" fill="#fdf7ec"
+                font-family="Inter, sans-serif" font-size="9" font-weight="700"
+                letter-spacing="2">WANDERLUST INDIA</text>
         </svg>`;
-      fig.appendChild(svg);
+      fig.appendChild(wrap);
     };
-    img.addEventListener('error', showFallback, { once: true });
-    if (img.complete && img.naturalWidth === 0) showFallback();
+
+    const tryNext = () => {
+      if (cursor >= shuffled.length) { paintFallback(); return; }
+      const pick = shuffled[cursor++];
+      titleEl.textContent = pick.title;
+      subEl.textContent   = pick.loc;
+      if (badgeEl) badgeEl.textContent = pick.badge;
+      img.alt = `${pick.title}, ${pick.loc}`;
+      img.src = wm(pick.file);
+    };
+
+    img.addEventListener('error', tryNext);
+    tryNext();
   })();
 
   const cityStrip  = document.getElementById('trv-city-strip');
